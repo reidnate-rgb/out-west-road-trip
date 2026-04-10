@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Out West Family Road Trip — July 2025</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rye&family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sienna: #A0522D;
+  --burnt: #CC5500;
+  --gold: #D4A017;
+  --sand: #F5E6C8;
+  --parchment: #FDF5E6;
+  --leather: #8B4513;
+  --dark: #2C1810;
+  --charcoal: #3B2F2F;
+  --cream: #FFFDF7;
+  --dusty: #C4A882;
+  --sage: #6B7F5E;
+  --sky: #5B8FA8;
+  --red: #8B2500;
+  --mesa: #C4622D;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Source Serif 4', Georgia, serif;
+  background: var(--parchment);
+  color: var(--dark);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  background: linear-gradient(170deg, #1a0a00 0%, #4a1a00 25%, #8B4513 50%, #CC5500 75%, #D4A017 100%);
+  padding: 40px 20px 30px;
+  text-align: center;
+  overflow: hidden;
+  border-bottom: 4px solid var(--gold);
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z' fill='%23D4A017' fill-opacity='0.08'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+.hero-content { position: relative; z-index: 2; }
+.hero-badge {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--dark);
+  font-family: 'Source Serif 4', serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border-radius: 2px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0,0,0,0.2);
+}
+.hero h1 {
+  font-family: 'Rye', cursive;
+  font-size: 38px;
+  line-height: 1.1;
+  color: var(--sand);
+  text-shadow: 2px 3px 6px rgba(0,0,0,0.5);
+  margin-bottom: 6px;
+}
+.hero h1 .accent { color: var(--gold); }
+.hero-sub {
+  font-family: 'Source Serif 4', serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(245,230,200,0.6);
+  margin-bottom: 20px;
+}
+.hero-stars {
+  color: var(--gold);
+  font-size: 18px;
+  letter-spacing: 8px;
+  margin-bottom: 12px;
+}
+
+/* ===== FUEL BANNER ===== */
+.fuel-banner {
+  background: var(--charcoal);
+  padding: 16px 20px;
+  border-bottom: 3px solid var(--leather);
+}
+.fuel-title {
+  font-family: 'Rye', cursive;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 12px;
+}
+.fuel-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.fuel-stat {
+  text-align: center;
+  background: rgba(255,255,255,0.05);
+  border-radius: 4px;
+  padding: 10px 4px;
+  border: 1px solid rgba(212,160,23,0.2);
+}
+.fuel-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--gold);
+  display: block;
+}
+.fuel-lbl {
+  font-size: 9px;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+  display: block;
+}
+
+/* ===== RV WARNING ===== */
+.rv-warning {
+  background: #FFF3CD;
+  border-left: 4px solid var(--burnt);
+  padding: 12px 16px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.rv-warning strong {
+  color: var(--red);
+  font-size: 13px;
+  display: block;
+  margin-bottom: 4px;
+  font-family: 'Playfair Display', serif;
+}
+
+/* ===== MAIN CONTENT ===== */
+.content {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 16px 12px 40px;
+}
+
+/* ===== DAY ACCORDION ===== */
+.day-card {
+  background: var(--cream);
+  border-radius: 8px;
+  margin-bottom: 12px;
+  border: 1px solid var(--dusty);
+  box-shadow: 0 2px 8px rgba(44,24,16,0.08);
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+.day-card.open {
+  box-shadow: 0 4px 20px rgba(44,24,16,0.15);
+  border-color: var(--sienna);
+}
+
+/* Collapsed header */
+.day-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+}
+.day-header:hover { background: rgba(160,82,45,0.04); }
+
+.day-num-box {
+  min-width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, var(--leather), var(--sienna));
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(0,0,0,0.15);
+}
+.day-num-box .dow {
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1;
+}
+.day-num-box .num {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.day-thumb {
+  width: 52px;
+  height: 52px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid var(--dusty);
+}
+
+.day-summary { flex: 1; min-width: 0; }
+.day-summary h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+.day-summary .meta {
+  font-size: 12px;
+  color: var(--sienna);
+  font-weight: 600;
+}
+
+.day-chevron {
+  font-size: 18px;
+  color: var(--dusty);
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+.day-card.open .day-chevron { transform: rotate(180deg); color: var(--sienna); }
+
+/* Expanded body */
+.day-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.day-card.open .day-body { max-height: 5000px; }
+
+.day-hero-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  border-top: 1px solid var(--dusty);
+  border-bottom: 1px solid var(--dusty);
+}
+
+.day-inner { padding: 14px 16px 18px; }
+
+/* ===== STATS BAR ===== */
+.stats-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.stat-pill {
+  flex: 1;
+  background: linear-gradient(135deg, var(--charcoal), #4a3530);
+  border-radius: 6px;
+  padding: 10px;
+  text-align: center;
+}
+.stat-pill.green { background: linear-gradient(135deg, #3d5a34, var(--sage)); }
+.stat-pill.mesa { background: linear-gradient(135deg, #6b3a1f, var(--mesa)); }
+.stat-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+  display: block;
+}
+.stat-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.55);
+  display: block;
+}
+
+/* ===== MAP BUTTON ===== */
+.map-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, var(--leather), var(--sienna));
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-family: 'Source Serif 4', serif;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  box-shadow: 0 3px 12px rgba(139,69,19,0.3);
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.map-btn:active { transform: scale(0.98); }
+.map-btn .icon { font-size: 22px; }
+.map-btn .text { flex: 1; line-height: 1.3; }
+.map-btn .text small { display: block; font-size: 11px; opacity: 0.7; font-weight: 400; margin-top: 2px; }
+.map-btn .arrow { font-size: 20px; opacity: 0.6; }
+
+/* ===== SECTION CARDS ===== */
+.section {
+  background: #fff;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(196,168,130,0.4);
+}
+.section-title {
+  font-family: 'Rye', cursive;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--sand);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.section-title.briefing { color: var(--red); }
+.section-title.fuel { color: var(--mesa); }
+.section-title.camp { color: var(--sage); }
+.section-title.route { color: var(--sky); }
+.section-title.americana { color: var(--leather); }
+
+/* Briefing items */
+.brief-item {
+  display: flex;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(196,168,130,0.3);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.brief-item:last-child { border-bottom: none; }
+.brief-icon { width: 20px; text-align: center; flex-shrink: 0; }
+
+/* Fuel items */
+.fuel-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px dashed rgba(196,168,130,0.3);
+  font-size: 13px;
+}
+.fuel-item:last-child { border-bottom: none; }
+.fuel-icon {
+  width: 28px; height: 28px;
+  background: var(--mesa);
+  color: #fff;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.fuel-info { flex: 1; }
+.fuel-name { font-weight: 700; color: var(--dark); }
+.fuel-desc { font-size: 12px; color: #777; margin-top: 1px; }
+.fuel-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.fuel-price.cheap { color: var(--sage); }
+.fuel-price.mid { color: var(--gold); }
+.fuel-price.exp { color: var(--red); }
+
+.tank-bar-wrap { margin: 4px 0 2px; }
+.tank-labels { display: flex; justify-content: space-between; font-size: 9px; color: #999; font-weight: 700; }
+.tank-bar { height: 6px; background: #eee; border-radius: 3px; overflow: hidden; margin-top: 2px; }
+.tank-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--sage), var(--gold), var(--mesa)); }
+
+/* Camp items */
+.camp-item {
+  background: rgba(107,127,94,0.06);
+  border-left: 3px solid var(--sage);
+  padding: 10px 12px;
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.camp-item:last-child { margin-bottom: 0; }
+.camp-item.alt {
+  background: rgba(0,0,0,0.02);
+  border-left-color: var(--dusty);
+}
+.camp-item strong { color: var(--sage); }
+.camp-item.alt strong { color: #888; }
+.camp-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+.camp-badge.pick { background: var(--sage); color: #fff; }
+.camp-badge.backup { background: #aaa; color: #fff; }
+
+/* Americana items — vintage postcard style */
+.americana-item {
+  background: linear-gradient(135deg, #FFFDF7, #F5E6C8);
+  border: 1px solid var(--dusty);
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  position: relative;
+  box-shadow: 1px 2px 6px rgba(0,0,0,0.06);
+}
+.americana-item:last-child { margin-bottom: 0; }
+.americana-item::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 30px; height: 30px;
+  background: linear-gradient(135deg, transparent 50%, var(--sand) 50%);
+  border-radius: 0 6px 0 0;
+}
+.americana-tag {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin-bottom: 4px;
+}
+.americana-tag.quirky { background: #F0E6FF; color: #6B2FAA; }
+.americana-tag.history { background: #FFF3CC; color: #7A5A00; }
+.americana-tag.nature { background: #E6F0FF; color: #1A4A8A; }
+.americana-tag.food { background: #E6F7EC; color: #1A5C32; }
+.americana-tag.photo { background: #FFE8E8; color: #8A1A1A; }
+.americana-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 2px;
+}
+.americana-desc {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Route items */
+.route-item {
+  display: flex;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(196,168,130,0.3);
+  font-size: 13.5px;
+}
+.route-item:last-child { border-bottom: none; }
+.route-icon { width: 20px; text-align: center; flex-shrink: 0; margin-top: 1px; }
+
+/* Warning card */
+.warning-card {
+  background: #FFF5F5;
+  border-left: 3px solid var(--red);
+  padding: 10px 14px;
+  border-radius: 0 6px 6px 0;
+  font-size: 13px;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+.warning-card strong { color: var(--red); }
+
+/* ===== WELCOME HOME ===== */
+.home-card {
+  background: linear-gradient(135deg, var(--leather), var(--sienna), var(--burnt));
+  border-radius: 12px;
+  padding: 24px 16px;
+  text-align: center;
+  color: #fff;
+  margin-top: 8px;
+}
+.home-card .big {
+  font-family: 'Rye', cursive;
+  font-size: 26px;
+  color: var(--gold);
+}
+.home-card .details {
+  font-size: 13px;
+  opacity: 0.75;
+  margin-top: 8px;
+  line-height: 1.8;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  padding: 24px 16px;
+  font-size: 11px;
+  color: #aaa;
+  letter-spacing: 0.5px;
+  line-height: 1.8;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 400px) {
+  .hero h1 { font-size: 30px; }
+  .fuel-stats { grid-template-columns: repeat(2, 1fr); }
+  .day-thumb { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-stars">&#9733; &#9733; &#9733;</div>
+    <div class="hero-badge">July 11 - 26, 2025</div>
+    <h1>Out <span class="accent">West</span></h1>
+    <p class="hero-sub">Knoxville, TN &bull; 7 National Parks &bull; 16 Days</p>
+    <div class="hero-stars">&#9733; &#9733; &#9733;</div>
+  </div>
+</div>
+
+<!-- ===== FUEL OVERVIEW ===== -->
+<div class="fuel-banner">
+  <div class="fuel-title">Monaco Cayman 36PDQ &mdash; Trip Fuel Estimate</div>
+  <div class="fuel-stats">
+    <div class="fuel-stat"><span class="fuel-num">5,500</span><span class="fuel-lbl">Est. Miles</span></div>
+    <div class="fuel-stat"><span class="fuel-num">~611</span><span class="fuel-lbl">Gallons</span></div>
+    <div class="fuel-stat"><span class="fuel-num">~$2,005</span><span class="fuel-lbl">Fuel Cost</span></div>
+    <div class="fuel-stat"><span class="fuel-num">675 mi</span><span class="fuel-lbl">Tank Range</span></div>
+  </div>
+</div>
+
+<!-- ===== RV WARNING ===== -->
+<div class="rv-warning">
+  <strong>RV SPECS: 12 ft tall &bull; 36 ft long &bull; 75 gal tank &bull; 8-10 mpg</strong>
+  Sequoia: CA-198 ONLY (22 ft limit on Generals Hwy). Zion Canyon: NO RVs. Monument Valley loop: dirt, skip it. Tioga Pass CA-120 East: NO. UT-12: NO.
+</div>
+
+<!-- ===== ACCORDION DAYS ===== -->
+<div class="content" id="days-container"></div>
+
+<!-- ===== FOOTER ===== -->
+<div class="footer">
+  Save to iPhone: Safari &rarr; Share &rarr; Add to Home Screen<br>
+  Monaco Cayman 36PDQ &bull; Out West Family Road Trip &bull; July 2025
+</div>
+
+<script>
+// All 16 days of data
+const days = [
+{
+  day:1, dow:"SAT", date:"Jul 11", title:"Knoxville to St. Louis", meta:"490 mi &bull; ~7.5 hrs &bull; ~$165 fuel",
+  img:"https://images.unsplash.com/photo-1541085228625-53c74e24a764?w=800&q=80",
+  miles:"~490", drive:"~7.5 hrs", fuel:"~$165",
+  mapUrl:"https://www.google.com/maps/dir/Knoxville,+TN/Cahokia+RV+Parque,+Prairie+Du+Pont+Road,+Cahokia+Heights,+IL",
+  mapText:"Knoxville TN → Cahokia RV Parque",
+  mapSub:"I-40 W through Nashville then I-64 W into St. Louis",
+  briefing:[
+    {icon:"&#9989;",text:"All-interstate route — fully RV-safe. No restrictions, no mountain roads."},
+    {icon:"&#9888;&#65039;",text:"Nashville traffic — pass through before 7am or after 9am."},
+    {icon:"&#9981;",text:"Fill up in Nashville at Flying J (I-40 exit 212) — best TN prices."}
+  ],
+  fuels:[
+    {name:"Nashville TN — Flying J (I-40 exit 212)",desc:"Fill up here — best TN prices.",pct:95,price:"$3.05/gal",cls:"mid"},
+    {name:"Marion IL — Pilot (I-57/I-64 jct)",desc:"Optional top-off before final push to St. Louis.",pct:75,price:"$2.95/gal",cls:"cheap"}
+  ],
+  route:[
+    {icon:"&#9654;",text:"<strong>I-40 West</strong> from Knoxville through Nashville — wide, flat, RV-friendly"},
+    {icon:"&#9654;",text:"<strong>I-64 West</strong> from near Louisville into St. Louis"}
+  ],
+  warnings:[],
+  camp:{
+    main:"Cahokia RV Parque — Prairie Du Pont Rd, Cahokia Heights, IL. Full hookups, pull-throughs for 40+ ft, 10 min from Gateway Arch.",
+    alt:"St. Louis West / Eureka KOA — great reviews for big rigs"
+  },
+  americana:[
+    {tag:"history",label:"History",name:"Loretta Lynn's Ranch — Hurricane Mills, TN",desc:"Exit 143 off I-40. Coal Miner's Daughter's actual home and museum. Easy pull-off for big rigs."},
+    {tag:"photo",label:"Photo Stop",name:"Gateway Arch — St. Louis, MO",desc:"Visible from I-70. Park at Cahokia, Uber across the river for sunset views from the riverfront."}
+  ]
+},
+{
+  day:2, dow:"SUN", date:"Jul 12", title:"St. Louis to Ellis, KS", meta:"530 mi &bull; ~8.5 hrs &bull; ~$155 fuel",
+  img:"https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=800&q=80",
+  miles:"~530", drive:"~8.5 hrs", fuel:"~$155",
+  mapUrl:"https://www.google.com/maps/dir/Cahokia+Heights,+IL/Ellis,+KS+67637",
+  mapText:"Cahokia Heights IL → Ellis KS",
+  mapSub:"I-70 West the entire route through Kansas City",
+  briefing:[
+    {icon:"&#9989;",text:"Dead-straight 4-lane interstate the whole way — perfect for big rigs."},
+    {icon:"&#128168;",text:"Kansas crosswinds can be severe west of Salina — steady wheel, slow down if gusty."},
+    {icon:"&#9981;",text:"IMPORTANT: Fill in Salina KS — western Kansas fuel is sparse."}
+  ],
+  fuels:[
+    {name:"Kansas City MO — Pilot (I-70 exit 12)",desc:"Top off before entering Kansas.",pct:90,price:"$2.90/gal",cls:"cheap"},
+    {name:"Salina KS — Love's (I-70 exit 252)",desc:"FILL HERE — last reliable stop before Ellis.",pct:85,price:"$2.90/gal",cls:"cheap"}
+  ],
+  route:[
+    {icon:"&#9654;",text:"<strong>I-70 West</strong> all the way — straight, flat, 4 lanes, ideal for RVs"}
+  ],
+  warnings:[],
+  camp:{
+    main:"Eagles Landing RV Park — Ellis, KS. Clean, pull-throughs, easy I-70 access.",
+    alt:null
+  },
+  americana:[
+    {tag:"quirky",label:"Quirky",name:"Cathedral of the Plains — Victoria, KS",desc:"Exit 145 off I-70. Stunning limestone cathedral rising from flat wheat fields. Free, wildly unexpected."},
+    {tag:"food",label:"Food",name:"Cozy Inn — Salina, KS",desc:"Since 1922. Tiny onion-steamed sliders, cash only. A Kansas legend."}
+  ]
+},
+{
+  day:3, dow:"MON", date:"Jul 13", title:"Ellis, KS to Rocky Mtn NP", meta:"480 mi &bull; ~7.5 hrs &bull; ~$175 fuel",
+  img:"https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80",
+  miles:"~480", drive:"~7.5 hrs", fuel:"~$175",
+  mapUrl:"https://www.google.com/maps/dir/Ellis,+KS/Glacier+Basin+Campground,+Rocky+Mountain+National+Park,+CO",
+  mapText:"Ellis KS → Glacier Basin, RMNP",
+  mapSub:"I-70 W, I-25 N, US-34 W (Big Thompson Canyon)",
+  briefing:[
+    {icon:"&#9888;&#65039;",text:"US-34 Big Thompson Canyon is the correct RV entrance — do NOT use Trail Ridge Road in the RV."},
+    {icon:"&#9888;&#65039;",text:"Denver I-25/I-70 interchange — budget 30+ extra minutes any time of day."},
+    {icon:"&#9981;",text:"CRITICAL: Fill completely in Loveland CO. No fuel inside RMNP."}
+  ],
+  fuels:[
+    {name:"Hays KS — Pilot (I-70 exit 159)",desc:"Top off before CO prices jump.",pct:95,price:"$2.90/gal",cls:"cheap"},
+    {name:"Loveland CO — Flying J (US-34/I-25)",desc:"CRITICAL: Fill completely here. No fuel inside RMNP.",pct:90,price:"$3.25/gal",cls:"mid"}
+  ],
+  route:[
+    {icon:"&#9654;",text:"<strong>I-70 West</strong> into Colorado → <strong>I-25 North</strong> to Loveland"},
+    {icon:"&#9654;",text:"<strong>US-34 West (Big Thompson Canyon)</strong> into Estes Park — paved, passable for 36 ft"}
+  ],
+  warnings:[],
+  camp:{
+    main:"Glacier Basin Campground — RMNP, CO. Pull-throughs, direct Bear Lake shuttle access. Recreation.gov",
+    alt:"Estes Park KOA — full hookups, mountain views, 10 min from park"
+  },
+  americana:[
+    {tag:"photo",label:"Photo Stop",name:"Colorado Welcome Sign — I-70 border",desc:"Flat Kansas behind you, the Rockies looming ahead. Classic family road trip photo."},
+    {tag:"quirky",label:"Quirky",name:"The Stanley Hotel — Estes Park, CO",desc:"The real hotel that inspired The Shining. Beautiful 1909 building overlooking town."}
+  ]
+},
+{
+  day:4, dow:"TUE", date:"Jul 14", title:"Rocky Mountain NP — Full Day", meta:"No driving &bull; Explore the park!",
+  img:"https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&q=80",
+  miles:"0", drive:"All Day", fuel:"$0",
+  mapUrl:null, mapText:null, mapSub:null,
+  briefing:[
+    {icon:"&#127780;&#65039;",text:"Afternoon thunderstorms nearly every July day — hike early, be below treeline by noon."},
+    {icon:"&#129707;",text:"Elevation 8,000-12,000 ft — extra water, take altitude seriously your first full day."},
+    {icon:"&#9888;&#65039;",text:"Timed entry permits required — book at recreation.gov before your trip."},
+    {icon:"&#128652;",text:"Trail Ridge Road — too narrow for RVs past Rainbow Curve. Take tow vehicle."}
+  ],
+  fuels:[],
+  route:[
+    {icon:"&#128652;",text:"Bear Lake Shuttle runs directly from Glacier Basin — walk out of camp and ride up"},
+    {icon:"&#128652;",text:"Take the tow truck up Trail Ridge Road at sunrise for 360° panorama at 10,759 ft"}
+  ],
+  warnings:[],
+  camp:{
+    main:"Glacier Basin Campground — Night 2 of 2. Bear Lake shuttle runs from camp.",
+    alt:null
+  },
+  americana:[
+    {tag:"nature",label:"Nature",name:"Bear Lake Loop",desc:"0.6-mile easy loop, stunning alpine lake. Walk out of camp to the shuttle stop."},
+    {tag:"nature",label:"Nature",name:"Elk Meadows — Moraine Park",desc:"Bull elk with velvet antlers at dawn and dusk in July. Best wildlife viewing in the US."},
+    {tag:"photo",label:"Photo Stop",name:"Many Parks Curve — Trail Ridge Road",desc:"Take the tow truck up at sunrise for a jaw-dropping 360° mountain panorama at 10,759 ft."}
+  ]
+},
+{
+  day:5, dow:"WED", date:"Jul 15", title:"RMNP → Arches → Monument Valley", meta:"560 mi &bull; ~8.5 hrs &bull; ~$200 fuel",
+  img:"https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&q=80",
+  miles:"~560", drive:"~8.5 hrs", fuel:"~$200",
+  mapUrl:"https://www.google.com/maps/dir/Glacier+Basin+Campground,+Estes+Park,+CO/Arches+National+Park+Visitor+Center,+Moab,+UT/The+View+Campground,+Oljato-Monument+Valley,+UT",
+  mapText:"Glacier Basin → Arches → Monument Valley",
+  mapSub:"I-25 S, I-70 W, US-191 S, US-163 S — Start early!",
+  briefing:[
+    {icon:"&#9888;&#65039;",text:"Eisenhower Tunnel: right lane only, engine braking on descent."},
+    {icon:"&#9888;&#65039;",text:"17-Mile Valley Loop is DIRT — do NOT attempt in 36 ft RV. Overlook gives same view for free."},
+    {icon:"&#9981;",text:"Fill in Grand Junction CO after descending Rockies. Long stretch ahead."}
+  ],
+  fuels:[
+    {name:"Grand Junction CO — Pilot (I-70 exit 26)",desc:"Fill here after descending the Rockies.",pct:90,price:"$3.25/gal",cls:"mid"},
+    {name:"Moab UT — Loves or US-191 gas",desc:"Top off after Arches. Last good fuel before Monument Valley.",pct:85,price:"$3.40/gal",cls:"mid"}
+  ],
+  route:[
+    {icon:"&#9654;",text:"<strong>US-34 E → I-25 S → I-70 W</strong> — avoid Denver 7-9am rush"},
+    {icon:"&#9888;&#65039;",text:"<strong>Eisenhower Tunnel (11,158 ft):</strong> Right lane, 7% grade descent, engine braking"},
+    {icon:"&#127956;",text:"<strong>Glenwood Canyon on I-70</strong> — 12 spectacular miles above the Colorado River"},
+    {icon:"&#9654;",text:"<strong>US-191 South</strong> into Moab/Arches, then <strong>US-163 South</strong> to Monument Valley"}
+  ],
+  warnings:["17-Mile Valley Loop is dirt — do NOT attempt in 36 ft RV. The visitor center overlook gives you the same iconic Mittens view for free."],
+  camp:{
+    main:"The View Campground — Monument Valley, UT. RV sites directly facing The Mittens. Most iconic wake-up view in the American West. Book very early.",
+    alt:null
+  },
+  americana:[
+    {tag:"photo",label:"Photo Stop",name:"Glenwood Canyon Pullouts — I-70, CO",desc:"Multiple pullouts above the Colorado River gorge. The highway itself is the attraction."},
+    {tag:"photo",label:"Photo Stop",name:"Forrest Gump Point — US-163, UT",desc:"The exact road from the movie. The Mittens rise straight ahead. Pull over and recreate the shot."}
+  ]
+},
+{
+  day:6, dow:"THU", date:"Jul 16", title:"Monument Valley to Bryce Canyon", meta:"220 mi &bull; ~5 hrs &bull; ~$85 fuel",
+  img:"https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?w=800&q=80",
+  miles:"~220", drive:"~5 hrs", fuel:"~$85",
+  mapUrl:"https://www.google.com/maps/dir/Monument+Valley+Navajo+Tribal+Park,+UT/North+Campground+Bryce+Canyon+National+Park",
+  mapText:"Monument Valley → Bryce Canyon North Campground",
+  mapSub:"US-163 N, US-160 W, US-89 N, UT-63 N — stays on safe roads",
+  briefing:[
+    {icon:"&#9888;&#65039;",text:"DO NOT take UT-12 — cliff-edge switchbacks, dangerous for 36 ft RV. Stay on US-89 to UT-63."},
+    {icon:"&#9981;",text:"CRITICAL: Fill in Page AZ. Last reliable affordable fuel before Bryce."},
+    {icon:"&#127756;",text:"Stop at Horseshoe Bend (Page, AZ) — go before 9am to beat heat and crowds."}
+  ],
+  fuels:[
+    {name:"Page AZ — Chevron or Maverick on US-89",desc:"CRITICAL: Fill here. Last reliable affordable fuel before Bryce.",pct:90,price:"$3.10/gal",cls:"mid"}
+  ],
+  route:[
+    {icon:"&#9654;",text:"<strong>US-163 N → US-160 W → US-89 N</strong> through Page, AZ and Kanab, UT"},
+    {icon:"&#9888;&#65039;",text:"<strong>DO NOT take UT-12</strong> — cliff-edge switchbacks. Stay on US-89 to UT-63"}
+  ],
+  warnings:["DO NOT take UT-12 — cliff-edge switchbacks, extremely dangerous for a 36 ft RV. Stay on US-89 North to UT-63 into Bryce."],
+  camp:{
+    main:"North Campground — Bryce Canyon NP, UT. Electric hookups, pull-throughs, walk to the rim. Recreation.gov",
+    alt:"Bryce Canyon Pines Campground — full hookups, 5 min from park"
+  },
+  americana:[
+    {tag:"photo",label:"Photo Stop",name:"Horseshoe Bend — Page, AZ",desc:"1.5-mile walk to one of the most photographed spots in America. Go before 9am."},
+    {tag:"quirky",label:"Quirky",name:"Kanab, UT — 'Little Hollywood'",desc:"John Wayne, Frank Sinatra, and Clint Eastwood all filmed westerns here. The Parry Lodge is worth a stop."}
+  ]
+},
+{
+  day:7, dow:"FRI", date:"Jul 17", title:"Bryce Canyon + Zion Day Trip", meta:"~80 mi round trip &bull; Tow car only",
+  img:"https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?w=800&q=80",
+  miles:"~80", drive:"~4 hrs", fuel:"Tow Car",
+  mapUrl:"https://www.google.com/maps/dir/North+Campground+Bryce+Canyon,+UT/Zion+National+Park+Visitor+Center,+Springdale,+UT",
+  mapText:"Bryce → Zion Visitor Center (TOW VEHICLE)",
+  mapSub:"US-89 S then UT-9 W — leave the RV at camp!",
+  briefing:[
+    {icon:"&#128680;",text:"DO NOT drive the RV to Zion. Zion-Mt Carmel Tunnel restricts vehicles over 11'4\". Your RV is 12 ft."},
+    {icon:"&#127749;",text:"Set an alarm for sunrise at Bryce Amphitheater — hoodoos glow orange-pink at first light."},
+    {icon:"&#128652;",text:"RV stays at North Campground. Take the GMC truck to Zion."}
+  ],
+  fuels:[],
+  route:[
+    {icon:"&#9654;",text:"Take tow vehicle via <strong>US-89 S → UT-9 W</strong> to Zion Visitor Center"},
+    {icon:"&#128652;",text:"Use Zion shuttle from Visitor Center — personal vehicles not allowed in canyon in summer"}
+  ],
+  warnings:["DO NOT drive the RV to Zion Canyon. The Zion-Mt Carmel Tunnel restricts vehicles over 11'4\" tall. Your RV is 12 ft. Leave it at North Campground."],
+  camp:{
+    main:"North Campground, Bryce Canyon — Night 2 of 2. Walk to Sunrise Point before dawn.",
+    alt:null
+  },
+  americana:[
+    {tag:"photo",label:"Photo Stop",name:"Bryce Amphitheater at Sunrise",desc:"Set an alarm. Hoodoos glow orange-pink at first light. Most magical 20 minutes in the Southwest."},
+    {tag:"nature",label:"Nature",name:"Zion — Emerald Pools Trail",desc:"No permit needed. Waterfall and canyon views, family-friendly. Shuttle from Visitor Center."},
+    {tag:"food",label:"Food",name:"Thunderbird Restaurant — Mt. Carmel Jct.",desc:"Homemade pies, classic roadside diner between Bryce and Zion. Since 1931."}
+  ]
+},
+{
+  day:8, dow:"SAT", date:"Jul 18", title:"Bryce Canyon to Sequoia NP", meta:"520 mi &bull; ~9 hrs &bull; ~$250 fuel",
+  img:"https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&q=80",
+  miles:"~520", drive:"~9 hrs", fuel:"~$250",
+  mapUrl:"https://www.google.com/maps/dir/North+Campground,+Bryce+Canyon+NP,+UT/Sequoia+RV+Ranch,+Three+Rivers,+CA",
+  mapText:"Bryce Canyon → Sequoia RV Ranch, Three Rivers CA",
+  mapSub:"US-89 S, I-15 S via Las Vegas, CA-58 W, CA-99 N, CA-198 E",
+  briefing:[
+    {icon:"&#128680;",text:"Enter Sequoia via CA-198 ONLY — Generals Hwy has 22 ft vehicle limit. Your RV cannot use it."},
+    {icon:"&#9981;",text:"FILL COMPLETELY in Visalia CA. No gas inside Sequoia, extremely limited near entrance."},
+    {icon:"&#9888;&#65039;",text:"CA-198 is steep and winding for ~25 miles — low gear on both ascent and descent."}
+  ],
+  fuels:[
+    {name:"Las Vegas NV — Flying J (I-15 exit 37)",desc:"Good mid-day fill. Large RV lanes.",pct:85,price:"$3.55/gal",cls:"mid"},
+    {name:"Visalia CA — Loves or Pilot (CA-99/CA-198)",desc:"FILL COMPLETELY — no gas inside Sequoia.",pct:95,price:"$4.65",cls:"exp"}
+  ],
+  route:[
+    {icon:"&#9654;",text:"<strong>US-89 S → I-15 S</strong> through Las Vegas toward California"},
+    {icon:"&#9654;",text:"<strong>I-15 to CA-58 W</strong> across Mojave, then <strong>CA-99 N</strong> to Visalia"},
+    {icon:"&#9654;",text:"<strong>CA-198 East ONLY</strong> — mandatory RV entrance to Sequoia"}
+  ],
+  warnings:["Generals Highway has a 22 ft vehicle length restriction. Your 36 ft RV cannot use it. Enter Sequoia via CA-198 only."],
+  camp:{
+    main:"Sequoia RV Ranch — Horse Meadow Rd, Three Rivers, CA. Full hookups, pull-throughs, right on CA-198. (559) 561-0457",
+    alt:"Lodgepole Campground (inside park) — pull-throughs, recreation.gov"
+  },
+  americana:[
+    {tag:"quirky",label:"Quirky",name:"Alien Fresh Jerky — Baker, CA",desc:"On I-15 near the World's Tallest Thermometer. Alien-themed jerky shop. Perfectly bizarre California roadside Americana."}
+  ]
+},
+{
+  day:9, dow:"SUN", date:"Jul 19", title:"Sequoia to Yosemite NP", meta:"195 mi &bull; ~4 hrs &bull; ~$115 fuel",
+  img:"https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800&q=80",
+  miles:"~195", drive:"~4 hrs", fuel:"~$115",
+  mapUrl:"https://www.google.com/maps/dir/Sequoia+RV+Ranch,+Three+Rivers,+CA/Thousand+Trails+Yosemite+Lakes+RV+Resort,+Groveland,+CA",
+  mapText:"Sequoia RV Ranch → Thousand Trails Yosemite Lakes",
+  mapSub:"CA-198 W, CA-99 N, CA-120 W toward Groveland",
+  briefing:[
+    {icon:"&#9888;&#65039;",text:"Uses CA-120 West (Big Oak Flat) — avoids Tioga Pass (CA-120 East) which is NOT suitable for RVs."},
+    {icon:"&#9888;&#65039;",text:"Yosemite timed-entry permit required — book at recreation.gov before your trip."},
+    {icon:"&#9981;",text:"Top off in Fresno CA before heading up — expensive inside park and limited in Groveland."}
+  ],
+  fuels:[
+    {name:"Fresno CA — Pilot (CA-99/CA-41)",desc:"Top off before heading to Yosemite.",pct:80,price:"$4.65",cls:"exp"}
+  ],
+  route:[
+    {icon:"&#9654;",text:"<strong>CA-198 West</strong> back down to the Central Valley"},
+    {icon:"&#9654;",text:"<strong>CA-99 North → CA-120 West</strong> toward Groveland"},
+    {icon:"&#9888;&#65039;",text:"<strong>DO NOT take CA-120 East (Tioga Pass)</strong> — not suitable for 36 ft RVs"}
+  ],
+  warnings:[],
+  camp:{
+    main:"Thousand Trails Yosemite Lakes — Hardin Flat Rd, Groveland, CA. Full hookups, pull-throughs, large-rig friendly. (209) 962-0121",
+    alt:"Yosemite Pines RV Resort — Groveland, full hookups"
+  },
+  americana:[
+    {tag:"nature",label:"Nature",name:"Mariposa Grove — Yosemite South Entrance",desc:"200+ giant sequoias, large RV parking with shuttles into the grove. Worth a stop on your way north."}
+  ]
+},
+{
+  day:10, dow:"MON", date:"Jul 20", title:"Yosemite — Full Day", meta:"~30 mi to Upper Pines &bull; Explore!",
+  img:"https://images.unsplash.com/photo-1472396961693-142e6e269027?w=800&q=80",
+  miles:"~30", drive:"Short Drive", fuel:"~$18",
+  mapUrl:"https://www.google.com/maps/dir/Thousand+Trails+Yosemite+Lakes,+Groveland,+CA/Upper+Pines+Campground,+Yosemite+Valley,+CA",
+  mapText:"Thousand Trails → Upper Pines (Yosemite Valley)",
+  mapSub:"CA-120 East via Big Oak Flat entrance — must have timed-entry permit",
+  briefing:[
+    {icon:"&#9888;&#65039;",text:"Must have timed-entry permit to drive into the Valley."},
+    {icon:"&#128652;",text:"Free Yosemite Valley Shuttle runs all day — park RV at Upper Pines and ride everywhere."},
+    {icon:"&#127860;",text:"The Ahwahnee Hotel is open for lunch — cathedral ceilings, National Historic Landmark since 1927."}
+  ],
+  fuels:[],
+  route:[
+    {icon:"&#9654;",text:"<strong>CA-120 East</strong> via Big Oak Flat entrance into the valley"},
+    {icon:"&#128652;",text:"Free Valley Shuttle covers all viewpoints — park the RV and ride"}
+  ],
+  warnings:[],
+  camp:{
+    main:"Upper Pines Campground — Yosemite Valley, CA. Largest campground in valley, RVs to 35 ft. Walk to shuttle stops. Recreation.gov — book months ahead.",
+    alt:"Wawona Campground — south entrance, easier large-RV access"
+  },
+  americana:[
+    {tag:"photo",label:"Photo Stop",name:"Tunnel View",desc:"El Capitan, Half Dome, and Bridalveil Fall all in one frame. Most-photographed viewpoint in the park."},
+    {tag:"nature",label:"Nature",name:"Valley Floor Loop / Mirror Lake",desc:"Easy 5-mile flat walk. Mirror Lake reflects Half Dome in the morning calm."},
+    {tag:"food",label:"Food",name:"The Ahwahnee Hotel Dining Room",desc:"Open for lunch. Cathedral ceilings, stone fireplaces, mountain views. National Historic Landmark since 1927."}
+  ]
+},
+{
+  day:11, dow:"TUE", date:"Jul 21", title:"Yosemite to Barstow, CA", meta:"320 mi &bull; ~5.5 hrs &bull; ~$185 fuel",
+  img:"https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800&q=80",
+  miles:"~320", drive:"~5.5 hrs", fuel:"~$185",
+  mapUrl:"https://www.google.com/maps/dir/Upper+Pines+Campground,+Yosemite+Valley,+CA/Barstow,+CA",
+  mapText:"Yosemite → Barstow KOA",
+  mapSub:"CA-41 S, CA-99 S, CA-58 E — flat valley and Mojave desert",
+  briefing:[
+    {icon:"&#9989;",text:"Flat valley and Mojave desert the whole way — one of the easier driving days."},
+    {icon:"&#128168;",text:"July Mojave heat is extreme — monitor engine temp, ensure coolant is topped off."},
+    {icon:"&#128161;",text:"Flexible — could push to Needles CA or Kingman AZ to reduce Day 12 drive."}
+  ],
+  fuels:[
+    {name:"Fresno CA — Pilot (CA-99/CA-41)",desc:"Last California fill before desert.",pct:85,price:"$4.65",cls:"exp"},
+    {name:"Barstow CA — TA Travel Center (I-15/I-40)",desc:"Optional overnight top-off.",pct:70,price:"$4.50",cls:"exp"}
+  ],
+  route:[
+    {icon:"&#9654;",text:"<strong>CA-41 S → CA-99 S → CA-58 E</strong> into Barstow — flat the whole way"}
+  ],
+  warnings:[],
+  camp:{
+    main:"Barstow KOA — Full hookups, pull-throughs, swimming pool. You'll want it in July desert heat.",
+    alt:"Push further: Needles KOA (CA) or Kingman AZ — shorter Day 12 and cheaper fuel"
+  },
+  americana:[
+    {tag:"quirky",label:"Quirky",name:"Elmo's Bottle Tree Ranch — Oro Grande, CA",desc:"Off I-15 near Victorville. Folk-art forest of metal sculptures and colored glass bottles on old Route 66. Free."},
+    {tag:"history",label:"History",name:"Calico Ghost Town — near Barstow, CA",desc:"1880s silver mining boomtown, partially restored. RV parking available."}
+  ]
+},
+{
+  day:12, dow:"WED", date:"Jul 22", title:"Barstow to Grand Canyon", meta:"340 mi &bull; ~5.5 hrs &bull; ~$115 fuel",
+  img:"https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?w=800&q=80",
+  miles:"~340", drive:"~5.5 hrs", fuel:"~$115",
+  mapUrl:"https://www.google.com/maps/dir/Barstow,+CA/Trailer+Village+RV+Park,+Grand+Canyon+Village,+AZ",
+  mapText:"Barstow CA → Trailer Village, Grand Canyon",
+  mapSub:"I-40 E through Kingman, then AZ-64 N to South Rim",
+  briefing:[
+    {icon:"&#9989;",text:"I-40 East is flat and wide. AZ-64 North is gentle grade — fully RV-friendly."},
+    {icon:"&#9981;",text:"Fill completely in Kingman AZ — best prices since Kansas! No fuel at the canyon."},
+    {icon:"&#127860;",text:"Rod's Steak House in Williams, AZ — since 1946. Last great meal before the canyon."}
+  ],
+  fuels:[
+    {name:"Kingman AZ — Pilot or Flying J (I-40 exit 51)",desc:"Best prices since Kansas! Fill completely here.",pct:95,price:"$3.10/gal",cls:"mid"}
+  ],
+  route:[
+    {icon:"&#9654;",text:"<strong>I-40 East</strong> through Needles CA and Kingman AZ — flat, fast, wide desert highway"},
+    {icon:"&#9654;",text:"<strong>AZ-64 North</strong> from Williams to South Rim — paved, wide, gentle grade"}
+  ],
+  warnings:[],
+  camp:{
+    main:"Trailer Village RV Park — Grand Canyon Village, AZ. Full hookups, large pull-throughs, inside the park. Walk to shuttle stops and rim. (877) 404-4611",
+    alt:"Mather Campground — adjacent, pull-throughs to 35 ft, electric hookups"
+  },
+  americana:[
+    {tag:"history",label:"History",name:"Historic Route 66 Museum — Kingman, AZ",desc:"Andy Devine Ave. Original 66 memorabilia and neon sign collection. Worth 30 min."},
+    {tag:"food",label:"Food",name:"Rod's Steak House — Williams, AZ",desc:"Since 1946. Cowboy steakhouse with cattle-shaped road sign. Last great meal before the canyon."}
+  ]
+},
+{
+  day:13, dow:"THU", date:"Jul 23", title:"Grand Canyon — Full Day", meta:"No driving &bull; South Rim all day",
+  img:"https://images.unsplash.com/photo-1615551043360-33de8b5f410c?w=800&q=80",
+  miles:"0", drive:"All Day", fuel:"$0",
+  mapUrl:null, mapText:null, mapSub:null,
+  briefing:[
+    {icon:"&#127777;&#65039;",text:"Rim 85°F+ in July, inner canyon over 110°F — hike at dawn only, off trail by 10am."},
+    {icon:"&#128167;",text:"Free water refill stations at every major trailhead — use them constantly."},
+    {icon:"&#128652;",text:"Free shuttles cover all rim viewpoints. Hermit Road is shuttle-only in summer."},
+    {icon:"&#127749;",text:"Mather Point at sunrise — walk from Trailer Village before dawn. Unforgettable."}
+  ],
+  fuels:[],
+  route:[
+    {icon:"&#128652;",text:"Free shuttles cover all rim viewpoints — park the RV and ride"},
+    {icon:"&#128663;",text:"Large RV parking at Canyon View Info Plaza near Mather Point"}
+  ],
+  warnings:[],
+  camp:{
+    main:"Trailer Village RV Park — Night 2 of 2. Walk to Mather Point for sunrise.",
+    alt:null
+  },
+  americana:[
+    {tag:"photo",label:"Photo Stop",name:"Mather Point at Sunrise",desc:"Canyon shifts from grey to blazing orange as the sun rises. One of the greatest sights in North America."},
+    {tag:"nature",label:"Nature",name:"Bright Angel Trail — First 1.5 Miles",desc:"Start before 7am. 2 liters water per person minimum. Do NOT go past 3 Mile in July heat."},
+    {tag:"photo",label:"Photo Stop",name:"Hopi Point — Hermit Road Shuttle",desc:"Best sunset viewpoint on the South Rim. Arrive 45 min early for a good spot."},
+    {tag:"history",label:"History",name:"El Tovar Hotel",desc:"1905 National Historic Landmark on the rim. Worth it for lunch — one of the great historic lodges."}
+  ]
+},
+{
+  day:14, dow:"FRI", date:"Jul 24", title:"Grand Canyon to Petrified Forest", meta:"185 mi &bull; ~3.5 hrs &bull; ~$65 fuel",
+  img:"https://images.unsplash.com/photo-1575408264798-ed20bc40bedd?w=800&q=80",
+  miles:"~185", drive:"~3.5 hrs", fuel:"~$65",
+  mapUrl:"https://www.google.com/maps/dir/Trailer+Village+RV+Park,+Grand+Canyon+Village,+AZ/Petrified+Forest+National+Park,+AZ",
+  mapText:"Grand Canyon → Petrified Forest NP",
+  mapSub:"AZ-64 S, I-40 E to exit 311 (north entrance)",
+  briefing:[
+    {icon:"&#9989;",text:"28-mile park road is fully paved and flat — zero RV restrictions."},
+    {icon:"&#9888;&#65039;",text:"225-million-year-old petrified wood — do NOT pocket any. Federal offense, $325 fine minimum."},
+    {icon:"&#128663;",text:"Enter from I-40 north end, drive south through park, exit via US-180 toward Holbrook."}
+  ],
+  fuels:[
+    {name:"Williams AZ — on the way out",desc:"Top off before heading east.",pct:85,price:"$3.35/gal",cls:"mid"},
+    {name:"Holbrook AZ — Loves or Flying J (I-40 exit 286)",desc:"Easy fill near Petrified Forest.",pct:80,price:"$3.10/gal",cls:"mid"}
+  ],
+  route:[
+    {icon:"&#9654;",text:"<strong>AZ-64 S → I-40 E</strong> to exit 311 — Petrified Forest North Entrance"},
+    {icon:"&#9989;",text:"28-mile park road: paved, flat, wide — perfect for 36 ft RV"}
+  ],
+  warnings:[],
+  camp:{
+    main:"OK RV Park — Holbrook, AZ. On Route 66, full hookups.",
+    alt:"Push east toward Albuquerque to bank miles for the return home"
+  },
+  americana:[
+    {tag:"nature",label:"Nature",name:"Painted Desert Inn — inside Petrified Forest NP",desc:"Historic 1924 inn, free museum. Fred Harvey murals, sweeping desert views."},
+    {tag:"history",label:"History",name:"225-Million-Year-Old Petrified Wood",desc:"Crystal logs scattered across the desert floor. Do NOT take any — federal offense."},
+    {tag:"quirky",label:"Quirky",name:"Wigwam Motel — Holbrook, AZ",desc:"1950 concrete teepee cabins on old Route 66. Perfect drive-past photo stop."}
+  ]
+},
+{
+  day:15, dow:"SAT", date:"Jul 25", title:"Heading Home — Day 1", meta:"620 mi &bull; ~9 hrs &bull; ~$185 fuel",
+  img:"https://images.unsplash.com/photo-1568515045052-f9a854d70bfd?w=800&q=80",
+  miles:"~620", drive:"~9 hrs", fuel:"~$185",
+  mapUrl:"https://www.google.com/maps/dir/Holbrook,+AZ/Amarillo,+TX",
+  mapText:"Holbrook AZ → Amarillo TX",
+  mapSub:"I-40 East all the way — historic Route 66 corridor",
+  briefing:[
+    {icon:"&#9989;",text:"I-40 East the entire route — flat, wide, fully RV-friendly."},
+    {icon:"&#9888;&#65039;",text:"I-40 through NM can have haboobs (dust storms) — if visibility drops, pull completely off and wait."},
+    {icon:"&#128176;",text:"Fuel prices improving as you head east — fill up in Amarillo for best TX prices."}
+  ],
+  fuels:[
+    {name:"Albuquerque NM — Pilot or TA (I-40 exit 153)",desc:"Good mid-day fill.",pct:85,price:"$2.95/gal",cls:"cheap"},
+    {name:"Tucumcari NM — Loves (I-40 exit 335)",desc:"Optional top-off near NM/TX border.",pct:75,price:"$2.90/gal",cls:"cheap"},
+    {name:"Amarillo TX — Flying J (I-40 exit 76)",desc:"Best fuel prices in weeks!",pct:95,price:"$2.85/gal",cls:"cheap"}
+  ],
+  route:[
+    {icon:"&#9654;",text:"<strong>I-40 East</strong> — Route 66 corridor through Gallup, Albuquerque, Santa Rosa, Amarillo"}
+  ],
+  warnings:[],
+  camp:{
+    main:"Amarillo Ranch RV Park — Pull-throughs for 40+ ft, full hookups, near I-40.",
+    alt:null
+  },
+  americana:[
+    {tag:"history",label:"History",name:"Old Town Albuquerque — NM",desc:"Founded 1706. Adobe buildings, turquoise jewelry, green chile everything. Great lunch stop."},
+    {tag:"quirky",label:"Quirky",name:"Cadillac Ranch — Amarillo, TX",desc:"Ten Cadillacs buried nose-first in a wheat field. Free, 24/7. Bring spray paint — it's encouraged."},
+    {tag:"food",label:"Food",name:"Big Texan Steak Ranch — Amarillo, TX",desc:"Free 72-oz steak if you finish in an hour. Spectacle either way. Enormous RV parking lot."}
+  ]
+},
+{
+  day:16, dow:"SUN", date:"Jul 26", title:"Amarillo to Knoxville — Home!", meta:"~1,100 mi &bull; ~16 hrs &bull; ~$320 fuel",
+  img:"https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=800&q=80",
+  miles:"~1,100", drive:"~16 hrs", fuel:"~$320",
+  mapUrl:"https://www.google.com/maps/dir/Amarillo,+TX/Knoxville,+TN",
+  mapText:"Amarillo TX → Knoxville TN",
+  mapSub:"I-40 East all the way — one highway home through OKC, Memphis, Nashville",
+  briefing:[
+    {icon:"&#9989;",text:"I-40 East the entire route. One highway all the way home."},
+    {icon:"&#128161;",text:"At 1,100 miles consider splitting at Memphis — Graceland RV Park, arrive home rested Monday."},
+    {icon:"&#128176;",text:"Oklahoma City has the cheapest fuel of the whole trip — fill completely."}
+  ],
+  fuels:[
+    {name:"Oklahoma City OK — Flying J (I-40/I-44)",desc:"Cheapest fuel of the whole trip!",pct:95,price:"$2.80/gal",cls:"cheap"},
+    {name:"Memphis TN — Pilot (I-40 exit 12)",desc:"If splitting overnight, fill here.",pct:80,price:"$3.05/gal",cls:"mid"},
+    {name:"Nashville TN — Pilot (I-40/I-24)",desc:"Final fuel stop. 3 hours from Knoxville!",pct:85,price:"$3.05/gal",cls:"mid"}
+  ],
+  route:[
+    {icon:"&#9654;",text:"<strong>I-40 East</strong> through OKC → Little Rock → Memphis → Nashville → Knoxville"},
+    {icon:"&#128161;",text:"Consider splitting at Memphis — stay at Graceland RV Park, arrive home rested Monday"}
+  ],
+  warnings:[],
+  camp:{
+    main:"HOME! Or split at Memphis — Graceland RV Park for one more night on the road.",
+    alt:null
+  },
+  americana:[
+    {tag:"history",label:"History",name:"Oklahoma Route 66 Museum — Clinton, OK",desc:"Off I-40. Dust Bowl migration history and original Mother Road artifacts. 45 well-spent minutes."},
+    {tag:"history",label:"History",name:"Graceland — Memphis, TN",desc:"Elvis's home. A true American pilgrimage. Large RV parking lot. Worth 3 hours if you have them."},
+    {tag:"food",label:"Food",name:"Loveless Cafe — Nashville, TN",desc:"Since 1951. Country ham, biscuits, red-eye gravy. RV parking in adjacent lot."}
+  ]
+}
+];
+
+// Render all days
+const container = document.getElementById('days-container');
+days.forEach((d, i) => {
+  const isLast = i === days.length - 1;
+  let html = `
+  <div class="day-card" id="day${d.day}" onclick="toggle(${d.day})">
+    <div class="day-header">
+      <div class="day-num-box">
+        <span class="dow">${d.dow}</span>
+        <span class="num">${d.day}</span>
+      </div>
+      <img class="day-thumb" src="${d.img}" alt="${d.title}" loading="lazy">
+      <div class="day-summary">
+        <h3>${d.title}</h3>
+        <div class="meta">${d.meta}</div>
+      </div>
+      <div class="day-chevron">&#9660;</div>
+    </div>
+    <div class="day-body">
+      <img class="day-hero-img" src="${d.img}" alt="${d.title}" loading="lazy">
+      <div class="day-inner">
+
+        <!-- Stats -->
+        <div class="stats-bar">
+          <div class="stat-pill"><span class="stat-val">${d.miles}</span><span class="stat-label">Miles</span></div>
+          <div class="stat-pill mesa"><span class="stat-val">${d.drive}</span><span class="stat-label">Drive Time</span></div>
+          <div class="stat-pill green"><span class="stat-val">${d.fuel}</span><span class="stat-label">Est. Fuel</span></div>
+        </div>`;
+
+  // Map button
+  if (d.mapUrl) {
+    html += `
+        <a class="map-btn" href="${d.mapUrl}" target="_blank" onclick="event.stopPropagation()">
+          <span class="icon">&#128506;</span>
+          <span class="text">${d.mapText}<small>${d.mapSub}</small></span>
+          <span class="arrow">&rsaquo;</span>
+        </a>`;
+  }
+
+  // Daily Briefing
+  if (d.briefing.length) {
+    html += `
+        <div class="section">
+          <div class="section-title briefing">&#128220; Daily Briefing</div>`;
+    d.briefing.forEach(b => {
+      html += `<div class="brief-item"><div class="brief-icon">${b.icon}</div><div>${b.text}</div></div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Warnings
+  d.warnings.forEach(w => {
+    html += `<div class="warning-card"><strong>&#9888;&#65039; RV Warning</strong>${w}</div>`;
+  });
+
+  // Route
+  if (d.route.length) {
+    html += `
+        <div class="section">
+          <div class="section-title route">&#128739; Route</div>`;
+    d.route.forEach(r => {
+      html += `<div class="route-item"><div class="route-icon">${r.icon}</div><div>${r.text}</div></div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Fuel
+  if (d.fuels.length) {
+    html += `
+        <div class="section">
+          <div class="section-title fuel">&#9981; Fuel Stops</div>`;
+    d.fuels.forEach(f => {
+      html += `
+          <div class="fuel-item">
+            <div class="fuel-icon">&#9981;</div>
+            <div class="fuel-info">
+              <div class="fuel-name">${f.name}</div>
+              <div class="fuel-desc">${f.desc}</div>
+              <div class="tank-bar-wrap">
+                <div class="tank-labels"><span>Tank after fill</span><span>${f.pct}%</span></div>
+                <div class="tank-bar"><div class="tank-fill" style="width:${f.pct}%"></div></div>
+              </div>
+            </div>
+            <div class="fuel-price ${f.cls}">${f.price}</div>
+          </div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Camp
+  html += `
+        <div class="section">
+          <div class="section-title camp">&#127957; Camp</div>
+          <div class="camp-item"><strong>${d.camp.main.split(' — ')[0]}</strong> <span class="camp-badge pick">Your Pick</span><br>${d.camp.main.split(' — ').slice(1).join(' — ')}</div>`;
+  if (d.camp.alt) {
+    html += `<div class="camp-item alt"><strong>Alt:</strong> <span class="camp-badge backup">Backup</span> ${d.camp.alt}</div>`;
+  }
+  html += `</div>`;
+
+  // Americana
+  if (d.americana.length) {
+    html += `
+        <div class="section">
+          <div class="section-title americana">&#127922; Roadside Americana</div>`;
+    d.americana.forEach(a => {
+      html += `
+          <div class="americana-item">
+            <div class="americana-tag ${a.tag}">${a.label}</div>
+            <div class="americana-name">${a.name}</div>
+            <div class="americana-desc">${a.desc}</div>
+          </div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Welcome Home card for last day
+  if (isLast) {
+    html += `
+        <div class="home-card">
+          <div class="big">Welcome Home!</div>
+          <div class="details">~5,500 miles &bull; ~611 gallons of diesel<br>7 National Parks &bull; 16 Days<br>One Epic American Road Trip</div>
+        </div>`;
+  }
+
+  html += `</div></div></div>`;
+  container.innerHTML += html;
+});
+
+// Accordion toggle
+function toggle(dayNum) {
+  const card = document.getElementById('day' + dayNum);
+  const wasOpen = card.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.day-card').forEach(c => c.classList.remove('open'));
+  // Open clicked if it was closed
+  if (!wasOpen) {
+    card.classList.add('open');
+    setTimeout(() => {
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
+}
+</script>
+</body>
+</html>
