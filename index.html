@@ -299,19 +299,12 @@ body {
   flex-wrap: wrap;
 }
 .day-header:hover { background: rgba(160,82,45,0.04); }
-.day-header-top {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 1;
-  min-width: 0;
-}
-.day-header-badges {
-  display: flex;
+.day-badges-row {
+  display: none;
   gap: 4px;
-  align-items: center;
-  flex-shrink: 0;
+  margin-top: 4px;
 }
+.day-badges-row.visible { display: flex; }
 
 .day-num-box {
   min-width: 52px;
@@ -1754,28 +1747,26 @@ days.forEach((d, i) => {
   let html = `
   <div class="day-card" id="day${d.day}" onclick="toggle(${d.day})">
     <div class="day-header">
-      <div class="day-header-top">
-        <div class="day-num-box">
-          <span class="dow">${d.dow}</span>
-          <span class="num">${d.day}</span>
-        </div>
-        <img class="day-thumb" src="${d.img}" alt="${d.title}" loading="lazy">
-        <div class="day-summary">
-          <h3>${d.title}</h3>
-          <div class="meta">${d.meta}</div>
+      <div class="day-num-box">
+        <span class="dow">${d.dow}</span>
+        <span class="num">${d.day}</span>
+      </div>
+      <img class="day-thumb" src="${d.img}" alt="${d.title}" loading="lazy">
+      <div class="day-summary">
+        <h3>${d.title}</h3>
+        <div class="meta">${d.meta}</div>
+        <div class="day-badges-row" id="badges-row-${d.day}">
+          <div class="day-depart-badge" id="depart-badge-${d.day}">
+            <span class="time" id="depart-badge-time-${d.day}"></span>
+            <span class="lbl">Depart</span>
+          </div>
+          <div class="day-depart-badge" id="arrive-badge-${d.day}" style="border-color:rgba(107,127,94,0.3);background:rgba(107,127,94,0.1)">
+            <span class="time" id="arrive-badge-time-${d.day}" style="color:var(--sage)"></span>
+            <span class="lbl">Arrive</span>
+          </div>
         </div>
       </div>
-      <div class="day-header-badges">
-        <div class="day-depart-badge" id="depart-badge-${d.day}">
-          <span class="time" id="depart-badge-time-${d.day}"></span>
-          <span class="lbl">Depart</span>
-        </div>
-        <div class="day-depart-badge" id="arrive-badge-${d.day}" style="border-color:rgba(107,127,94,0.3);background:rgba(107,127,94,0.1)">
-          <span class="time" id="arrive-badge-time-${d.day}" style="color:var(--sage)"></span>
-          <span class="lbl">Arrive</span>
-        </div>
-        <div class="day-chevron">&#9660;</div>
-      </div>
+      <div class="day-chevron">&#9660;</div>
     </div>
     <div class="day-body">
       <img class="day-hero-img" src="${d.img}" alt="${d.title}" loading="lazy">
@@ -2041,7 +2032,8 @@ function updateDisplay(dayNum, totalMins, stopsMins, leaveMins, arriveMins) {
   totalEl.textContent = totalH + 'h' + (totalM > 0 ? ' ' + totalM + 'm' : '');
   stopsEl.textContent = stopsMins > 0 ? stopsMins + ' min' : '0 min';
 
-  // Show departure time on collapsed card
+  // Show badges on collapsed card
+  const badgesRow = document.getElementById('badges-row-' + dayNum);
   if (badge && badgeTime && leaveMins !== null) {
     badgeTime.textContent = fmt12(leaveMins);
     badge.classList.add('visible');
@@ -2049,7 +2041,6 @@ function updateDisplay(dayNum, totalMins, stopsMins, leaveMins, arriveMins) {
     badge.classList.remove('visible');
   }
 
-  // Show arrival time on collapsed card
   const arriveBadge = document.getElementById('arrive-badge-' + dayNum);
   const arriveBadgeTime = document.getElementById('arrive-badge-time-' + dayNum);
   if (arriveBadge && arriveBadgeTime && arriveMins !== null) {
@@ -2057,6 +2048,15 @@ function updateDisplay(dayNum, totalMins, stopsMins, leaveMins, arriveMins) {
     arriveBadge.classList.add('visible');
   } else if (arriveBadge) {
     arriveBadge.classList.remove('visible');
+  }
+
+  // Show the row if either badge is visible
+  if (badgesRow) {
+    if ((leaveMins !== null) || (arriveMins !== null)) {
+      badgesRow.classList.add('visible');
+    } else {
+      badgesRow.classList.remove('visible');
+    }
   }
 }
 
