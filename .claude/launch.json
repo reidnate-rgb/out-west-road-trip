@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "road-trip",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "serve", "-l", "3003", "-s", "C:\\Users\\NateReid\\out-west-road-trip"],
+      "port": 3003
+    }
+  ]
+}
