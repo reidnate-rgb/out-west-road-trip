@@ -48,30 +48,38 @@ Return this exact JSON structure:
     // Fallback: Google Gemini (free tier)
     const geminiKey = process.env.GEMINI_API_KEY;
     if (geminiKey) {
-      const gResp = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { temperature: 0.3, maxOutputTokens: 500 }
-          })
-        }
-      );
-      if (gResp.ok) {
-        const gData = await gResp.json();
-        const text = gData.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-        if (text) {
-          const match = text.match(/\{[\s\S]*\}/);
-          if (match) {
-            return res.status(200).json(JSON.parse(match[0]));
+      try {
+        const gResp = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: prompt }] }],
+              generationConfig: { temperature: 0.3, maxOutputTokens: 500 }
+            })
           }
+        );
+        const gText = await gResp.text();
+        if (gResp.ok) {
+          const gData = JSON.parse(gText);
+          const responseText = gData.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+          if (responseText) {
+            const match = responseText.match(/\{[\s\S]*\}/);
+            if (match) {
+              return res.status(200).json(JSON.parse(match[0]));
+            }
+            return res.status(500).json({ error: 'Could not parse Gemini response', raw: responseText.substring(0, 200) });
+          }
+          return res.status(500).json({ error: 'Empty Gemini response', raw: gText.substring(0, 200) });
         }
+        return res.status(500).json({ error: 'Gemini API error: ' + gText.substring(0, 300) });
+      } catch (gErr) {
+        return res.status(500).json({ error: 'Gemini exception: ' + gErr.message });
       }
     }
 
-    res.status(500).json({ error: 'No AI API available. Check ANTHROPIC_API_KEY or GEMINI_API_KEY env vars.' });
+    res.status(500).json({ error: 'No AI API keys found in environment' });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
