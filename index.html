@@ -761,6 +761,80 @@ body {
   letter-spacing: 1px;
 }
 
+/* ===== TIME SPENT BAR ===== */
+.time-bar-section {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.time-bar-title {
+  font-family: 'Rye', cursive;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 6px;
+}
+.time-bar-total {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.time-bar {
+  height: 28px;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.time-seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: width 0.5s ease;
+}
+.time-seg.sleep { background: #2C3E6B; }
+.time-seg.drive { background: var(--mesa); }
+.time-seg.fuel { background: #8B6914; }
+.time-seg.attractions { background: var(--sienna); }
+.time-seg.parks { background: var(--sage); }
+.time-bar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  justify-content: center;
+}
+.time-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: rgba(255,255,255,0.6);
+}
+.time-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.time-legend-dot.sleep { background: #2C3E6B; }
+.time-legend-dot.drive { background: var(--mesa); }
+.time-legend-dot.fuel { background: #8B6914; }
+.time-legend-dot.attractions { background: var(--sienna); }
+.time-legend-dot.parks { background: var(--sage); }
+
 /* ===== DEPARTURE CALCULATOR ===== */
 .depart-calc {
   background: linear-gradient(135deg, #F0F4FF, #E6EDFF);
@@ -1075,13 +1149,22 @@ body {
 
 <!-- ===== FUEL OVERVIEW ===== -->
 <div class="fuel-banner">
-  <div class="fuel-title">Monaco Cayman 36PDQ &mdash; Trip Fuel Estimate</div>
+  <div class="fuel-title">Trip Summary</div>
   <div class="fuel-stats">
     <div class="fuel-stat"><span class="fuel-num">5,500</span><span class="fuel-lbl">Est. Miles</span></div>
     <div class="fuel-stat"><span class="fuel-num">~611</span><span class="fuel-lbl">Gallons</span></div>
     <div class="fuel-stat"><span class="fuel-num">~$2,005</span><span class="fuel-lbl">Fuel Cost</span></div>
     <div class="fuel-stat"><span class="fuel-num">675 mi</span><span class="fuel-lbl">Tank Range</span></div>
   </div>
+
+  <!-- Time Spent Bar -->
+  <div class="time-bar-section">
+    <div class="time-bar-title">Time Spent &mdash; 16 Days</div>
+    <div class="time-bar-total" id="time-bar-total"></div>
+    <div class="time-bar" id="time-bar"></div>
+    <div class="time-bar-legend" id="time-bar-legend"></div>
+  </div>
+
   <a href="https://www.google.com/maps/dir/Knoxville,+TN/Cahokia+Heights,+IL/Ellis,+KS/Estes+Park,+CO/Moab,+UT/Monument+Valley,+UT/Bryce+Canyon,+UT/Three+Rivers,+CA/Groveland,+CA/Grand+Canyon+Village,+AZ/Amarillo,+TX/Knoxville,+TN" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#8B4513,#A0522D);border:2px solid var(--gold);border-radius:8px;padding:14px 16px;margin-top:14px;text-decoration:none;color:#fff;font-family:'Rye',cursive;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;box-shadow:0 3px 12px rgba(139,69,19,0.4)">
     &#128506; View Full 5,500 Mile Route in Google Maps
   </a>
@@ -2108,6 +2191,66 @@ function toggle(dayNum) {
 
 // Restore saved times on page load
 restoreAllCalcStates();
+
+// ===== TIME SPENT BAR =====
+function buildTimeBar() {
+  const totalDays = 16;
+  const totalHrs = totalDays * 24; // 384 hours
+  const nights = 15; // 15 nights of sleep
+  const sleepHrs = nights * 8; // 120 hrs
+
+  // Sum drive hours from all days
+  let driveHrs = 0;
+  let fuelStops = 0;
+  let checkedAmericana = 0;
+  days.forEach(d => {
+    driveHrs += d.driveHrs || 0;
+    fuelStops += d.fuels.length;
+    // Count checked americana stops
+    checkedAmericana += document.querySelectorAll('.americana-add-stop input[data-day="' + d.day + '"]:checked').length;
+  });
+
+  const fuelHrs = (fuelStops * 20) / 60; // 20 min each
+  const attractionHrs = (checkedAmericana * 15) / 60; // 15 min each
+  const parksHrs = totalHrs - sleepHrs - driveHrs - fuelHrs - attractionHrs;
+
+  const segments = [
+    { cls: 'sleep', label: 'Sleeping', hrs: sleepHrs },
+    { cls: 'drive', label: 'Driving', hrs: driveHrs },
+    { cls: 'fuel', label: 'Fuel Stops', hrs: fuelHrs },
+    { cls: 'attractions', label: 'Attractions', hrs: attractionHrs },
+    { cls: 'parks', label: 'Exploring Parks', hrs: parksHrs }
+  ];
+
+  // Build bar
+  const bar = document.getElementById('time-bar');
+  bar.innerHTML = segments.map(s => {
+    const pct = (s.hrs / totalHrs * 100).toFixed(1);
+    const label = pct > 8 ? Math.round(s.hrs) + 'h' : '';
+    return '<div class="time-seg ' + s.cls + '" style="width:' + pct + '%">' + label + '</div>';
+  }).join('');
+
+  // Build legend
+  const legend = document.getElementById('time-bar-legend');
+  legend.innerHTML = segments.map(s => {
+    const h = Math.floor(s.hrs);
+    const m = Math.round((s.hrs - h) * 60);
+    const timeStr = h + 'h' + (m > 0 ? ' ' + m + 'm' : '');
+    return '<div class="time-legend-item"><div class="time-legend-dot ' + s.cls + '"></div>' + s.label + ': ' + timeStr + '</div>';
+  }).join('');
+
+  // Total
+  document.getElementById('time-bar-total').textContent = totalHrs + ' Total Hours (' + totalDays + ' days, ' + nights + ' nights)';
+}
+
+buildTimeBar();
+
+// Rebuild time bar when stops change
+const origToggleStop = toggleStop;
+toggleStop = function(id, dayNum) {
+  origToggleStop(id, dayNum);
+  buildTimeBar();
+};
 </script>
 </body>
 </html>
