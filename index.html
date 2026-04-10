@@ -909,8 +909,8 @@ const days = [
     {icon:"&#9981;",text:"Fill up in Nashville at Flying J (I-40 exit 212) — best TN prices."}
   ],
   fuels:[
-    {name:"Nashville TN — Flying J (I-40 exit 212)",desc:"Fill up here — best TN prices.",pct:95,price:"$3.05/gal",cls:"mid"},
-    {name:"Marion IL — Pilot (I-57/I-64 jct)",desc:"Optional top-off before final push to St. Louis.",pct:75,price:"$2.95/gal",cls:"cheap"}
+    {name:"Nashville TN — Flying J (I-40 exit 212)",desc:"Fill up here — best TN prices.",pct:95,price:"$3.05/gal",cls:"mid",location:"Flying J, I-40 exit 212, Nashville, TN",pullthru:true,gasbuddy:"flying-j-nashville-tn"},
+    {name:"Marion IL — Pilot (I-57/I-64 jct)",desc:"Optional top-off before final push to St. Louis.",pct:75,price:"$2.95/gal",cls:"cheap",location:"Pilot Travel Center, I-57 I-64, Marion, IL",pullthru:true,gasbuddy:"pilot-marion-il"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>I-40 West</strong> from Knoxville through Nashville — wide, flat, RV-friendly"},
@@ -939,8 +939,8 @@ const days = [
     {icon:"&#9981;",text:"IMPORTANT: Fill in Salina KS — western Kansas fuel is sparse."}
   ],
   fuels:[
-    {name:"Kansas City MO — Pilot (I-70 exit 12)",desc:"Top off before entering Kansas.",pct:90,price:"$2.90/gal",cls:"cheap"},
-    {name:"Salina KS — Love's (I-70 exit 252)",desc:"FILL HERE — last reliable stop before Ellis.",pct:85,price:"$2.90/gal",cls:"cheap"}
+    {name:"Kansas City MO — Pilot (I-70 exit 12)",desc:"Top off before entering Kansas.",pct:90,price:"$2.90/gal",cls:"cheap",location:"Pilot Travel Center, I-70 exit 12, Kansas City, MO",pullthru:true,gasbuddy:"pilot-kansas-city-mo"},
+    {name:"Salina KS — Love's (I-70 exit 252)",desc:"FILL HERE — last reliable stop before Ellis.",pct:85,price:"$2.90/gal",cls:"cheap",location:"Loves Travel Stop, I-70 exit 252, Salina, KS",pullthru:true,gasbuddy:"loves-salina-ks"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>I-70 West</strong> all the way — straight, flat, 4 lanes, ideal for RVs"}
@@ -968,8 +968,8 @@ const days = [
     {icon:"&#9981;",text:"CRITICAL: Fill completely in Loveland CO. No fuel inside RMNP."}
   ],
   fuels:[
-    {name:"Hays KS — Pilot (I-70 exit 159)",desc:"Top off before CO prices jump.",pct:95,price:"$2.90/gal",cls:"cheap"},
-    {name:"Loveland CO — Flying J (US-34/I-25)",desc:"CRITICAL: Fill completely here. No fuel inside RMNP.",pct:90,price:"$3.25/gal",cls:"mid"}
+    {name:"Hays KS — Pilot (I-70 exit 159)",desc:"Top off before CO prices jump.",pct:95,price:"$2.90/gal",cls:"cheap",location:"Pilot Travel Center, I-70 exit 159, Hays, KS",pullthru:true,gasbuddy:"pilot-hays-ks"},
+    {name:"Loveland CO — Flying J (US-34/I-25)",desc:"CRITICAL: Fill completely here. No fuel inside RMNP.",pct:90,price:"$3.25/gal",cls:"mid",location:"Flying J, US-34 I-25, Loveland, CO",pullthru:true,gasbuddy:"flying-j-loveland-co"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>I-70 West</strong> into Colorado → <strong>I-25 North</strong> to Loveland"},
@@ -1025,8 +1025,8 @@ const days = [
     {icon:"&#9981;",text:"Fill in Grand Junction CO after descending Rockies. Long stretch ahead."}
   ],
   fuels:[
-    {name:"Grand Junction CO — Pilot (I-70 exit 26)",desc:"Fill here after descending the Rockies.",pct:90,price:"$3.25/gal",cls:"mid"},
-    {name:"Moab UT — Loves or US-191 gas",desc:"Top off after Arches. Last good fuel before Monument Valley.",pct:85,price:"$3.40/gal",cls:"mid"}
+    {name:"Grand Junction CO — Pilot (I-70 exit 26)",desc:"Fill here after descending the Rockies.",pct:90,price:"$3.25/gal",cls:"mid",location:"Pilot Travel Center, I-70 exit 26, Grand Junction, CO",pullthru:true,gasbuddy:"pilot-grand-junction-co"},
+    {name:"Moab UT — Loves or US-191 gas",desc:"Top off after Arches. Last good fuel before Monument Valley.",pct:85,price:"$3.40/gal",cls:"mid",location:"Loves Travel Stop, US-191, Moab, UT",pullthru:true,gasbuddy:"loves-moab-ut"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>US-34 E → I-25 S → I-70 W</strong> — avoid Denver 7-9am rush"},
@@ -1057,7 +1057,7 @@ const days = [
     {icon:"&#127756;",text:"Stop at Horseshoe Bend (Page, AZ) — go before 9am to beat heat and crowds."}
   ],
   fuels:[
-    {name:"Page AZ — Chevron or Maverick on US-89",desc:"CRITICAL: Fill here. Last reliable affordable fuel before Bryce.",pct:90,price:"$3.10/gal",cls:"mid"}
+    {name:"Page AZ — Chevron or Maverick on US-89",desc:"CRITICAL: Fill here. Last reliable affordable fuel before Bryce.",pct:90,price:"$3.10/gal",cls:"mid",location:"Chevron, US-89, Page, AZ",pullthru:false,gasbuddy:"chevron-page-az"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>US-163 N → US-160 W → US-89 N</strong> through Page, AZ and Kanab, UT"},
@@ -1114,8 +1114,8 @@ const days = [
     {icon:"&#9888;&#65039;",text:"CA-198 is steep and winding for ~25 miles — low gear on both ascent and descent."}
   ],
   fuels:[
-    {name:"Las Vegas NV — Flying J (I-15 exit 37)",desc:"Good mid-day fill. Large RV lanes.",pct:85,price:"$3.55/gal",cls:"mid"},
-    {name:"Visalia CA — Loves or Pilot (CA-99/CA-198)",desc:"FILL COMPLETELY — no gas inside Sequoia.",pct:95,price:"$4.65",cls:"exp"}
+    {name:"Las Vegas NV — Flying J (I-15 exit 37)",desc:"Good mid-day fill. Large RV lanes.",pct:85,price:"$3.55/gal",cls:"mid",location:"Flying J, I-15 exit 37, Las Vegas, NV",pullthru:true,gasbuddy:"flying-j-las-vegas-nv"},
+    {name:"Visalia CA — Loves or Pilot (CA-99/CA-198)",desc:"FILL COMPLETELY — no gas inside Sequoia.",pct:95,price:"$4.65",cls:"exp",location:"Loves Travel Stop, CA-99 CA-198, Visalia, CA",pullthru:true,gasbuddy:"loves-visalia-ca"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>US-89 S → I-15 S</strong> through Las Vegas toward California"},
@@ -1144,7 +1144,7 @@ const days = [
     {icon:"&#9981;",text:"Top off in Fresno CA before heading up — expensive inside park and limited in Groveland."}
   ],
   fuels:[
-    {name:"Fresno CA — Pilot (CA-99/CA-41)",desc:"Top off before heading to Yosemite.",pct:80,price:"$4.65",cls:"exp"}
+    {name:"Fresno CA — Pilot (CA-99/CA-41)",desc:"Top off before heading to Yosemite.",pct:80,price:"$4.65",cls:"exp",location:"Pilot Travel Center, CA-99 CA-41, Fresno, CA",pullthru:true,gasbuddy:"pilot-fresno-ca"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>CA-198 West</strong> back down to the Central Valley"},
@@ -1202,7 +1202,7 @@ const days = [
   ],
   fuels:[
     {name:"Fresno CA — Pilot (CA-99/CA-41)",desc:"Last California fill before desert.",pct:85,price:"$4.65",cls:"exp"},
-    {name:"Barstow CA — TA Travel Center (I-15/I-40)",desc:"Optional overnight top-off.",pct:70,price:"$4.50",cls:"exp"}
+    {name:"Barstow CA — TA Travel Center (I-15/I-40)",desc:"Optional overnight top-off.",pct:70,price:"$4.50",cls:"exp",location:"TA Travel Center, I-15 I-40, Barstow, CA",pullthru:true,gasbuddy:"ta-barstow-ca"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>CA-41 S → CA-99 S → CA-58 E</strong> into Barstow — flat the whole way"}
@@ -1230,7 +1230,7 @@ const days = [
     {icon:"&#127860;",text:"Rod's Steak House in Williams, AZ — since 1946. Last great meal before the canyon."}
   ],
   fuels:[
-    {name:"Kingman AZ — Pilot or Flying J (I-40 exit 51)",desc:"Best prices since Kansas! Fill completely here.",pct:95,price:"$3.10/gal",cls:"mid"}
+    {name:"Kingman AZ — Pilot or Flying J (I-40 exit 51)",desc:"Best prices since Kansas! Fill completely here.",pct:95,price:"$3.10/gal",cls:"mid",location:"Pilot Travel Center, I-40 exit 51, Kingman, AZ",pullthru:true,gasbuddy:"pilot-kingman-az"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>I-40 East</strong> through Needles CA and Kingman AZ — flat, fast, wide desert highway"},
@@ -1287,8 +1287,8 @@ const days = [
     {icon:"&#128663;",text:"Enter from I-40 north end, drive south through park, exit via US-180 toward Holbrook."}
   ],
   fuels:[
-    {name:"Williams AZ — on the way out",desc:"Top off before heading east.",pct:85,price:"$3.35/gal",cls:"mid"},
-    {name:"Holbrook AZ — Loves or Flying J (I-40 exit 286)",desc:"Easy fill near Petrified Forest.",pct:80,price:"$3.10/gal",cls:"mid"}
+    {name:"Williams AZ — on the way out",desc:"Top off before heading east.",pct:85,price:"$3.35/gal",cls:"mid",location:"Williams, AZ fuel",pullthru:false,gasbuddy:"gas-stations-williams-az"},
+    {name:"Holbrook AZ — Loves or Flying J (I-40 exit 286)",desc:"Easy fill near Petrified Forest.",pct:80,price:"$3.10/gal",cls:"mid",location:"Loves Travel Stop, I-40 exit 286, Holbrook, AZ",pullthru:true,gasbuddy:"loves-holbrook-az"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>AZ-64 S → I-40 E</strong> to exit 311 — Petrified Forest North Entrance"},
@@ -1318,9 +1318,9 @@ const days = [
     {icon:"&#128176;",text:"Fuel prices improving as you head east — fill up in Amarillo for best TX prices."}
   ],
   fuels:[
-    {name:"Albuquerque NM — Pilot or TA (I-40 exit 153)",desc:"Good mid-day fill.",pct:85,price:"$2.95/gal",cls:"cheap"},
-    {name:"Tucumcari NM — Loves (I-40 exit 335)",desc:"Optional top-off near NM/TX border.",pct:75,price:"$2.90/gal",cls:"cheap"},
-    {name:"Amarillo TX — Flying J (I-40 exit 76)",desc:"Best fuel prices in weeks!",pct:95,price:"$2.85/gal",cls:"cheap"}
+    {name:"Albuquerque NM — Pilot or TA (I-40 exit 153)",desc:"Good mid-day fill.",pct:85,price:"$2.95/gal",cls:"cheap",location:"Pilot Travel Center, I-40 exit 153, Albuquerque, NM",pullthru:true,gasbuddy:"pilot-albuquerque-nm"},
+    {name:"Tucumcari NM — Loves (I-40 exit 335)",desc:"Optional top-off near NM/TX border.",pct:75,price:"$2.90/gal",cls:"cheap",location:"Loves Travel Stop, I-40 exit 335, Tucumcari, NM",pullthru:true,gasbuddy:"loves-tucumcari-nm"},
+    {name:"Amarillo TX — Flying J (I-40 exit 76)",desc:"Best fuel prices in weeks!",pct:95,price:"$2.85/gal",cls:"cheap",location:"Flying J, I-40 exit 76, Amarillo, TX",pullthru:true,gasbuddy:"flying-j-amarillo-tx"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>I-40 East</strong> — Route 66 corridor through Gallup, Albuquerque, Santa Rosa, Amarillo"}
@@ -1349,9 +1349,9 @@ const days = [
     {icon:"&#128176;",text:"Oklahoma City has the cheapest fuel of the whole trip — fill completely."}
   ],
   fuels:[
-    {name:"Oklahoma City OK — Flying J (I-40/I-44)",desc:"Cheapest fuel of the whole trip!",pct:95,price:"$2.80/gal",cls:"cheap"},
-    {name:"Memphis TN — Pilot (I-40 exit 12)",desc:"If splitting overnight, fill here.",pct:80,price:"$3.05/gal",cls:"mid"},
-    {name:"Nashville TN — Pilot (I-40/I-24)",desc:"Final fuel stop. 3 hours from Knoxville!",pct:85,price:"$3.05/gal",cls:"mid"}
+    {name:"Oklahoma City OK — Flying J (I-40/I-44)",desc:"Cheapest fuel of the whole trip!",pct:95,price:"$2.80/gal",cls:"cheap",location:"Flying J, I-40 I-44, Oklahoma City, OK",pullthru:true,gasbuddy:"flying-j-oklahoma-city-ok"},
+    {name:"Memphis TN — Pilot (I-40 exit 12)",desc:"If splitting overnight, fill here.",pct:80,price:"$3.05/gal",cls:"mid",location:"Pilot Travel Center, I-40 exit 12, Memphis, TN",pullthru:true,gasbuddy:"pilot-memphis-tn"},
+    {name:"Nashville TN — Pilot (I-40/I-24)",desc:"Final fuel stop. 3 hours from Knoxville!",pct:85,price:"$3.05/gal",cls:"mid",location:"Pilot Travel Center, I-40 I-24, Nashville, TN",pullthru:true,gasbuddy:"pilot-nashville-tn"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>I-40 East</strong> through OKC → Little Rock → Memphis → Nashville → Knoxville"},
@@ -1441,19 +1441,30 @@ days.forEach((d, i) => {
     html += `
         <div class="section">
           <div class="section-title fuel">&#9981; Fuel Stops</div>`;
-    d.fuels.forEach(f => {
+    d.fuels.forEach((f, fi) => {
+      const fid = 'fuel-' + d.day + '-' + fi;
+      const loc = f.location || '';
+      const ptBadge = f.pullthru ? '<span style="display:inline-block;background:#2d6a4f;color:#fff;font-size:8px;padding:2px 6px;border-radius:3px;font-weight:700;letter-spacing:0.5px;vertical-align:middle;margin-left:5px">SEMI PULL-THRU</span>' : '<span style="display:inline-block;background:#999;color:#fff;font-size:8px;padding:2px 6px;border-radius:3px;font-weight:700;letter-spacing:0.5px;vertical-align:middle;margin-left:5px">NO PULL-THRU</span>';
+      const gbLink = f.gasbuddy ? `<a href="https://www.gasbuddy.com/home?fuel=4&search=${encodeURIComponent(f.name.split('—')[0].trim())}" target="_blank" onclick="event.stopPropagation()" style="font-size:11px;color:#5B8FA8;text-decoration:none;font-weight:600;border:1px solid rgba(91,143,168,0.4);border-radius:4px;padding:3px 8px;white-space:nowrap">&#9981; Live Price</a>` : '';
       html += `
-          <div class="fuel-item">
+          <div class="fuel-item" style="position:relative;flex-wrap:wrap">
             <div class="fuel-icon">&#9981;</div>
             <div class="fuel-info">
-              <div class="fuel-name">${f.name}</div>
+              <div class="fuel-name">${f.name} ${ptBadge}</div>
               <div class="fuel-desc">${f.desc}</div>
               <div class="tank-bar-wrap">
                 <div class="tank-labels"><span>Tank after fill</span><span>${f.pct}%</span></div>
                 <div class="tank-bar"><div class="tank-fill" style="width:${f.pct}%"></div></div>
               </div>
+              <div style="display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap">
+                <label class="americana-add-stop" id="stop-${fid}" onclick="event.stopPropagation()" style="position:relative;bottom:auto;right:auto">
+                  <input type="checkbox" data-day="${d.day}" data-location="${loc}" onclick="toggleStop('${fid}',${d.day})">
+                  <span class="stop-label">Add Stop</span>
+                </label>
+                ${gbLink}
+              </div>
             </div>
-            <div class="fuel-price ${f.cls}">${f.price}</div>
+            <div class="fuel-price ${f.cls}">${f.price}<br><span style="font-size:9px;font-family:sans-serif;color:#999;font-weight:400">est. avg</span></div>
           </div>`;
     });
     html += `</div>`;
