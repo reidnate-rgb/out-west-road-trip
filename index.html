@@ -2554,19 +2554,53 @@ function addCustomItem(dayNum) {
   const val = input.value.trim();
   if (!val) return;
 
-  if (!customItemsData[dayNum]) customItemsData[dayNum] = [];
-  customItemsData[dayNum].push(val);
-  input.value = '';
+  const btn = input.nextElementSibling;
+  const origText = btn.textContent;
+  btn.textContent = 'Researching...';
+  btn.disabled = true;
+  input.disabled = true;
 
-  renderCustomItems(dayNum);
-  updateItineraryFab();
-  clearTimeout(_syncTimer);
-  _syncTimer = setTimeout(() => syncToCloud(), 1000);
+  // Find the park name for this day
+  const dayData = days.find(d => d.day === dayNum);
+  const parkName = dayData ? (dayData.parkName || dayData.title) : '';
+
+  fetch('/api/research-activity', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: val, parkName: parkName, dayDate: dayData ? dayData.date : '' })
+  })
+  .then(r => r.json())
+  .then(item => {
+    if (item.error) throw new Error(item.error);
+
+    if (!customItemsData[dayNum]) customItemsData[dayNum] = [];
+    customItemsData[dayNum].push(item);
+    input.value = '';
+    renderCustomItems(dayNum);
+    updateActivityIcons(dayNum);
+    updateItineraryFab();
+    clearTimeout(_syncTimer);
+    _syncTimer = setTimeout(() => syncToCloud(), 1000);
+  })
+  .catch(e => {
+    // Fallback: add as simple text item
+    if (!customItemsData[dayNum]) customItemsData[dayNum] = [];
+    customItemsData[dayNum].push({ name: val, type: 'attraction', desc: 'Custom activity', detail: '', time: '' });
+    input.value = '';
+    renderCustomItems(dayNum);
+    updateItineraryFab();
+  })
+  .finally(() => {
+    btn.textContent = origText;
+    btn.disabled = false;
+    input.disabled = false;
+  });
 }
 
 function removeCustomItem(dayNum, idx) {
   customItemsData[dayNum].splice(idx, 1);
   renderCustomItems(dayNum);
+  updateActivityIcons(dayNum);
   updateItineraryFab();
   clearTimeout(_syncTimer);
   _syncTimer = setTimeout(() => syncToCloud(), 1000);
@@ -2576,10 +2610,43 @@ function renderCustomItems(dayNum) {
   const container = document.getElementById('custom-items-' + dayNum);
   if (!container) return;
   const items = customItemsData[dayNum] || [];
-  container.innerHTML = items.map((item, idx) =>
-    '<div class="custom-item"><span>&#9989;</span> ' + item +
-    ' <span style="cursor:pointer;color:#999;margin-left:auto" onclick="event.stopPropagation();removeCustomItem(' + dayNum + ',' + idx + ')">&#10005;</span></div>'
-  ).join('');
+  container.innerHTML = items.map((item, idx) => {
+    if (typeof item === 'string') {
+      // Legacy simple string item
+      return '<div class="custom-item"><span>&#9989;</span> ' + item +
+        ' <span style="cursor:pointer;color:#999;margin-left:auto" onclick="event.stopPropagation();removeCustomItem(' + dayNum + ',' + idx + ')">&#10005;</span></div>';
+    }
+    // Rich researched item
+    const typeIcon = item.type === 'hike' ? '&#129406;' : '&#128301;';
+    const diffBadge = item.diff ? '<span class="park-diff ' + item.diff.toLowerCase().replace('-','') + '">' + item.diff + '</span> ' : '';
+    const pid = 'custom-' + dayNum + '-' + idx;
+    const gpsLink = item.gps ? '<a href="https://www.google.com/maps/search/' + encodeURIComponent(item.mapsQuery || item.name) + '/@' + item.gps + ',15z" target="_blank" onclick="event.stopPropagation()" style="display:inline-flex;align-items:center;gap:3px;font-size:10px;color:#5B8FA8;text-decoration:none;font-weight:700;background:rgba(91,143,168,0.08);border:1px solid rgba(91,143,168,0.3);border-radius:3px;padding:2px 6px;margin-top:6px">&#128205; Navigate</a> ' : '';
+    const trailLink = item.trailMap ? '<a href="' + item.trailMap + '" target="_blank" onclick="event.stopPropagation()" style="display:inline-flex;align-items:center;gap:3px;font-size:10px;color:var(--sage);text-decoration:none;font-weight:700;background:rgba(107,127,94,0.08);border:1px solid rgba(107,127,94,0.3);border-radius:3px;padding:2px 6px;margin-top:6px">&#128506; Trail Map</a>' : '';
+
+    return '<div class="park-item" id="' + pid + '" onclick="event.stopPropagation();toggleAm(\'' + pid + '\')" style="margin-top:8px">' +
+      '<div class="americana-chevron">&#9660;</div>' +
+      '<span style="cursor:pointer;color:#999;position:absolute;top:8px;right:30px;font-size:12px;z-index:3" onclick="event.stopPropagation();removeCustomItem(' + dayNum + ',' + idx + ')">&#10005;</span>' +
+      '<div class="park-item-top">' +
+        '<span class="park-type-icon">' + typeIcon + '</span>' +
+        diffBadge +
+        '<span class="park-item-name">' + item.name + '</span>' +
+        '<span class="park-item-meta">' + (item.dist ? item.dist + ' · ' : '') + (item.time || '') + '</span>' +
+      '</div>' +
+      '<div class="park-item-desc">' + (item.desc || '') + '</div>' +
+      '<div class="americana-tap">Tap for details</div>' +
+      '<div class="americana-detail"><div class="americana-detail-inner">' + (item.detail || '') + '<div style="margin-top:6px">' + gpsLink + trailLink + '</div></div></div>' +
+      '<label class="americana-add-stop" id="stop-' + pid + '" onclick="event.stopPropagation()">' +
+        '<input type="checkbox" data-day="' + dayNum + '" data-park-type="' + item.type + '" data-park-name="' + item.name + '" onclick="toggleParkItem(\'' + pid + '\',' + dayNum + ')" checked>' +
+        '<span class="stop-label">Added</span>' +
+      '</label>' +
+    '</div>';
+  }).join('');
+
+  // Mark labels as checked for auto-added items
+  container.querySelectorAll('.americana-add-stop').forEach(label => {
+    const cb = label.querySelector('input');
+    if (cb && cb.checked) label.classList.add('checked');
+  });
 }
 
 // Build Itinerary PDF
@@ -2617,7 +2684,20 @@ function buildItinerary() {
     });
 
     customs.forEach(c => {
-      html += '<div class="pi"><h3>&#9989; ' + c + '</h3><p>Custom activity</p></div>';
+      if (typeof c === 'string') {
+        html += '<div class="pi"><h3>&#9989; ' + c + '</h3><p>Custom activity</p></div>';
+      } else {
+        const icon = c.type === 'hike' ? '&#129406;' : '&#128301;';
+        const meta = (c.diff ? c.diff + ' · ' : '') + (c.dist ? c.dist + ' · ' : '') + (c.time || '');
+        html += '<div class="pi">';
+        html += '<h3>' + icon + ' ' + c.name + '</h3>';
+        if (meta) html += '<div class="meta">' + meta + '</div>';
+        html += '<p>' + (c.desc || '') + '</p>';
+        if (c.detail) html += '<p>' + c.detail + '</p>';
+        if (c.gps) html += '<p style="font-size:10px;color:#5B8FA8"><strong>GPS:</strong> ' + c.gps + ' — <a href="https://www.google.com/maps/search/' + encodeURIComponent(c.mapsQuery || c.name) + '/@' + c.gps + ',15z">Open in Maps</a></p>';
+        if (c.trailMap) html += '<p style="font-size:10px;color:#6B7F5E"><strong>Trail Map:</strong> <a href="' + c.trailMap + '">' + c.trailMap + '</a></p>';
+        html += '</div>';
+      }
     });
   });
 
