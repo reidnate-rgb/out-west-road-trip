@@ -297,8 +297,19 @@ body {
   user-select: none;
   transition: background 0.2s;
   flex-wrap: wrap;
+  position: relative;
+  background-size: cover;
+  background-position: center;
 }
-.day-header:hover { background: rgba(160,82,45,0.04); }
+.day-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255,253,247,0.92) 0%, rgba(255,253,247,0.85) 50%, rgba(255,253,247,0.6) 100%);
+  z-index: 0;
+}
+.day-header > * { position: relative; z-index: 1; }
+.day-header:hover::before { background: linear-gradient(90deg, rgba(255,253,247,0.88) 0%, rgba(255,253,247,0.8) 50%, rgba(255,253,247,0.5) 100%); }
 .day-badges-row {
   display: none;
   gap: 4px;
@@ -336,12 +347,7 @@ body {
 }
 
 .day-thumb {
-  width: 52px;
-  height: 52px;
-  border-radius: 6px;
-  object-fit: cover;
-  flex-shrink: 0;
-  border: 1px solid var(--dusty);
+  display: none;
 }
 
 .day-summary { flex: 1; min-width: 0; }
@@ -1747,7 +1753,7 @@ days.forEach((d, i) => {
   const isLast = i === days.length - 1;
   let html = `
   <div class="day-card" id="day${d.day}" onclick="toggle(${d.day})">
-    <div class="day-header">
+    <div class="day-header" style="background-image:url('${d.img}')">
       <div class="day-num-box">
         <span class="dow">${d.dow}</span>
         <span class="num">${d.day}</span>
