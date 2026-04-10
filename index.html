@@ -93,6 +93,81 @@ body {
   margin-bottom: 12px;
 }
 
+/* ===== RV ANIMATION STRIP ===== */
+.rv-strip {
+  position: relative;
+  background: linear-gradient(to bottom, #CC5500 0%, #D4A017 40%, #E8C97A 70%, #C4A060 70%, #A08040 100%);
+  height: 90px;
+  overflow: hidden;
+  border-bottom: 3px solid var(--leather);
+}
+.rv-ground {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 22px;
+  background: #6B5B3A;
+}
+.rv-road {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 14px;
+  background: #444;
+}
+.rv-road::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, #D4A017 0, #D4A017 20px, transparent 20px, transparent 40px);
+}
+/* Cactus decorations */
+.cactus {
+  position: absolute;
+  bottom: 20px;
+  font-size: 24px;
+  opacity: 0.4;
+  animation: cactus-scroll 18s linear infinite;
+}
+.cactus:nth-child(1) { left: 10%; animation-delay: 0s; }
+.cactus:nth-child(2) { left: 35%; animation-delay: -4s; font-size: 18px; }
+.cactus:nth-child(3) { left: 60%; animation-delay: -8s; font-size: 20px; }
+.cactus:nth-child(4) { left: 85%; animation-delay: -12s; font-size: 16px; }
+
+@keyframes cactus-scroll {
+  0% { transform: translateX(0); opacity: 0.4; }
+  50% { opacity: 0.3; }
+  100% { transform: translateX(0); opacity: 0.4; }
+}
+
+/* The rig */
+.rv-rig {
+  position: absolute;
+  bottom: 14px;
+  animation: drive 12s linear infinite;
+  z-index: 5;
+}
+@keyframes drive {
+  0% { left: -320px; }
+  100% { left: 110%; }
+}
+/* Dust trail */
+.rv-rig::after {
+  content: '';
+  position: absolute;
+  right: -8px;
+  bottom: 2px;
+  width: 40px;
+  height: 12px;
+  background: radial-gradient(ellipse, rgba(180,160,120,0.5) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
 /* ===== FUEL BANNER ===== */
 .fuel-banner {
   background: var(--charcoal);
@@ -544,6 +619,91 @@ body {
     <h1>Out <span class="accent">West</span></h1>
     <p class="hero-sub">Knoxville, TN &bull; 7 National Parks &bull; 16 Days</p>
     <div class="hero-stars">&#9733; &#9733; &#9733;</div>
+  </div>
+</div>
+
+<!-- ===== RV ANIMATION ===== -->
+<div class="rv-strip">
+  <div class="cactus">&#127797;</div>
+  <div class="cactus">&#127797;</div>
+  <div class="cactus">&#127797;</div>
+  <div class="cactus">&#127797;</div>
+  <div class="rv-ground"></div>
+  <div class="rv-road"></div>
+  <div class="rv-rig">
+    <svg width="310" height="62" viewBox="0 0 310 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- === GMC SIERRA (towed, back) === -->
+      <!-- Truck body -->
+      <rect x="0" y="24" width="95" height="24" rx="3" fill="#F0EDE8"/>
+      <!-- Truck cab -->
+      <rect x="55" y="14" width="40" height="34" rx="3" fill="#F0EDE8"/>
+      <!-- Cab windows -->
+      <rect x="60" y="17" width="14" height="12" rx="2" fill="#7BAFD4"/>
+      <rect x="77" y="17" width="14" height="12" rx="2" fill="#7BAFD4"/>
+      <!-- Truck bed -->
+      <rect x="2" y="22" width="52" height="4" rx="1" fill="#D8D4CC"/>
+      <!-- Canoe on top! -->
+      <ellipse cx="28" cy="18" rx="30" ry="5" fill="#2E86AB" opacity="0.85"/>
+      <ellipse cx="28" cy="18" rx="26" ry="3" fill="#3A9BC7" opacity="0.6"/>
+      <!-- Canoe straps -->
+      <line x1="10" y1="18" x2="10" y2="24" stroke="#D4A017" stroke-width="1.5"/>
+      <line x1="46" y1="18" x2="46" y2="24" stroke="#D4A017" stroke-width="1.5"/>
+      <!-- Truck wheels -->
+      <circle cx="20" cy="50" r="9" fill="#333"/>
+      <circle cx="20" cy="50" r="5" fill="#666"/>
+      <circle cx="20" cy="50" r="2" fill="#999"/>
+      <circle cx="78" cy="50" r="9" fill="#333"/>
+      <circle cx="78" cy="50" r="5" fill="#666"/>
+      <circle cx="78" cy="50" r="2" fill="#999"/>
+      <!-- Headlights -->
+      <rect x="93" y="30" width="3" height="6" rx="1" fill="#FFE066"/>
+      <!-- Taillights -->
+      <rect x="0" y="30" width="3" height="6" rx="1" fill="#CC3333"/>
+
+      <!-- === TOW BAR === -->
+      <line x1="96" y1="38" x2="115" y2="38" stroke="#888" stroke-width="3" stroke-linecap="round"/>
+
+      <!-- === MONACO CAYMAN 36PDQ (front) === -->
+      <!-- Main body -->
+      <rect x="115" y="10" width="190" height="38" rx="4" fill="#F5F0E8"/>
+      <!-- Swooping graphics (dark curves like the real one) -->
+      <path d="M125 30 Q160 15 200 28 Q240 42 280 25 Q295 20 305 22" stroke="#444" stroke-width="3" fill="none" opacity="0.6"/>
+      <path d="M130 35 Q170 22 210 34 Q250 46 290 30 Q300 27 305 28" stroke="#888" stroke-width="2" fill="none" opacity="0.4"/>
+      <!-- Windshield -->
+      <path d="M290 12 L305 12 Q308 12 308 15 L308 35 L290 35 Z" fill="#7BAFD4"/>
+      <!-- Side windows -->
+      <rect x="250" y="14" width="18" height="14" rx="2" fill="#7BAFD4"/>
+      <rect x="228" y="14" width="18" height="14" rx="2" fill="#7BAFD4"/>
+      <rect x="206" y="14" width="18" height="14" rx="2" fill="#7BAFD4"/>
+      <!-- Entry door -->
+      <rect x="175" y="16" width="14" height="28" rx="2" fill="#E0DBD2" stroke="#CCC" stroke-width="0.5"/>
+      <!-- Awning rail -->
+      <line x1="125" y1="10" x2="290" y2="10" stroke="#AAA" stroke-width="1.5"/>
+      <!-- Roof AC units -->
+      <rect x="145" y="4" width="22" height="7" rx="2" fill="#DDD" stroke="#BBB" stroke-width="0.5"/>
+      <rect x="195" y="4" width="22" height="7" rx="2" fill="#DDD" stroke="#BBB" stroke-width="0.5"/>
+      <rect x="245" y="4" width="22" height="7" rx="2" fill="#DDD" stroke="#BBB" stroke-width="0.5"/>
+      <!-- Storage bays (bottom) -->
+      <rect x="128" y="36" width="30" height="10" rx="1" fill="#C8C0B0" stroke="#B0A898" stroke-width="0.5"/>
+      <rect x="162" y="36" width="30" height="10" rx="1" fill="#C8C0B0" stroke="#B0A898" stroke-width="0.5"/>
+      <rect x="196" y="36" width="30" height="10" rx="1" fill="#C8C0B0" stroke="#B0A898" stroke-width="0.5"/>
+      <rect x="230" y="36" width="30" height="10" rx="1" fill="#C8C0B0" stroke="#B0A898" stroke-width="0.5"/>
+      <!-- "Cayman" text -->
+      <text x="265" y="33" font-family="serif" font-size="7" fill="#8B7355" font-style="italic">Cayman</text>
+      <!-- RV Wheels -->
+      <circle cx="145" cy="50" r="9" fill="#333"/>
+      <circle cx="145" cy="50" r="5" fill="#666"/>
+      <circle cx="145" cy="50" r="2" fill="#999"/>
+      <circle cx="280" cy="50" r="9" fill="#333"/>
+      <circle cx="280" cy="50" r="5" fill="#666"/>
+      <circle cx="280" cy="50" r="2" fill="#999"/>
+      <!-- Front bumper & headlights -->
+      <rect x="305" y="15" width="5" height="32" rx="2" fill="#E0DBD2"/>
+      <rect x="307" y="18" width="3" height="8" rx="1" fill="#FFE066"/>
+      <rect x="307" y="34" width="3" height="8" rx="1" fill="#FFE066"/>
+      <!-- Rear -->
+      <rect x="115" y="28" width="3" height="10" rx="1" fill="#CC3333"/>
+    </svg>
   </div>
 </div>
 
