@@ -1653,6 +1653,10 @@ days.forEach((d, i) => {
         <span class="time" id="depart-badge-time-${d.day}"></span>
         <span class="lbl">Depart</span>
       </div>
+      <div class="day-depart-badge" id="arrive-badge-${d.day}" style="border-color:rgba(107,127,94,0.3);background:rgba(107,127,94,0.1)">
+        <span class="time" id="arrive-badge-time-${d.day}" style="color:var(--sage)"></span>
+        <span class="lbl">Arrive</span>
+      </div>
       <div class="day-chevron">&#9660;</div>
     </div>
     <div class="day-body">
@@ -1917,6 +1921,16 @@ function updateDisplay(dayNum, totalMins, stopsMins, leaveMins, arriveMins) {
     badge.classList.add('visible');
   } else if (badge) {
     badge.classList.remove('visible');
+  }
+
+  // Show arrival time on collapsed card
+  const arriveBadge = document.getElementById('arrive-badge-' + dayNum);
+  const arriveBadgeTime = document.getElementById('arrive-badge-time-' + dayNum);
+  if (arriveBadge && arriveBadgeTime && arriveMins !== null) {
+    arriveBadgeTime.textContent = fmt12(arriveMins);
+    arriveBadge.classList.add('visible');
+  } else if (arriveBadge) {
+    arriveBadge.classList.remove('visible');
   }
 }
 
