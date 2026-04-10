@@ -2066,7 +2066,7 @@ days.forEach((d, i) => {
           <div class="park-custom-wrap" onclick="event.stopPropagation()">
             <div class="park-custom-input">
               <input type="text" id="custom-input-${d.day}" placeholder="Add your own hike or activity..." onclick="event.stopPropagation()" onfocus="event.stopPropagation()" onkeydown="event.stopPropagation();if(event.key==='Enter'){addCustomItem(${d.day})}">
-              <button onclick="event.stopPropagation();addCustomItem(${d.day})">Add</button>
+              <button onclick="event.stopPropagation();addCustomItem(${d.day})">Find &amp; Add</button>
             </div>
             <div id="custom-items-${d.day}"></div>
           </div>`;
@@ -2583,9 +2583,9 @@ function addCustomItem(dayNum) {
     _syncTimer = setTimeout(() => syncToCloud(), 1000);
   })
   .catch(e => {
-    // Fallback: add as simple text item
+    // Fallback: add as simple item with error note
     if (!customItemsData[dayNum]) customItemsData[dayNum] = [];
-    customItemsData[dayNum].push({ name: val, type: 'attraction', desc: 'Custom activity', detail: '', time: '' });
+    customItemsData[dayNum].push({ name: val, type: 'attraction', desc: 'Could not auto-research — add details manually.', detail: '<strong>Note:</strong> AI lookup failed (' + (e.message || 'check Anthropic billing') + '). You can still add this to your itinerary.', time: '' });
     input.value = '';
     renderCustomItems(dayNum);
     updateItineraryFab();
