@@ -2226,7 +2226,7 @@ function buildTimeBar() {
   const bar = document.getElementById('time-bar');
   bar.innerHTML = segments.map(s => {
     const pct = (s.hrs / totalHrs * 100).toFixed(1);
-    const label = pct > 8 ? Math.round(s.hrs) + 'h' : '';
+    const label = pct > 6 ? Math.round(pct) + '%' : '';
     return '<div class="time-seg ' + s.cls + '" style="width:' + pct + '%">' + label + '</div>';
   }).join('');
 
@@ -2236,7 +2236,8 @@ function buildTimeBar() {
     const h = Math.floor(s.hrs);
     const m = Math.round((s.hrs - h) * 60);
     const timeStr = h + 'h' + (m > 0 ? ' ' + m + 'm' : '');
-    return '<div class="time-legend-item"><div class="time-legend-dot ' + s.cls + '"></div>' + s.label + ': ' + timeStr + '</div>';
+    const pct = Math.round(s.hrs / totalHrs * 100);
+    return '<div class="time-legend-item"><div class="time-legend-dot ' + s.cls + '"></div>' + s.label + ': ' + timeStr + ' (' + pct + '%)</div>';
   }).join('');
 
   // Total
