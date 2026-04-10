@@ -2103,16 +2103,77 @@ function calcFromDepart(dayNum, baseDriveHrs, disconnectHrs, fuelStops, tzShift)
 }
 
 // Save/restore calculator state
+// Save to both localStorage (instant) and cloud (cross-device)
+let _syncTimer = null;
 function saveCalcState(dayNum, mode, timeVal) {
   const data = JSON.parse(localStorage.getItem('tripCalc') || '{}');
   data[dayNum] = { mode: mode, time: timeVal };
   localStorage.setItem('tripCalc', JSON.stringify(data));
+
+  // Debounce cloud save (wait 1s after last change)
+  clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(() => syncToCloud(), 1000);
+}
+
+function syncToCloud() {
+  const calcData = JSON.parse(localStorage.getItem('tripCalc') || '{}');
+  // Collect checked stops
+  const checkedStops = [];
+  document.querySelectorAll('.americana-add-stop input:checked').forEach(cb => {
+    checkedStops.push(cb.getAttribute('data-day') + '-' + cb.getAttribute('data-location'));
+  });
+
+  fetch('/api/save-data', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ tripCalc: calcData, checkedStops: checkedStops })
+  }).catch(() => {}); // silent fail — localStorage still works
+}
+
+function applyCloudData(cloud) {
+  // Apply calculator times
+  if (cloud.tripCalc) {
+    localStorage.setItem('tripCalc', JSON.stringify(cloud.tripCalc));
+    Object.keys(cloud.tripCalc).forEach(dayNum => {
+      const { mode, time } = cloud.tripCalc[dayNum];
+      if (!time) return;
+      if (mode === 'depart') {
+        const input = document.getElementById('depart-input-' + dayNum);
+        if (input) { input.value = time; input.dispatchEvent(new Event('change')); }
+      } else {
+        const input = document.getElementById('arrive-' + dayNum);
+        if (input) { input.value = time; input.dispatchEvent(new Event('change')); }
+      }
+    });
+  }
+  // Apply checked stops
+  if (cloud.checkedStops && cloud.checkedStops.length) {
+    cloud.checkedStops.forEach(key => {
+      const [day, ...locParts] = key.split('-');
+      const loc = locParts.join('-');
+      const cb = document.querySelector('.americana-add-stop input[data-day="' + day + '"][data-location="' + loc + '"]');
+      if (cb && !cb.checked) {
+        cb.checked = true;
+        const label = cb.closest('.americana-add-stop');
+        if (label) {
+          label.classList.add('checked');
+          const span = label.querySelector('.stop-label');
+          if (span) span.textContent = 'Added';
+        }
+      }
+    });
+    // Update map URLs for affected days
+    const affectedDays = new Set(cloud.checkedStops.map(k => parseInt(k.split('-')[0])));
+    affectedDays.forEach(d => updateMapUrl(d));
+    buildTimeBar();
+  }
 }
 
 function restoreAllCalcStates() {
-  const data = JSON.parse(localStorage.getItem('tripCalc') || '{}');
-  Object.keys(data).forEach(dayNum => {
-    const { mode, time } = data[dayNum];
+  // First apply localStorage (instant)
+  const local = JSON.parse(localStorage.getItem('tripCalc') || '{}');
+  Object.keys(local).forEach(dayNum => {
+    const { mode, time } = local[dayNum];
     if (!time) return;
     if (mode === 'depart') {
       const input = document.getElementById('depart-input-' + dayNum);
@@ -2122,6 +2183,14 @@ function restoreAllCalcStates() {
       if (input) { input.value = time; input.dispatchEvent(new Event('change')); }
     }
   });
+
+  // Then fetch cloud data (may override if newer)
+  fetch('/api/get-data')
+    .then(r => r.json())
+    .then(cloud => {
+      if (cloud && cloud.tripCalc) applyCloudData(cloud);
+    })
+    .catch(() => {}); // silent fail — localStorage still works
 }
 
 // Recalculate when stops are toggled — use whichever input has a value
@@ -2287,6 +2356,9 @@ const origToggleStop = toggleStop;
 toggleStop = function(id, dayNum) {
   origToggleStop(id, dayNum);
   buildTimeBar();
+  // Sync checked stops to cloud
+  clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(() => syncToCloud(), 1000);
 };
 </script>
 </body>
