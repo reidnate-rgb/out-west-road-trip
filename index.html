@@ -2063,9 +2063,9 @@ days.forEach((d, i) => {
     });
     // Custom input
     html += `
-          <div class="park-custom-wrap">
+          <div class="park-custom-wrap" onclick="event.stopPropagation()">
             <div class="park-custom-input">
-              <input type="text" id="custom-input-${d.day}" placeholder="Add your own hike or activity..." onkeydown="if(event.key==='Enter'){event.stopPropagation();addCustomItem(${d.day})}">
+              <input type="text" id="custom-input-${d.day}" placeholder="Add your own hike or activity..." onclick="event.stopPropagation()" onfocus="event.stopPropagation()" onkeydown="event.stopPropagation();if(event.key==='Enter'){addCustomItem(${d.day})}">
               <button onclick="event.stopPropagation();addCustomItem(${d.day})">Add</button>
             </div>
             <div id="custom-items-${d.day}"></div>
