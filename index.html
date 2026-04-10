@@ -1106,7 +1106,7 @@ body {
 // All 16 days of data
 const days = [
 {
-  day:1, dow:"SAT", date:"Jul 11", title:"Knoxville to St. Louis", meta:"490 mi &bull; ~7.5 hrs &bull; ~$165 fuel",
+  day:1,tzShift:1,tzFrom:"EDT",tzTo:"CDT", dow:"SAT", date:"Jul 11", title:"Knoxville to St. Louis", meta:"490 mi &bull; ~7.5 hrs &bull; ~$165 fuel",
   img:"https://images.unsplash.com/photo-1617581629397-a72507c3de9e?w=800&q=80",
   miles:"~490", drive:"~7.5 hrs",driveHrs:7.5, fuel:"~$165",
   mapUrl:"https://www.google.com/maps/dir/Knoxville,+TN/Cahokia+RV+Parque,+Prairie+Du+Pont+Road,+Cahokia+Heights,+IL",
@@ -1136,7 +1136,7 @@ const days = [
   ]
 },
 {
-  day:2, dow:"SUN", date:"Jul 12", title:"St. Louis to Ellis, KS", meta:"530 mi &bull; ~8.5 hrs &bull; ~$155 fuel",
+  day:2,tzShift:0,tzFrom:"CDT",tzTo:"CDT", dow:"SUN", date:"Jul 12", title:"St. Louis to Ellis, KS", meta:"530 mi &bull; ~8.5 hrs &bull; ~$155 fuel",
   img:"https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=800&q=80",
   miles:"~530", drive:"~8.5 hrs",driveHrs:8.5, fuel:"~$155",
   mapUrl:"https://www.google.com/maps/dir/Cahokia+Heights,+IL/Ellis,+KS+67637",
@@ -1165,7 +1165,7 @@ const days = [
   ]
 },
 {
-  day:3, dow:"MON", date:"Jul 13", title:"Ellis, KS to Rocky Mtn NP", meta:"480 mi &bull; ~7.5 hrs &bull; ~$175 fuel",
+  day:3,tzShift:1,tzFrom:"CDT",tzTo:"MDT", dow:"MON", date:"Jul 13", title:"Ellis, KS to Rocky Mtn NP", meta:"480 mi &bull; ~7.5 hrs &bull; ~$175 fuel",
   img:"https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80",
   miles:"~480", drive:"~7.5 hrs",driveHrs:7.5, fuel:"~$175",
   mapUrl:"https://www.google.com/maps/dir/Ellis,+KS/Loveland,+CO/Glacier+Basin+Campground,+Rocky+Mountain+National+Park,+CO",
@@ -1196,7 +1196,7 @@ const days = [
   ]
 },
 {
-  day:4, dow:"TUE", date:"Jul 14", title:"Rocky Mountain NP — Full Day", meta:"No driving &bull; Explore the park!",
+  day:4,tzShift:0,tzFrom:"MDT",tzTo:"MDT", dow:"TUE", date:"Jul 14", title:"Rocky Mountain NP — Full Day", meta:"No driving &bull; Explore the park!",
   img:"https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&q=80",
   miles:"0", drive:"All Day",driveHrs:0, fuel:"$0",
   mapUrl:null, mapText:null, mapSub:null,
@@ -1223,7 +1223,7 @@ const days = [
   ]
 },
 {
-  day:5, dow:"WED", date:"Jul 15", title:"RMNP → Arches → Monument Valley", meta:"560 mi &bull; ~9 hrs (incl. disconnect) &bull; ~$200 fuel",
+  day:5,tzShift:0,tzFrom:"MDT",tzTo:"MDT", dow:"WED", date:"Jul 15", title:"RMNP → Arches → Monument Valley", meta:"560 mi &bull; ~9 hrs (incl. disconnect) &bull; ~$200 fuel",
   img:"https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&q=80",
   miles:"~560", drive:"~9 hrs",driveHrs:9.0, fuel:"~$200",
   mapUrl:"https://www.google.com/maps/dir/Glacier+Basin+Campground,+Estes+Park,+CO/Georgetown,+CO/Silverthorne,+CO/Arches+National+Park+Visitor+Center,+Moab,+UT/The+View+Campground,+Oljato-Monument+Valley,+UT",
@@ -1268,7 +1268,7 @@ const days = [
   ]
 },
 {
-  day:6, dow:"THU", date:"Jul 16", title:"Monument Valley to Bryce Canyon", meta:"220 mi &bull; ~5 hrs &bull; ~$85 fuel",
+  day:6,tzShift:0,tzFrom:"MDT",tzTo:"MDT", dow:"THU", date:"Jul 16", title:"Monument Valley to Bryce Canyon", meta:"220 mi &bull; ~5 hrs &bull; ~$85 fuel",
   img:"https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?w=800&q=80",
   miles:"~220", drive:"~5 hrs",driveHrs:5.0, fuel:"~$85",
   mapUrl:"https://www.google.com/maps/dir/Monument+Valley+Navajo+Tribal+Park,+UT/Page,+AZ/Kanab,+UT/North+Campground+Bryce+Canyon+National+Park",
@@ -1298,7 +1298,7 @@ const days = [
   ]
 },
 {
-  day:7, dow:"FRI", date:"Jul 17", title:"Bryce Canyon + Zion Day Trip", meta:"~80 mi round trip &bull; Tow car only",
+  day:7,tzShift:0,tzFrom:"MDT",tzTo:"MDT", dow:"FRI", date:"Jul 17", title:"Bryce Canyon + Zion Day Trip", meta:"~80 mi round trip &bull; Tow car only",
   img:"https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?w=800&q=80",
   miles:"~80", drive:"~4 hrs",driveHrs:4.0, fuel:"Tow Car",
   mapUrl:"https://www.google.com/maps/dir/North+Campground+Bryce+Canyon,+UT/Zion+National+Park+Visitor+Center,+Springdale,+UT",
@@ -1326,7 +1326,7 @@ const days = [
   ]
 },
 {
-  day:8, dow:"SAT", date:"Jul 18", title:"Bryce Canyon to Sequoia NP", meta:"520 mi &bull; ~9 hrs &bull; ~$250 fuel",
+  day:8,tzShift:1,tzFrom:"MDT",tzTo:"PDT", dow:"SAT", date:"Jul 18", title:"Bryce Canyon to Sequoia NP", meta:"520 mi &bull; ~9 hrs &bull; ~$250 fuel",
   img:"https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&q=80",
   miles:"~520", drive:"~9 hrs",driveHrs:9.0, fuel:"~$250",
   mapUrl:"https://www.google.com/maps/dir/North+Campground,+Bryce+Canyon+NP,+UT/Las+Vegas,+NV/Visalia,+CA/Sequoia+RV+Ranch,+Three+Rivers,+CA",
@@ -1370,7 +1370,7 @@ const days = [
   ]
 },
 {
-  day:9, dow:"SUN", date:"Jul 19", title:"Sequoia to Yosemite NP", meta:"195 mi &bull; ~4.25 hrs (incl. reconnect) &bull; ~$115 fuel",
+  day:9,tzShift:0,tzFrom:"PDT",tzTo:"PDT", dow:"SUN", date:"Jul 19", title:"Sequoia to Yosemite NP", meta:"195 mi &bull; ~4.25 hrs (incl. reconnect) &bull; ~$115 fuel",
   img:"https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800&q=80",
   miles:"~195", drive:"~4.25 hrs",driveHrs:4.25, fuel:"~$115",
   mapUrl:"https://www.google.com/maps/dir/Sequoia+RV+Ranch,+Three+Rivers,+CA/Thousand+Trails+Yosemite+Lakes+RV+Resort,+Groveland,+CA",
@@ -1411,7 +1411,7 @@ const days = [
   ]
 },
 {
-  day:10, dow:"MON", date:"Jul 20", title:"Yosemite — Full Day", meta:"~30 mi to Upper Pines &bull; Explore!",
+  day:10,tzShift:0,tzFrom:"PDT",tzTo:"PDT", dow:"MON", date:"Jul 20", title:"Yosemite — Full Day", meta:"~30 mi to Upper Pines &bull; Explore!",
   img:"https://images.unsplash.com/photo-1472396961693-142e6e269027?w=800&q=80",
   miles:"~30", drive:"Short Drive",driveHrs:0.5, fuel:"~$18",
   mapUrl:"https://www.google.com/maps/dir/Thousand+Trails+Yosemite+Lakes,+Groveland,+CA/Upper+Pines+Campground,+Yosemite+Valley,+CA",
@@ -1439,7 +1439,7 @@ const days = [
   ]
 },
 {
-  day:11, dow:"TUE", date:"Jul 21", title:"Yosemite to Barstow, CA", meta:"320 mi &bull; ~5.75 hrs (incl. disconnect) &bull; ~$185 fuel",
+  day:11,tzShift:0,tzFrom:"PDT",tzTo:"PDT", dow:"TUE", date:"Jul 21", title:"Yosemite to Barstow, CA", meta:"320 mi &bull; ~5.75 hrs (incl. disconnect) &bull; ~$185 fuel",
   img:"https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800&q=80",
   miles:"~320", drive:"~5.75 hrs",driveHrs:5.75, fuel:"~$185",
   mapUrl:"https://www.google.com/maps/dir/Upper+Pines+Campground,+Yosemite+Valley,+CA/Fish+Camp,+CA/Barstow,+CA",
@@ -1481,7 +1481,7 @@ const days = [
   ]
 },
 {
-  day:12, dow:"WED", date:"Jul 22", title:"Barstow to Grand Canyon", meta:"340 mi &bull; ~5.5 hrs &bull; ~$115 fuel",
+  day:12,tzShift:0,tzFrom:"PDT",tzTo:"MST", dow:"WED", date:"Jul 22", title:"Barstow to Grand Canyon", meta:"340 mi &bull; ~5.5 hrs &bull; ~$115 fuel",
   img:"https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?w=800&q=80",
   miles:"~340", drive:"~5.5 hrs",driveHrs:5.5, fuel:"~$115",
   mapUrl:"https://www.google.com/maps/dir/Barstow,+CA/Trailer+Village+RV+Park,+Grand+Canyon+Village,+AZ",
@@ -1510,7 +1510,7 @@ const days = [
   ]
 },
 {
-  day:13, dow:"THU", date:"Jul 23", title:"Grand Canyon — Full Day", meta:"No driving &bull; South Rim all day",
+  day:13,tzShift:0,tzFrom:"MST",tzTo:"MST", dow:"THU", date:"Jul 23", title:"Grand Canyon — Full Day", meta:"No driving &bull; South Rim all day",
   img:"https://images.unsplash.com/photo-1615551043360-33de8b5f410c?w=800&q=80",
   miles:"0", drive:"All Day",driveHrs:0, fuel:"$0",
   mapUrl:null, mapText:null, mapSub:null,
@@ -1538,7 +1538,7 @@ const days = [
   ]
 },
 {
-  day:14, dow:"FRI", date:"Jul 24", title:"Grand Canyon to Petrified Forest", meta:"185 mi &bull; ~3.5 hrs &bull; ~$65 fuel",
+  day:14,tzShift:0,tzFrom:"MST",tzTo:"MST", dow:"FRI", date:"Jul 24", title:"Grand Canyon to Petrified Forest", meta:"185 mi &bull; ~3.5 hrs &bull; ~$65 fuel",
   img:"https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800&q=80",
   miles:"~185", drive:"~3.5 hrs",driveHrs:3.5, fuel:"~$65",
   mapUrl:"https://www.google.com/maps/dir/Trailer+Village+RV+Park,+Grand+Canyon+Village,+AZ/Petrified+Forest+National+Park,+AZ",
@@ -1569,7 +1569,7 @@ const days = [
   ]
 },
 {
-  day:15, dow:"SAT", date:"Jul 25", title:"Heading Home — Day 1", meta:"620 mi &bull; ~9 hrs &bull; ~$185 fuel",
+  day:15,tzShift:-2,tzFrom:"MST",tzTo:"CDT", dow:"SAT", date:"Jul 25", title:"Heading Home — Day 1", meta:"620 mi &bull; ~9 hrs &bull; ~$185 fuel",
   img:"https://images.unsplash.com/photo-1568515045052-f9a854d70bfd?w=800&q=80",
   miles:"~620", drive:"~9 hrs",driveHrs:9.0, fuel:"~$185",
   mapUrl:"https://www.google.com/maps/dir/Holbrook,+AZ/Amarillo,+TX",
@@ -1600,7 +1600,7 @@ const days = [
   ]
 },
 {
-  day:16, dow:"SUN", date:"Jul 26", title:"Amarillo to Knoxville — Home!", meta:"~1,100 mi &bull; ~16 hrs &bull; ~$320 fuel",
+  day:16,tzShift:-1,tzFrom:"CDT",tzTo:"EDT", dow:"SUN", date:"Jul 26", title:"Amarillo to Knoxville — Home!", meta:"~1,100 mi &bull; ~16 hrs &bull; ~$320 fuel",
   img:"https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=800&q=80",
   miles:"~1,100", drive:"~16 hrs",driveHrs:16.0, fuel:"~$320",
   mapUrl:"https://www.google.com/maps/dir/Amarillo,+TX/Knoxville,+TN",
@@ -1684,22 +1684,30 @@ days.forEach((d, i) => {
   if (d.driveHrs > 0) {
     const dcExtra = d.disconnect ? parseFloat(d.disconnect.timeAdded.replace(/[^0-9.]/g,''))/60 : 0;
     const fuelCount = d.fuels.length;
+    const tzShift = d.tzShift || 0;
+    const tzFrom = d.tzFrom || '';
+    const tzTo = d.tzTo || '';
+    const tzAlert = tzShift !== 0 ? (tzShift > 0
+      ? '<div style="background:rgba(91,143,168,0.1);border:1px solid rgba(91,143,168,0.3);border-radius:5px;padding:6px 10px;margin-bottom:8px;font-size:12px;color:var(--sky)">&#9200; <strong>Timezone change:</strong> ' + tzFrom + ' → ' + tzTo + ' — you <strong>gain ' + Math.abs(tzShift) + ' hr' + (Math.abs(tzShift)>1?'s':'') + '</strong> (clocks go back). Arrival shown in ' + tzTo + '.</div>'
+      : '<div style="background:rgba(139,37,0,0.06);border:1px solid rgba(139,37,0,0.2);border-radius:5px;padding:6px 10px;margin-bottom:8px;font-size:12px;color:var(--red)">&#9200; <strong>Timezone change:</strong> ' + tzFrom + ' → ' + tzTo + ' — you <strong>lose ' + Math.abs(tzShift) + ' hr' + (Math.abs(tzShift)>1?'s':'') + '</strong> (clocks jump forward). Arrival shown in ' + tzTo + '.</div>'
+    ) : '';
     html += `
         <div class="depart-calc" onclick="event.stopPropagation()">
           <div class="depart-calc-title">&#9200; Trip Calculator</div>
+          ${tzAlert}
           <div class="depart-calc-row">
-            <span class="depart-calc-label">Depart at:</span>
-            <input type="time" class="depart-calc-input" id="depart-input-${d.day}" value="" onchange="calcFromDepart(${d.day},${d.driveHrs},${dcExtra},${fuelCount})">
+            <span class="depart-calc-label">Depart at (${tzFrom}):</span>
+            <input type="time" class="depart-calc-input" id="depart-input-${d.day}" value="" onchange="calcFromDepart(${d.day},${d.driveHrs},${dcExtra},${fuelCount},${tzShift})">
           </div>
           <div class="depart-calc-row">
-            <span class="depart-calc-label">— or Arrive by:</span>
-            <input type="time" class="depart-calc-input" id="arrive-${d.day}" value="" onchange="calcFromArrive(${d.day},${d.driveHrs},${dcExtra},${fuelCount})">
+            <span class="depart-calc-label">— or Arrive by (${tzTo}):</span>
+            <input type="time" class="depart-calc-input" id="arrive-${d.day}" value="" onchange="calcFromArrive(${d.day},${d.driveHrs},${dcExtra},${fuelCount},${tzShift})">
           </div>
           <div class="depart-calc-result" id="depart-result-${d.day}">
-            <div class="depart-pill"><span class="val leave" id="leave-time-${d.day}">--:--</span><span class="lbl">Depart</span></div>
+            <div class="depart-pill"><span class="val leave" id="leave-time-${d.day}">--:--</span><span class="lbl">Depart (${tzFrom})</span></div>
             <div class="depart-pill"><span class="val total" id="total-time-${d.day}">${d.drive}</span><span class="lbl">Drive Time</span></div>
             <div class="depart-pill"><span class="val stops" id="stops-time-${d.day}">${fuelCount > 0 ? fuelCount * 20 + ' min fuel' : '0 min'}</span><span class="lbl">Stops + Fuel</span></div>
-            <div class="depart-pill"><span class="val leave" id="arrive-time-${d.day}">--:--</span><span class="lbl">Arrive</span></div>
+            <div class="depart-pill"><span class="val leave" id="arrive-time-${d.day}">--:--</span><span class="lbl">Arrive (${tzTo})</span></div>
           </div>
         </div>`;
   }
@@ -1935,11 +1943,11 @@ function updateDisplay(dayNum, totalMins, stopsMins, leaveMins, arriveMins) {
 }
 
 // Calculate from arrival time (work backwards to get departure)
-function calcFromArrive(dayNum, baseDriveHrs, disconnectHrs, fuelStops) {
+// tzShift: positive = gain hours (clocks go back), negative = lose hours (clocks jump forward)
+function calcFromArrive(dayNum, baseDriveHrs, disconnectHrs, fuelStops, tzShift) {
   const arriveInput = document.getElementById('arrive-' + dayNum);
   const departInput = document.getElementById('depart-input-' + dayNum);
   if (!arriveInput.value) return;
-
   departInput.value = '';
 
   const checkedStops = document.querySelectorAll('.americana-add-stop input[data-day="' + dayNum + '"]:checked').length;
@@ -1947,19 +1955,19 @@ function calcFromArrive(dayNum, baseDriveHrs, disconnectHrs, fuelStops) {
   const totalMins = getTotalMins(dayNum, baseDriveHrs, disconnectHrs, fuelStops);
 
   const [h, m] = arriveInput.value.split(':').map(Number);
-  const arriveTotalMins = h * 60 + m;
-  const leaveTotalMins = arriveTotalMins - totalMins;
+  const arriveTotalMins = h * 60 + m; // in arrival timezone
+
+  // Convert to departure timezone: add tzShift*60 (gain=clocks back, so depart TZ is ahead)
+  const leaveTotalMins = arriveTotalMins + (tzShift * 60) - totalMins;
 
   updateDisplay(dayNum, totalMins, stopsMins, leaveTotalMins, arriveTotalMins);
   saveCalcState(dayNum, 'arrive', arriveInput.value);
 }
 
-// Calculate from departure time (work forwards to get arrival)
-function calcFromDepart(dayNum, baseDriveHrs, disconnectHrs, fuelStops) {
+function calcFromDepart(dayNum, baseDriveHrs, disconnectHrs, fuelStops, tzShift) {
   const departInput = document.getElementById('depart-input-' + dayNum);
   const arriveInput = document.getElementById('arrive-' + dayNum);
   if (!departInput.value) return;
-
   arriveInput.value = '';
 
   const checkedStops = document.querySelectorAll('.americana-add-stop input[data-day="' + dayNum + '"]:checked').length;
@@ -1967,8 +1975,10 @@ function calcFromDepart(dayNum, baseDriveHrs, disconnectHrs, fuelStops) {
   const totalMins = getTotalMins(dayNum, baseDriveHrs, disconnectHrs, fuelStops);
 
   const [h, m] = departInput.value.split(':').map(Number);
-  const departTotalMins = h * 60 + m;
-  const arriveTotalMins = departTotalMins + totalMins;
+  const departTotalMins = h * 60 + m; // in departure timezone
+
+  // Convert to arrival timezone: subtract tzShift*60 (gain=clocks back, arrival reads earlier)
+  const arriveTotalMins = departTotalMins + totalMins - (tzShift * 60);
 
   updateDisplay(dayNum, totalMins, stopsMins, departTotalMins, arriveTotalMins);
   saveCalcState(dayNum, 'depart', departInput.value);
