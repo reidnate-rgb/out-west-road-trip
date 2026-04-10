@@ -673,6 +673,105 @@ body {
   line-height: 1.8;
 }
 
+/* ===== COUNTDOWN CLOCK ===== */
+.countdown-bar {
+  background: var(--dark);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-bottom: 2px solid var(--gold);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.countdown-label {
+  font-family: 'Rye', cursive;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--dusty);
+}
+.countdown-units {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.cd-unit {
+  text-align: center;
+  background: rgba(212,160,23,0.12);
+  border: 1px solid rgba(212,160,23,0.25);
+  border-radius: 4px;
+  padding: 3px 7px;
+  min-width: 40px;
+}
+.cd-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--gold);
+  display: block;
+  line-height: 1;
+}
+.cd-lbl {
+  font-size: 7px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(255,255,255,0.4);
+  display: block;
+  margin-top: 1px;
+}
+.cd-sep {
+  color: var(--gold);
+  font-size: 14px;
+  font-weight: 700;
+  opacity: 0.5;
+}
+.cd-onroad {
+  font-family: 'Rye', cursive;
+  font-size: 14px;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+
+/* ===== AMERICANA CHECKBOX ===== */
+.americana-check {
+  position: absolute;
+  top: 12px;
+  right: 36px;
+  width: 20px;
+  height: 20px;
+  accent-color: var(--gold);
+  cursor: pointer;
+  z-index: 3;
+}
+.americana-check:checked + .americana-chevron { color: var(--gold); }
+
+/* ===== SEARCH MORE BUTTON ===== */
+.search-more-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(160,82,45,0.08);
+  border: 1px dashed var(--dusty);
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  font-family: 'Source Serif 4', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sienna);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.search-more-btn:hover {
+  background: rgba(160,82,45,0.14);
+  border-color: var(--sienna);
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 400px) {
   .hero h1 { font-size: 30px; }
@@ -682,6 +781,12 @@ body {
 </style>
 </head>
 <body>
+
+<!-- ===== COUNTDOWN CLOCK ===== -->
+<div class="countdown-bar" id="countdown-bar">
+  <span class="countdown-label">Departure in</span>
+  <div class="countdown-units" id="countdown-units"></div>
+</div>
 
 <!-- ===== HERO ===== -->
 <div class="hero">
@@ -796,8 +901,8 @@ const days = [
     alt:"St. Louis West / Eureka KOA — great reviews for big rigs"
   },
   americana:[
-    {tag:"history",label:"History",name:"Loretta Lynn's Ranch — Hurricane Mills, TN",desc:"Exit 143 off I-40. Coal Miner's Daughter's actual home and museum.",detail:"<strong>Hours:</strong> 9am-4pm daily in summer. <strong>Cost:</strong> ~$15/adult, kids under 6 free. Self-guided tour of the plantation home, coal mining museum, and replica cabin. Gift shop has great memorabilia. Easy pull-off with large RV lot right off I-40. Budget about 1-1.5 hours."},
-    {tag:"photo",label:"Photo Stop",name:"Gateway Arch — St. Louis, MO",desc:"Visible from I-70. Park at Cahokia, Uber across the river for sunset views.",detail:"<strong>Tip:</strong> Don't drive the RV downtown — park at Cahokia and Uber/Lyft 10 min across the river. Tram ride to the top is ~$16/adult, $12/child — book ahead at gatewayarch.com. The grounds and riverfront are free. Best photos at sunset from the east side. The Old Courthouse (Dred Scott case) is free and worth 30 min."}
+    {tag:"history",label:"History",name:"Loretta Lynn's Ranch — Hurricane Mills, TN",desc:"Exit 143 off I-40. Coal Miner's Daughter's actual home and museum.",detail:"<strong>Hours:</strong> 9am-4pm daily in summer. <strong>Cost:</strong> ~$15/adult, kids under 6 free. Self-guided tour of the plantation home, coal mining museum, and replica cabin. Gift shop has great memorabilia. Easy pull-off with large RV lot right off I-40. Budget about 1-1.5 hours.",location:"Loretta Lynn Ranch, Hurricane Mills, TN"},
+    {tag:"photo",label:"Photo Stop",name:"Gateway Arch — St. Louis, MO",desc:"Visible from I-70. Park at Cahokia, Uber across the river for sunset views.",detail:"<strong>Tip:</strong> Don't drive the RV downtown — park at Cahokia and Uber/Lyft 10 min across the river. Tram ride to the top is ~$16/adult, $12/child — book ahead at gatewayarch.com. The grounds and riverfront are free. Best photos at sunset from the east side. The Old Courthouse (Dred Scott case) is free and worth 30 min.",location:"Gateway Arch, St. Louis, MO"}
   ]
 },
 {
@@ -825,8 +930,8 @@ const days = [
     alt:null
   },
   americana:[
-    {tag:"quirky",label:"Quirky",name:"Cathedral of the Plains — Victoria, KS",desc:"Exit 145 off I-70. Stunning limestone cathedral rising from flat wheat fields. Free, wildly unexpected.",detail:"Hours: Open daily for self-guided tours. Free, donations welcome. Built 1908-1911 by Volga German immigrants from locally quarried limestone. Original stained glass windows from Munich, Germany. 2 blocks north of I-70 exit 145. Allow 20-30 min."},
-    {tag:"food",label:"Food",name:"Cozy Inn — Salina, KS",desc:"Since 1922. Tiny onion-steamed sliders, cash only. A Kansas legend.",detail:"Hours: Mon-Sat 10am-8pm. Sliders ~$1.50 each, get 6. Cash only. Tiny 6-stool counter so get them to go. The onion steam technique hasn't changed in 100+ years. Often cited as the best slider in America. Right off I-70 in downtown Salina, 5 min detour."}
+    {tag:"quirky",label:"Quirky",name:"Cathedral of the Plains — Victoria, KS",desc:"Exit 145 off I-70. Stunning limestone cathedral rising from flat wheat fields. Free, wildly unexpected.",detail:"Hours: Open daily for self-guided tours. Free, donations welcome. Built 1908-1911 by Volga German immigrants from locally quarried limestone. Original stained glass windows from Munich, Germany. 2 blocks north of I-70 exit 145. Allow 20-30 min.",location:"St Fidelis Church, Victoria, KS"},
+    {tag:"food",label:"Food",name:"Cozy Inn — Salina, KS",desc:"Since 1922. Tiny onion-steamed sliders, cash only. A Kansas legend.",detail:"Hours: Mon-Sat 10am-8pm. Sliders ~$1.50 each, get 6. Cash only. Tiny 6-stool counter so get them to go. The onion steam technique hasn't changed in 100+ years. Often cited as the best slider in America. Right off I-70 in downtown Salina, 5 min detour.",location:"Cozy Inn, Salina, KS"}
   ]
 },
 {
@@ -855,8 +960,8 @@ const days = [
     alt:"Estes Park KOA — full hookups, mountain views, 10 min from park"
   },
   americana:[
-    {tag:"photo",label:"Photo Stop",name:"Colorado Welcome Sign — I-70 border",desc:"Flat Kansas behind you, the Rockies looming ahead. Classic family road trip photo.",detail:"I-70 westbound at the KS/CO state line. Wide paved pull-off on the right, safe for RVs. On a clear day you can see the Front Range peaks from here. Quick 5 min stop."},
-    {tag:"quirky",label:"Quirky",name:"The Stanley Hotel — Estes Park, CO",desc:"The real hotel that inspired The Shining. Beautiful 1909 building overlooking town.",detail:"333 Wonderview Ave, Estes Park. Free to walk the grounds and lobby. Ghost tours ~$28/person. Stephen King stayed in room 217 in 1974 and wrote The Shining. The Whiskey Bar has great cocktails and mountain views. The hedge maze from the movie isn't here (that was a set) but the hotel itself is stunning."}
+    {tag:"photo",label:"Photo Stop",name:"Colorado Welcome Sign — I-70 border",desc:"Flat Kansas behind you, the Rockies looming ahead. Classic family road trip photo.",detail:"I-70 westbound at the KS/CO state line. Wide paved pull-off on the right, safe for RVs. On a clear day you can see the Front Range peaks from here. Quick 5 min stop.",location:"Colorado Welcome Sign, I-70"},
+    {tag:"quirky",label:"Quirky",name:"The Stanley Hotel — Estes Park, CO",desc:"The real hotel that inspired The Shining. Beautiful 1909 building overlooking town.",detail:"333 Wonderview Ave, Estes Park. Free to walk the grounds and lobby. Ghost tours ~$28/person. Stephen King stayed in room 217 in 1974 and wrote The Shining. The Whiskey Bar has great cocktails and mountain views. The hedge maze from the movie isn't here (that was a set) but the hotel itself is stunning.",location:"The Stanley Hotel, Estes Park, CO"}
   ]
 },
 {
@@ -881,9 +986,9 @@ const days = [
     alt:null
   },
   americana:[
-    {tag:"nature",label:"Nature",name:"Bear Lake Loop",desc:"0.6-mile easy loop, stunning alpine lake. Walk out of camp to the shuttle stop.",detail:"Easy, paved, wheelchair accessible. 30-45 min. Elevation 9,475 ft. Shuttle from Glacier Basin runs every 10-15 min. Hallett Peak and Flattop Mountain dominate the view. Early morning before 8am gives mirror reflections. Bring layers, it's cool even in July."},
-    {tag:"nature",label:"Nature",name:"Elk Meadows — Moraine Park",desc:"Bull elk with velvet antlers at dawn and dusk in July. Best wildlife viewing in the US.",detail:"Moraine Park, 3 miles from Glacier Basin. Best at dawn or dusk. July is peak velvet antler season. Bull elk herds of 20-40 graze openly. Stay 25+ yards away. Bring binoculars. The meadow is visible from the road, no hiking required."},
-    {tag:"photo",label:"Photo Stop",name:"Many Parks Curve — Trail Ridge Road",desc:"Take the tow truck up at sunrise for a jaw-dropping 360° mountain panorama at 10,759 ft.",detail:"Elevation 10,759 ft, Trail Ridge Road mile marker 8. Take the tow vehicle, the RV should NOT go past Rainbow Curve. Best at sunrise. You can see four distinct glacial valleys from this one overlook. Free, 15 min from Estes Park by car."}
+    {tag:"nature",label:"Nature",name:"Bear Lake Loop",desc:"0.6-mile easy loop, stunning alpine lake. Walk out of camp to the shuttle stop.",detail:"Easy, paved, wheelchair accessible. 30-45 min. Elevation 9,475 ft. Shuttle from Glacier Basin runs every 10-15 min. Hallett Peak and Flattop Mountain dominate the view. Early morning before 8am gives mirror reflections. Bring layers, it's cool even in July.",location:"Bear Lake, Rocky Mountain National Park, CO"},
+    {tag:"nature",label:"Nature",name:"Elk Meadows — Moraine Park",desc:"Bull elk with velvet antlers at dawn and dusk in July. Best wildlife viewing in the US.",detail:"Moraine Park, 3 miles from Glacier Basin. Best at dawn or dusk. July is peak velvet antler season. Bull elk herds of 20-40 graze openly. Stay 25+ yards away. Bring binoculars. The meadow is visible from the road, no hiking required.",location:"Moraine Park, Rocky Mountain National Park, CO"},
+    {tag:"photo",label:"Photo Stop",name:"Many Parks Curve — Trail Ridge Road",desc:"Take the tow truck up at sunrise for a jaw-dropping 360° mountain panorama at 10,759 ft.",detail:"Elevation 10,759 ft, Trail Ridge Road mile marker 8. Take the tow vehicle, the RV should NOT go past Rainbow Curve. Best at sunrise. You can see four distinct glacial valleys from this one overlook. Free, 15 min from Estes Park by car.",location:"Many Parks Curve, Rocky Mountain National Park, CO"}
   ]
 },
 {
@@ -914,8 +1019,8 @@ const days = [
     alt:null
   },
   americana:[
-    {tag:"photo",label:"Photo Stop",name:"Glenwood Canyon Pullouts — I-70, CO",desc:"Multiple pullouts above the Colorado River gorge. The highway itself is the attraction.",detail:"I-70 between Glenwood Springs and Dotsero, CO. Multiple paved pullouts, most can fit RVs. The highway was an engineering marvel, $490M for 12 miles built in 1992. The Colorado River runs directly below. Hanging Lake trailhead is here (permit required). Even without stopping, the drive is spectacular."},
-    {tag:"photo",label:"Photo Stop",name:"Forrest Gump Point — US-163, UT",desc:"The exact road from the movie. The Mittens rise straight ahead. Pull over and recreate the shot.",detail:"US-163 mile marker 13, about 13 miles north of Monument Valley entrance. Unmarked dirt pullout on the right (northbound). Park well off the road, traffic moves fast. Stand in the center stripe for the iconic shot. Best light is morning. 2 min stop but you'll linger."}
+    {tag:"photo",label:"Photo Stop",name:"Glenwood Canyon Pullouts — I-70, CO",desc:"Multiple pullouts above the Colorado River gorge. The highway itself is the attraction.",detail:"I-70 between Glenwood Springs and Dotsero, CO. Multiple paved pullouts, most can fit RVs. The highway was an engineering marvel, $490M for 12 miles built in 1992. The Colorado River runs directly below. Hanging Lake trailhead is here (permit required). Even without stopping, the drive is spectacular.",location:"Glenwood Canyon Rest Area, CO"},
+    {tag:"photo",label:"Photo Stop",name:"Forrest Gump Point — US-163, UT",desc:"The exact road from the movie. The Mittens rise straight ahead. Pull over and recreate the shot.",detail:"US-163 mile marker 13, about 13 miles north of Monument Valley entrance. Unmarked dirt pullout on the right (northbound). Park well off the road, traffic moves fast. Stand in the center stripe for the iconic shot. Best light is morning. 2 min stop but you'll linger.",location:"Forrest Gump Point, US-163, UT"}
   ]
 },
 {
@@ -943,8 +1048,8 @@ const days = [
     alt:"Bryce Canyon Pines Campground — full hookups, 5 min from park"
   },
   americana:[
-    {tag:"photo",label:"Photo Stop",name:"Horseshoe Bend — Page, AZ",desc:"1.5-mile walk to one of the most photographed spots in America. Go before 9am.",detail:"$10 parking fee. 1.5 miles round trip walk, partly uphill, no shade. Go before 9am in July to beat the heat (100F+ by afternoon). Bring 1 liter water per person minimum. The overlook has guardrails now. The Colorado River is 1,000 ft below you. Best with a wide-angle lens."},
-    {tag:"quirky",label:"Quirky",name:"Kanab, UT — 'Little Hollywood'",desc:"John Wayne, Frank Sinatra, and Clint Eastwood all filmed westerns here. The Parry Lodge is worth a stop.",detail:"The Parry Lodge on Center St was the hotel for Hollywood crews filming westerns from the 1930s-1970s. Celebrity room plaques line the entrance. Great western-themed shops. Rocking V Cafe is excellent for lunch. Also the gateway to The Wave permit lottery."}
+    {tag:"photo",label:"Photo Stop",name:"Horseshoe Bend — Page, AZ",desc:"1.5-mile walk to one of the most photographed spots in America. Go before 9am.",detail:"$10 parking fee. 1.5 miles round trip walk, partly uphill, no shade. Go before 9am in July to beat the heat (100F+ by afternoon). Bring 1 liter water per person minimum. The overlook has guardrails now. The Colorado River is 1,000 ft below you. Best with a wide-angle lens.",location:"Horseshoe Bend, Page, AZ"},
+    {tag:"quirky",label:"Quirky",name:"Kanab, UT — 'Little Hollywood'",desc:"John Wayne, Frank Sinatra, and Clint Eastwood all filmed westerns here. The Parry Lodge is worth a stop.",detail:"The Parry Lodge on Center St was the hotel for Hollywood crews filming westerns from the 1930s-1970s. Celebrity room plaques line the entrance. Great western-themed shops. Rocking V Cafe is excellent for lunch. Also the gateway to The Wave permit lottery.",location:"Kanab, UT"}
   ]
 },
 {
@@ -970,9 +1075,9 @@ const days = [
     alt:null
   },
   americana:[
-    {tag:"photo",label:"Photo Stop",name:"Bryce Amphitheater at Sunrise",desc:"Set an alarm. Hoodoos glow orange-pink at first light. Most magical 20 minutes in the Southwest.",detail:"Sunrise Point or Inspiration Point, both walkable from North Campground (10 min). Arrive 15 min before sunrise. Hoodoos go from grey to blazing orange in about 5 min. Bring a jacket, 40-50F at dawn even in July at 8,000 ft. The Navajo Loop Trail (1.3 mi) starts here for hiking among the hoodoos."},
-    {tag:"nature",label:"Nature",name:"Zion — Emerald Pools Trail",desc:"No permit needed. Waterfall and canyon views, family-friendly. Shuttle from Visitor Center.",detail:"Lower pool is easy (1.2 mi round trip), upper pool moderate (3 mi). Shuttle to Zion Lodge stop. No permit needed. Lower pool has a waterfall and hanging gardens. Start by 9am, trail gets crowded by 10. Wear shoes with grip, slippery near the falls."},
-    {tag:"food",label:"Food",name:"Thunderbird Restaurant — Mt. Carmel Jct.",desc:"Homemade pies, classic roadside diner between Bryce and Zion. Since 1931.",detail:"UT-9 at Mt. Carmel junction between Bryce and Zion. 7am-9pm daily in summer. Famous for fresh-baked pies, get the bumbleberry (mixed berry). Breakfast is excellent and cheap. Classic 1930s roadside diner with neon sign. Easy RV parking."}
+    {tag:"photo",label:"Photo Stop",name:"Bryce Amphitheater at Sunrise",desc:"Set an alarm. Hoodoos glow orange-pink at first light. Most magical 20 minutes in the Southwest.",detail:"Sunrise Point or Inspiration Point, both walkable from North Campground (10 min). Arrive 15 min before sunrise. Hoodoos go from grey to blazing orange in about 5 min. Bring a jacket, 40-50F at dawn even in July at 8,000 ft. The Navajo Loop Trail (1.3 mi) starts here for hiking among the hoodoos.",location:"Sunrise Point, Bryce Canyon, UT"},
+    {tag:"nature",label:"Nature",name:"Zion — Emerald Pools Trail",desc:"No permit needed. Waterfall and canyon views, family-friendly. Shuttle from Visitor Center.",detail:"Lower pool is easy (1.2 mi round trip), upper pool moderate (3 mi). Shuttle to Zion Lodge stop. No permit needed. Lower pool has a waterfall and hanging gardens. Start by 9am, trail gets crowded by 10. Wear shoes with grip, slippery near the falls.",location:"Emerald Pools Trail, Zion National Park, UT"},
+    {tag:"food",label:"Food",name:"Thunderbird Restaurant — Mt. Carmel Jct.",desc:"Homemade pies, classic roadside diner between Bryce and Zion. Since 1931.",detail:"UT-9 at Mt. Carmel junction between Bryce and Zion. 7am-9pm daily in summer. Famous for fresh-baked pies, get the bumbleberry (mixed berry). Breakfast is excellent and cheap. Classic 1930s roadside diner with neon sign. Easy RV parking.",location:"Thunderbird Restaurant, Mt Carmel Junction, UT"}
   ]
 },
 {
@@ -1002,7 +1107,7 @@ const days = [
     alt:"Lodgepole Campground (inside park) — pull-throughs, recreation.gov"
   },
   americana:[
-    {tag:"quirky",label:"Quirky",name:"Alien Fresh Jerky — Baker, CA",desc:"On I-15 near the World's Tallest Thermometer. Alien-themed jerky shop. Perfectly bizarre California roadside Americana.",detail:"72242 Baker Blvd, Baker, CA, right off I-15. 8am-8pm daily. Free to browse, jerky samples available. Dozens of exotic flavors (alligator, buffalo, etc.). The World's Tallest Thermometer is across the street (134 ft). Good restrooms and cold drinks for the Mojave heat. 10-15 min stop."}
+    {tag:"quirky",label:"Quirky",name:"Alien Fresh Jerky — Baker, CA",desc:"On I-15 near the World's Tallest Thermometer. Alien-themed jerky shop. Perfectly bizarre California roadside Americana.",detail:"72242 Baker Blvd, Baker, CA, right off I-15. 8am-8pm daily. Free to browse, jerky samples available. Dozens of exotic flavors (alligator, buffalo, etc.). The World's Tallest Thermometer is across the street (134 ft). Good restrooms and cold drinks for the Mojave heat. 10-15 min stop.",location:"Alien Fresh Jerky, Baker, CA"}
   ]
 },
 {
@@ -1031,7 +1136,7 @@ const days = [
     alt:"Yosemite Pines RV Resort — Groveland, full hookups"
   },
   americana:[
-    {tag:"nature",label:"Nature",name:"Mariposa Grove — Yosemite South Entrance",desc:"200+ giant sequoias, large RV parking with shuttles into the grove. Worth a stop on your way north.",detail:"Yosemite South Entrance off CA-41. Included with park entry. Shuttle from welcome center (large RV parking). 500+ giant sequoias including the Grizzly Giant (1,800+ years old). 2-mile loop to Grizzly Giant is easy. Full grove trail is 7 miles. Go early morning when light filters through the canopy."}
+    {tag:"nature",label:"Nature",name:"Mariposa Grove — Yosemite South Entrance",desc:"200+ giant sequoias, large RV parking with shuttles into the grove. Worth a stop on your way north.",detail:"Yosemite South Entrance off CA-41. Included with park entry. Shuttle from welcome center (large RV parking). 500+ giant sequoias including the Grizzly Giant (1,800+ years old). 2-mile loop to Grizzly Giant is easy. Full grove trail is 7 miles. Go early morning when light filters through the canopy.",location:"Mariposa Grove, Yosemite National Park, CA"}
   ]
 },
 {
@@ -1057,9 +1162,9 @@ const days = [
     alt:"Wawona Campground — south entrance, easier large-RV access"
   },
   americana:[
-    {tag:"photo",label:"Photo Stop",name:"Tunnel View",desc:"El Capitan, Half Dome, and Bridalveil Fall all in one frame. Most-photographed viewpoint in the park.",detail:"Wawona Tunnel eastern portal, CA-41. Large paved pullout. THE Yosemite photo: El Capitan left, Half Dome center, Bridalveil Fall right. Best light in morning. Ansel Adams made this famous in 1935. Small trail above the tunnel for an even higher vantage."},
-    {tag:"nature",label:"Nature",name:"Valley Floor Loop / Mirror Lake",desc:"Easy 5-mile flat walk. Mirror Lake reflects Half Dome in the morning calm.",detail:"Full loop is 13 mi (bike it), but the 2-mi walk to Mirror Lake is the highlight. Shuttle to Mirror Lake stop. Early morning gives best Half Dome reflections. Lake shrinks by late summer but July should still have good water. Bring a camera and be patient for the perfect reflection."},
-    {tag:"food",label:"Food",name:"The Ahwahnee Hotel Dining Room",desc:"Open for lunch. Cathedral ceilings, stone fireplaces, mountain views. National Historic Landmark since 1927.",detail:"Lunch entrees $18-35, no reservations needed but arrive before noon. 34-ft ceilings, floor-to-ceiling windows, massive stone fireplaces. Built 1927, National Historic Landmark. Dress code is resort casual. The bar has an outdoor patio with meadow views. Even if you don't eat, walk the lobby for free."}
+    {tag:"photo",label:"Photo Stop",name:"Tunnel View",desc:"El Capitan, Half Dome, and Bridalveil Fall all in one frame. Most-photographed viewpoint in the park.",detail:"Wawona Tunnel eastern portal, CA-41. Large paved pullout. THE Yosemite photo: El Capitan left, Half Dome center, Bridalveil Fall right. Best light in morning. Ansel Adams made this famous in 1935. Small trail above the tunnel for an even higher vantage.",location:"Tunnel View, Yosemite National Park, CA"},
+    {tag:"nature",label:"Nature",name:"Valley Floor Loop / Mirror Lake",desc:"Easy 5-mile flat walk. Mirror Lake reflects Half Dome in the morning calm.",detail:"Full loop is 13 mi (bike it), but the 2-mi walk to Mirror Lake is the highlight. Shuttle to Mirror Lake stop. Early morning gives best Half Dome reflections. Lake shrinks by late summer but July should still have good water. Bring a camera and be patient for the perfect reflection.",location:"Mirror Lake, Yosemite National Park, CA"},
+    {tag:"food",label:"Food",name:"The Ahwahnee Hotel Dining Room",desc:"Open for lunch. Cathedral ceilings, stone fireplaces, mountain views. National Historic Landmark since 1927.",detail:"Lunch entrees $18-35, no reservations needed but arrive before noon. 34-ft ceilings, floor-to-ceiling windows, massive stone fireplaces. Built 1927, National Historic Landmark. Dress code is resort casual. The bar has an outdoor patio with meadow views. Even if you don't eat, walk the lobby for free.",location:"The Ahwahnee Hotel, Yosemite Valley, CA"}
   ]
 },
 {
@@ -1087,8 +1192,8 @@ const days = [
     alt:"Push further: Needles KOA (CA) or Kingman AZ — shorter Day 12 and cheaper fuel"
   },
   americana:[
-    {tag:"quirky",label:"Quirky",name:"Elmo's Bottle Tree Ranch — Oro Grande, CA",desc:"Off I-15 near Victorville. Folk-art forest of metal sculptures and colored glass bottles on old Route 66. Free.",detail:"National Trails Hwy (old Route 66), Oro Grande, CA. About 10 min off I-15 near Victorville. Free, open 24/7. Created by Elmer Long over 20+ years with scrap metal and thousands of glass bottles. Hundreds of metal trees catching desert sun. Pull right up, 10-15 min to walk through."},
-    {tag:"history",label:"History",name:"Calico Ghost Town — near Barstow, CA",desc:"1880s silver mining boomtown, partially restored. RV parking available.",detail:"Ghost Town Rd off I-15, 3 miles north of Barstow. ~$8/adult, $5/child. 9am-5pm daily. Founded 1881, produced $86M in silver. Walter Knott partially restored it in the 1950s. Mine tours, museums, old saloons. RV parking available. Budget 1-2 hours. Bring water."}
+    {tag:"quirky",label:"Quirky",name:"Elmo's Bottle Tree Ranch — Oro Grande, CA",desc:"Off I-15 near Victorville. Folk-art forest of metal sculptures and colored glass bottles on old Route 66. Free.",detail:"National Trails Hwy (old Route 66), Oro Grande, CA. About 10 min off I-15 near Victorville. Free, open 24/7. Created by Elmer Long over 20+ years with scrap metal and thousands of glass bottles. Hundreds of metal trees catching desert sun. Pull right up, 10-15 min to walk through.",location:"Elmer's Bottle Tree Ranch, Oro Grande, CA"},
+    {tag:"history",label:"History",name:"Calico Ghost Town — near Barstow, CA",desc:"1880s silver mining boomtown, partially restored. RV parking available.",detail:"Ghost Town Rd off I-15, 3 miles north of Barstow. ~$8/adult, $5/child. 9am-5pm daily. Founded 1881, produced $86M in silver. Walter Knott partially restored it in the 1950s. Mine tours, museums, old saloons. RV parking available. Budget 1-2 hours. Bring water.",location:"Calico Ghost Town, Barstow, CA"}
   ]
 },
 {
@@ -1116,8 +1221,8 @@ const days = [
     alt:"Mather Campground — adjacent, pull-throughs to 35 ft, electric hookups"
   },
   americana:[
-    {tag:"history",label:"History",name:"Historic Route 66 Museum — Kingman, AZ",desc:"Andy Devine Ave. Original 66 memorabilia and neon sign collection. Worth 30 min.",detail:"120 W Andy Devine Ave, Kingman, AZ, right off I-40. ~$4/adult. 9am-5pm daily. Original Route 66 artifacts, vintage cars, neon signs, Dust Bowl migration exhibit. Great gift shop with unique Route 66 souvenirs. 30-45 min visit."},
-    {tag:"food",label:"Food",name:"Rod's Steak House — Williams, AZ",desc:"Since 1946. Cowboy steakhouse with cattle-shaped road sign. Last great meal before the canyon.",detail:"301 E Route 66, Williams, AZ. 11am-9pm. Look for the giant steer road sign. Steaks $18-40, cowboy atmosphere since 1946. Prime rib is the move. Kids menu available. Williams is the last town before the Grand Canyon, this is your last great restaurant for 2 days."}
+    {tag:"history",label:"History",name:"Historic Route 66 Museum — Kingman, AZ",desc:"Andy Devine Ave. Original 66 memorabilia and neon sign collection. Worth 30 min.",detail:"120 W Andy Devine Ave, Kingman, AZ, right off I-40. ~$4/adult. 9am-5pm daily. Original Route 66 artifacts, vintage cars, neon signs, Dust Bowl migration exhibit. Great gift shop with unique Route 66 souvenirs. 30-45 min visit.",location:"Route 66 Museum, Kingman, AZ"},
+    {tag:"food",label:"Food",name:"Rod's Steak House — Williams, AZ",desc:"Since 1946. Cowboy steakhouse with cattle-shaped road sign. Last great meal before the canyon.",detail:"301 E Route 66, Williams, AZ. 11am-9pm. Look for the giant steer road sign. Steaks $18-40, cowboy atmosphere since 1946. Prime rib is the move. Kids menu available. Williams is the last town before the Grand Canyon, this is your last great restaurant for 2 days.",location:"Rod's Steak House, Williams, AZ"}
   ]
 },
 {
@@ -1142,10 +1247,10 @@ const days = [
     alt:null
   },
   americana:[
-    {tag:"photo",label:"Photo Stop",name:"Mather Point at Sunrise",desc:"Canyon shifts from grey to blazing orange as the sun rises. One of the greatest sights in North America.",detail:"5 min walk from Trailer Village. Arrive 20 min before sunrise. Canyon transitions from blue-grey to blazing orange-red in minutes. Bring a jacket, 55F at dawn in July. Rim trail connects to Yavapai Point (0.7 mi) for more views. Free, open 24/7."},
-    {tag:"nature",label:"Nature",name:"Bright Angel Trail — First 1.5 Miles",desc:"Start before 7am. 2 liters water per person minimum. Do NOT go past 3 Mile in July heat.",detail:"Trailhead near Bright Angel Lodge, shuttle accessible. 3 mi round trip to 1.5-Mile Resthouse with 1,131 ft elevation change. Start before 7am in July, inner canyon exceeds 110F by midday. Carry 2 liters water per person minimum. Do NOT go past 3-Mile Resthouse in summer with kids."},
-    {tag:"photo",label:"Photo Stop",name:"Hopi Point — Hermit Road Shuttle",desc:"Best sunset viewpoint on the South Rim. Arrive 45 min early for a good spot.",detail:"Hermit Road shuttle (Red Route), runs every 10 min in summer. Arrive 45 min before sunset for a spot. Juts furthest into the canyon of any South Rim viewpoint with nearly 360 degree views. You can see the Colorado River. Bring a blanket and snacks for the best sunset picnic in America."},
-    {tag:"history",label:"History",name:"El Tovar Hotel",desc:"1905 National Historic Landmark on the rim. Worth it for lunch — one of the great historic lodges.",detail:"Right on the South Rim, next to Bright Angel Lodge. Built 1905 by Fred Harvey Company, National Historic Landmark. Lunch 11:30am-2pm, no reservations needed, entrees $18-38. Dining room overlooks the canyon. Roosevelt, Einstein, and every president since Taft stayed here."}
+    {tag:"photo",label:"Photo Stop",name:"Mather Point at Sunrise",desc:"Canyon shifts from grey to blazing orange as the sun rises. One of the greatest sights in North America.",detail:"5 min walk from Trailer Village. Arrive 20 min before sunrise. Canyon transitions from blue-grey to blazing orange-red in minutes. Bring a jacket, 55F at dawn in July. Rim trail connects to Yavapai Point (0.7 mi) for more views. Free, open 24/7.",location:"Mather Point, Grand Canyon, AZ"},
+    {tag:"nature",label:"Nature",name:"Bright Angel Trail — First 1.5 Miles",desc:"Start before 7am. 2 liters water per person minimum. Do NOT go past 3 Mile in July heat.",detail:"Trailhead near Bright Angel Lodge, shuttle accessible. 3 mi round trip to 1.5-Mile Resthouse with 1,131 ft elevation change. Start before 7am in July, inner canyon exceeds 110F by midday. Carry 2 liters water per person minimum. Do NOT go past 3-Mile Resthouse in summer with kids.",location:"Bright Angel Trailhead, Grand Canyon, AZ"},
+    {tag:"photo",label:"Photo Stop",name:"Hopi Point — Hermit Road Shuttle",desc:"Best sunset viewpoint on the South Rim. Arrive 45 min early for a good spot.",detail:"Hermit Road shuttle (Red Route), runs every 10 min in summer. Arrive 45 min before sunset for a spot. Juts furthest into the canyon of any South Rim viewpoint with nearly 360 degree views. You can see the Colorado River. Bring a blanket and snacks for the best sunset picnic in America.",location:"Hopi Point, Grand Canyon, AZ"},
+    {tag:"history",label:"History",name:"El Tovar Hotel",desc:"1905 National Historic Landmark on the rim. Worth it for lunch — one of the great historic lodges.",detail:"Right on the South Rim, next to Bright Angel Lodge. Built 1905 by Fred Harvey Company, National Historic Landmark. Lunch 11:30am-2pm, no reservations needed, entrees $18-38. Dining room overlooks the canyon. Roosevelt, Einstein, and every president since Taft stayed here.",location:"El Tovar Hotel, Grand Canyon, AZ"}
   ]
 },
 {
@@ -1174,9 +1279,9 @@ const days = [
     alt:"Push east toward Albuquerque to bank miles for the return home"
   },
   americana:[
-    {tag:"nature",label:"Nature",name:"Painted Desert Inn — inside Petrified Forest NP",desc:"Historic 1924 inn, free museum. Fred Harvey murals, sweeping desert views.",detail:"North end of Petrified Forest NP, right off the park road. Free with park entry. Originally a 1924 roadside inn, redesigned in Pueblo Revival style. Fred Kabotie's Hopi murals inside are remarkable. Sweeping views over the Painted Desert from the back porch. 20-30 min."},
-    {tag:"history",label:"History",name:"225-Million-Year-Old Petrified Wood",desc:"Crystal logs scattered across the desert floor. Do NOT take any — federal offense.",detail:"Best spots: Crystal Forest Trail (0.75 mi loop) and Giant Logs Trail (0.4 mi loop behind Rainbow Forest Museum). Trees from the Late Triassic turned to quartz crystal. Many are vividly colored in red, orange, purple. Federal law prohibits removing any material. Fines start at $325. Shops outside the park sell legal specimens."},
-    {tag:"quirky",label:"Quirky",name:"Wigwam Motel — Holbrook, AZ",desc:"1950 concrete teepee cabins on old Route 66. Perfect drive-past photo stop.",detail:"811 W Hopi Dr, Holbrook, AZ on old Route 66. One of three surviving Wigwam Motels (built 1950). Each concrete teepee is a guest room (~$80/night). Vintage cars parked out front make great photos. Unmistakable Route 66 icon. 5 min drive-by or quick photo stop."}
+    {tag:"nature",label:"Nature",name:"Painted Desert Inn — inside Petrified Forest NP",desc:"Historic 1924 inn, free museum. Fred Harvey murals, sweeping desert views.",detail:"North end of Petrified Forest NP, right off the park road. Free with park entry. Originally a 1924 roadside inn, redesigned in Pueblo Revival style. Fred Kabotie's Hopi murals inside are remarkable. Sweeping views over the Painted Desert from the back porch. 20-30 min.",location:"Painted Desert Inn, Petrified Forest, AZ"},
+    {tag:"history",label:"History",name:"225-Million-Year-Old Petrified Wood",desc:"Crystal logs scattered across the desert floor. Do NOT take any — federal offense.",detail:"Best spots: Crystal Forest Trail (0.75 mi loop) and Giant Logs Trail (0.4 mi loop behind Rainbow Forest Museum). Trees from the Late Triassic turned to quartz crystal. Many are vividly colored in red, orange, purple. Federal law prohibits removing any material. Fines start at $325. Shops outside the park sell legal specimens.",location:"Crystal Forest Trail, Petrified Forest, AZ"},
+    {tag:"quirky",label:"Quirky",name:"Wigwam Motel — Holbrook, AZ",desc:"1950 concrete teepee cabins on old Route 66. Perfect drive-past photo stop.",detail:"811 W Hopi Dr, Holbrook, AZ on old Route 66. One of three surviving Wigwam Motels (built 1950). Each concrete teepee is a guest room (~$80/night). Vintage cars parked out front make great photos. Unmistakable Route 66 icon. 5 min drive-by or quick photo stop.",location:"Wigwam Motel, Holbrook, AZ"}
   ]
 },
 {
@@ -1205,9 +1310,9 @@ const days = [
     alt:null
   },
   americana:[
-    {tag:"history",label:"History",name:"Old Town Albuquerque — NM",desc:"Founded 1706. Adobe buildings, turquoise jewelry, green chile everything. Great lunch stop.",detail:"1 block south of Central Ave (Route 66) at Rio Grande Blvd, 5 min off I-40. Free to walk around. Founded 1706, adobe buildings around a central plaza. Excellent turquoise and silver jewelry, authentic Native American art. Church Street Cafe for green chile stacked enchiladas. Budget 1-1.5 hours."},
-    {tag:"quirky",label:"Quirky",name:"Cadillac Ranch — Amarillo, TX",desc:"Ten Cadillacs buried nose-first in a wheat field. Free, 24/7. Bring spray paint — it's encouraged.",detail:"I-40 frontage road exit 60, Amarillo, TX. Free, open 24/7. 10 Cadillacs (1949-1963) buried nose-first in a wheat field since 1974. Bring spray paint, it's encouraged and expected. Cars are constantly repainted. Walk across the field (~200 yards from parking). Great at sunset. Muddy after rain. 15-20 min."},
-    {tag:"food",label:"Food",name:"Big Texan Steak Ranch — Amarillo, TX",desc:"Free 72-oz steak if you finish in an hour. Spectacle either way. Enormous RV parking lot.",detail:"7701 I-40 East, Amarillo, TX. 10:30am-10pm. The 72-oz steak challenge: eat 4.5 lbs + sides in 1 hour = free ($72 if you fail). Even without the challenge, it's a spectacle with giant neon signs and Texas decor. Normal steaks are excellent ($18-35). Kids menu. Enormous RV lot. They'll pick you up in a limo from your RV park."}
+    {tag:"history",label:"History",name:"Old Town Albuquerque — NM",desc:"Founded 1706. Adobe buildings, turquoise jewelry, green chile everything. Great lunch stop.",detail:"1 block south of Central Ave (Route 66) at Rio Grande Blvd, 5 min off I-40. Free to walk around. Founded 1706, adobe buildings around a central plaza. Excellent turquoise and silver jewelry, authentic Native American art. Church Street Cafe for green chile stacked enchiladas. Budget 1-1.5 hours.",location:"Old Town Albuquerque, NM"},
+    {tag:"quirky",label:"Quirky",name:"Cadillac Ranch — Amarillo, TX",desc:"Ten Cadillacs buried nose-first in a wheat field. Free, 24/7. Bring spray paint — it's encouraged.",detail:"I-40 frontage road exit 60, Amarillo, TX. Free, open 24/7. 10 Cadillacs (1949-1963) buried nose-first in a wheat field since 1974. Bring spray paint, it's encouraged and expected. Cars are constantly repainted. Walk across the field (~200 yards from parking). Great at sunset. Muddy after rain. 15-20 min.",location:"Cadillac Ranch, Amarillo, TX"},
+    {tag:"food",label:"Food",name:"Big Texan Steak Ranch — Amarillo, TX",desc:"Free 72-oz steak if you finish in an hour. Spectacle either way. Enormous RV parking lot.",detail:"7701 I-40 East, Amarillo, TX. 10:30am-10pm. The 72-oz steak challenge: eat 4.5 lbs + sides in 1 hour = free ($72 if you fail). Even without the challenge, it's a spectacle with giant neon signs and Texas decor. Normal steaks are excellent ($18-35). Kids menu. Enormous RV lot. They'll pick you up in a limo from your RV park.",location:"Big Texan Steak Ranch, Amarillo, TX"}
   ]
 },
 {
@@ -1237,9 +1342,9 @@ const days = [
     alt:null
   },
   americana:[
-    {tag:"history",label:"History",name:"Oklahoma Route 66 Museum — Clinton, OK",desc:"Off I-40. Dust Bowl migration history and original Mother Road artifacts. 45 well-spent minutes.",detail:"2229 W Gary Blvd, Clinton, OK, right off I-40 exit 65. $7/adult, $4/child. 9am-5pm (closed Sun). Decade-by-decade Route 66 history from Dust Bowl to decommissioning. Vintage cars, original neon signs, recreated 1950s diner. Gift shop is one of the best on the Mother Road. 45 min-1 hour."},
-    {tag:"history",label:"History",name:"Graceland — Memphis, TN",desc:"Elvis's home. A true American pilgrimage. Large RV parking lot. Worth 3 hours if you have them.",detail:"3764 Elvis Presley Blvd, Memphis, TN. $45-75/adult, kids $27. 9am-4pm. Mansion tour takes 1-2 hours. See the Jungle Room, gold records, and meditation garden where Elvis is buried. Large RV parking lot on-site. Even if you're not a superfan, it's a genuine American cultural experience."},
-    {tag:"food",label:"Food",name:"Loveless Cafe — Nashville, TN",desc:"Since 1951. Country ham, biscuits, red-eye gravy. RV parking in adjacent lot.",detail:"8400 TN-100, Nashville, about 20 min off I-40. 7am-9pm daily. Entrees $12-22. Famous for country ham, scratch biscuits with homemade preserves, and red-eye gravy. Since 1951. The biscuits alone are worth the detour. RV parking in adjacent gravel lot, tight but doable for 36 ft. Go for breakfast or early lunch to avoid the wait."}
+    {tag:"history",label:"History",name:"Oklahoma Route 66 Museum — Clinton, OK",desc:"Off I-40. Dust Bowl migration history and original Mother Road artifacts. 45 well-spent minutes.",detail:"2229 W Gary Blvd, Clinton, OK, right off I-40 exit 65. $7/adult, $4/child. 9am-5pm (closed Sun). Decade-by-decade Route 66 history from Dust Bowl to decommissioning. Vintage cars, original neon signs, recreated 1950s diner. Gift shop is one of the best on the Mother Road. 45 min-1 hour.",location:"Oklahoma Route 66 Museum, Clinton, OK"},
+    {tag:"history",label:"History",name:"Graceland — Memphis, TN",desc:"Elvis's home. A true American pilgrimage. Large RV parking lot. Worth 3 hours if you have them.",detail:"3764 Elvis Presley Blvd, Memphis, TN. $45-75/adult, kids $27. 9am-4pm. Mansion tour takes 1-2 hours. See the Jungle Room, gold records, and meditation garden where Elvis is buried. Large RV parking lot on-site. Even if you're not a superfan, it's a genuine American cultural experience.",location:"Graceland, Memphis, TN"},
+    {tag:"food",label:"Food",name:"Loveless Cafe — Nashville, TN",desc:"Since 1951. Country ham, biscuits, red-eye gravy. RV parking in adjacent lot.",detail:"8400 TN-100, Nashville, about 20 min off I-40. 7am-9pm daily. Entrees $12-22. Famous for country ham, scratch biscuits with homemade preserves, and red-eye gravy. Since 1951. The biscuits alone are worth the detour. RV parking in adjacent gravel lot, tight but doable for 36 ft. Go for breakfast or early lunch to avoid the wait.",location:"Loveless Cafe, Nashville, TN"}
   ]
 }
 ];
@@ -1273,12 +1378,12 @@ days.forEach((d, i) => {
           <div class="stat-pill green"><span class="stat-val">${d.fuel}</span><span class="stat-label">Est. Fuel</span></div>
         </div>`;
 
-  // Map button
+  // Map button (dynamic ID for waypoint updates)
   if (d.mapUrl) {
     html += `
-        <a class="map-btn" href="${d.mapUrl}" target="_blank" onclick="event.stopPropagation()">
+        <a class="map-btn" id="map-btn-${d.day}" href="${d.mapUrl}" target="_blank" onclick="event.stopPropagation()" data-base-url="${d.mapUrl}">
           <span class="icon">&#128506;</span>
-          <span class="text">${d.mapText}<small>${d.mapSub}</small></span>
+          <span class="text">${d.mapText}<small id="map-sub-${d.day}">${d.mapSub}</small></span>
           <span class="arrow">&rsaquo;</span>
         </a>`;
   }
@@ -1350,8 +1455,10 @@ days.forEach((d, i) => {
           <div class="section-title americana">&#127922; Roadside Americana</div>`;
     d.americana.forEach((a, ai) => {
       const id = 'am-' + d.day + '-' + ai;
+      const loc = a.location || '';
       html += `
           <div class="americana-item" id="${id}" onclick="event.stopPropagation();toggleAm('${id}')">
+            <input type="checkbox" class="americana-check" data-day="${d.day}" data-location="${loc}" onclick="event.stopPropagation();updateMapUrl(${d.day})" title="Add as waypoint">
             <div class="americana-chevron">&#9660;</div>
             <div class="americana-tag ${a.tag}">${a.label}</div>
             <div class="americana-name">${a.name}</div>
@@ -1360,6 +1467,12 @@ days.forEach((d, i) => {
             ${a.detail ? '<div class="americana-detail"><div class="americana-detail-inner">' + a.detail + '</div></div>' : ''}
           </div>`;
     });
+    // Search for more button
+    const searchQuery = encodeURIComponent('roadside attractions near ' + d.title.replace(/→/g, 'to'));
+    html += `
+          <a class="search-more-btn" href="https://www.google.com/search?q=${searchQuery}" target="_blank" onclick="event.stopPropagation()">
+            &#128270; Search for more roadside attractions
+          </a>`;
     html += `</div>`;
   }
 
@@ -1376,19 +1489,98 @@ days.forEach((d, i) => {
   container.innerHTML += html;
 });
 
-// Americana detail toggle
+// ===== COUNTDOWN CLOCK =====
+const DEPARTURE = new Date('2025-07-11T06:00:00-04:00'); // 6am ET
+const RETURN = new Date('2025-07-26T23:59:59-04:00');
+
+function updateCountdown() {
+  const now = new Date();
+  const el = document.getElementById('countdown-units');
+  const label = document.querySelector('.countdown-label');
+
+  if (now >= DEPARTURE && now <= RETURN) {
+    // On the road!
+    const dayNum = Math.floor((now - DEPARTURE) / 86400000) + 1;
+    label.textContent = '';
+    el.innerHTML = '<span class="cd-onroad">ON THE ROAD! Day ' + Math.min(dayNum, 16) + ' of 16</span>';
+    return;
+  }
+  if (now > RETURN) {
+    label.textContent = '';
+    el.innerHTML = '<span class="cd-onroad">Trip Complete!</span>';
+    return;
+  }
+
+  const diff = DEPARTURE - now;
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+
+  el.innerHTML = `
+    <div class="cd-unit"><span class="cd-num">${d}</span><span class="cd-lbl">Days</span></div>
+    <span class="cd-sep">:</span>
+    <div class="cd-unit"><span class="cd-num">${String(h).padStart(2,'0')}</span><span class="cd-lbl">Hrs</span></div>
+    <span class="cd-sep">:</span>
+    <div class="cd-unit"><span class="cd-num">${String(m).padStart(2,'0')}</span><span class="cd-lbl">Min</span></div>
+    <span class="cd-sep">:</span>
+    <div class="cd-unit"><span class="cd-num">${String(s).padStart(2,'0')}</span><span class="cd-lbl">Sec</span></div>
+  `;
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// ===== MAP URL WAYPOINT UPDATER =====
+function updateMapUrl(dayNum) {
+  const btn = document.getElementById('map-btn-' + dayNum);
+  if (!btn) return;
+
+  const baseUrl = btn.getAttribute('data-base-url');
+  const checks = document.querySelectorAll('.americana-check[data-day="' + dayNum + '"]:checked');
+
+  if (checks.length === 0) {
+    btn.href = baseUrl;
+    const sub = document.getElementById('map-sub-' + dayNum);
+    if (sub) sub.textContent = sub.textContent.replace(/ \+.*$/, '');
+    return;
+  }
+
+  // Parse base URL: /dir/origin/.../destination
+  const parts = baseUrl.split('/dir/')[1].split('/');
+  const origin = parts[0];
+  const destination = parts[parts.length - 1];
+  const existingWaypoints = parts.slice(1, -1);
+
+  // Collect checked locations
+  const waypoints = [];
+  checks.forEach(cb => {
+    const loc = cb.getAttribute('data-location');
+    if (loc) waypoints.push(encodeURIComponent(loc));
+  });
+
+  // Build new URL: origin / existing waypoints / checked waypoints / destination
+  const allPoints = [origin, ...existingWaypoints, ...waypoints, destination];
+  btn.href = 'https://www.google.com/maps/dir/' + allPoints.join('/');
+
+  // Update subtitle
+  const sub = document.getElementById('map-sub-' + dayNum);
+  if (sub) {
+    const base = sub.textContent.replace(/ \+.*$/, '');
+    sub.textContent = base + ' + ' + checks.length + ' stop' + (checks.length > 1 ? 's' : '');
+  }
+}
+
+// ===== AMERICANA DETAIL TOGGLE =====
 function toggleAm(id) {
   const el = document.getElementById(id);
   el.classList.toggle('expanded');
 }
 
-// Accordion toggle
+// ===== ACCORDION TOGGLE =====
 function toggle(dayNum) {
   const card = document.getElementById('day' + dayNum);
   const wasOpen = card.classList.contains('open');
-  // Close all
   document.querySelectorAll('.day-card').forEach(c => c.classList.remove('open'));
-  // Open clicked if it was closed
   if (!wasOpen) {
     card.classList.add('open');
     setTimeout(() => {
