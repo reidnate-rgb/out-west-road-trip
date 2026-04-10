@@ -1649,21 +1649,22 @@ days.forEach((d, i) => {
   // Departure Calculator (only for driving days)
   if (d.driveHrs > 0) {
     const dcExtra = d.disconnect ? parseFloat(d.disconnect.timeAdded.replace(/[^0-9.]/g,''))/60 : 0;
+    const fuelCount = d.fuels.length;
     html += `
         <div class="depart-calc" onclick="event.stopPropagation()">
           <div class="depart-calc-title">&#9200; Trip Calculator</div>
           <div class="depart-calc-row">
             <span class="depart-calc-label">Depart at:</span>
-            <input type="time" class="depart-calc-input" id="depart-input-${d.day}" value="" onchange="calcFromDepart(${d.day},${d.driveHrs},${dcExtra})">
+            <input type="time" class="depart-calc-input" id="depart-input-${d.day}" value="" onchange="calcFromDepart(${d.day},${d.driveHrs},${dcExtra},${fuelCount})">
           </div>
           <div class="depart-calc-row">
             <span class="depart-calc-label">— or Arrive by:</span>
-            <input type="time" class="depart-calc-input" id="arrive-${d.day}" value="" onchange="calcFromArrive(${d.day},${d.driveHrs},${dcExtra})">
+            <input type="time" class="depart-calc-input" id="arrive-${d.day}" value="" onchange="calcFromArrive(${d.day},${d.driveHrs},${dcExtra},${fuelCount})">
           </div>
           <div class="depart-calc-result" id="depart-result-${d.day}">
             <div class="depart-pill"><span class="val leave" id="leave-time-${d.day}">--:--</span><span class="lbl">Depart</span></div>
             <div class="depart-pill"><span class="val total" id="total-time-${d.day}">${d.drive}</span><span class="lbl">Drive Time</span></div>
-            <div class="depart-pill"><span class="val stops" id="stops-time-${d.day}">0 min</span><span class="lbl">Added Stops</span></div>
+            <div class="depart-pill"><span class="val stops" id="stops-time-${d.day}">${fuelCount > 0 ? fuelCount * 20 + ' min fuel' : '0 min'}</span><span class="lbl">Stops + Fuel</span></div>
             <div class="depart-pill"><span class="val leave" id="arrive-time-${d.day}">--:--</span><span class="lbl">Arrive</span></div>
           </div>
         </div>`;
@@ -1857,10 +1858,11 @@ function fmt12(totalMins) {
   return h12 + ':' + String(m).padStart(2, '0') + ' ' + ampm;
 }
 
-function getTotalMins(dayNum, baseDriveHrs, disconnectHrs) {
+function getTotalMins(dayNum, baseDriveHrs, disconnectHrs, fuelStops) {
   const checkedStops = document.querySelectorAll('.americana-add-stop input[data-day="' + dayNum + '"]:checked').length;
   const stopsMins = checkedStops * 15;
-  return Math.round(baseDriveHrs * 60) + Math.round(disconnectHrs * 60) + stopsMins;
+  const fuelMins = fuelStops * 20;
+  return Math.round(baseDriveHrs * 60) + Math.round(disconnectHrs * 60) + stopsMins + fuelMins;
 }
 
 function updateDisplay(dayNum, totalMins, stopsMins, leaveMins, arriveMins) {
@@ -1879,17 +1881,16 @@ function updateDisplay(dayNum, totalMins, stopsMins, leaveMins, arriveMins) {
 }
 
 // Calculate from arrival time (work backwards to get departure)
-function calcFromArrive(dayNum, baseDriveHrs, disconnectHrs) {
+function calcFromArrive(dayNum, baseDriveHrs, disconnectHrs, fuelStops) {
   const arriveInput = document.getElementById('arrive-' + dayNum);
   const departInput = document.getElementById('depart-input-' + dayNum);
   if (!arriveInput.value) return;
 
-  // Clear the other input so it's clear which mode is active
   departInput.value = '';
 
   const checkedStops = document.querySelectorAll('.americana-add-stop input[data-day="' + dayNum + '"]:checked').length;
-  const stopsMins = checkedStops * 15;
-  const totalMins = getTotalMins(dayNum, baseDriveHrs, disconnectHrs);
+  const stopsMins = checkedStops * 15 + fuelStops * 20;
+  const totalMins = getTotalMins(dayNum, baseDriveHrs, disconnectHrs, fuelStops);
 
   const [h, m] = arriveInput.value.split(':').map(Number);
   const arriveTotalMins = h * 60 + m;
@@ -1899,17 +1900,16 @@ function calcFromArrive(dayNum, baseDriveHrs, disconnectHrs) {
 }
 
 // Calculate from departure time (work forwards to get arrival)
-function calcFromDepart(dayNum, baseDriveHrs, disconnectHrs) {
+function calcFromDepart(dayNum, baseDriveHrs, disconnectHrs, fuelStops) {
   const departInput = document.getElementById('depart-input-' + dayNum);
   const arriveInput = document.getElementById('arrive-' + dayNum);
   if (!departInput.value) return;
 
-  // Clear the other input
   arriveInput.value = '';
 
   const checkedStops = document.querySelectorAll('.americana-add-stop input[data-day="' + dayNum + '"]:checked').length;
-  const stopsMins = checkedStops * 15;
-  const totalMins = getTotalMins(dayNum, baseDriveHrs, disconnectHrs);
+  const stopsMins = checkedStops * 15 + fuelStops * 20;
+  const totalMins = getTotalMins(dayNum, baseDriveHrs, disconnectHrs, fuelStops);
 
   const [h, m] = departInput.value.split(':').map(Number);
   const departTotalMins = h * 60 + m;
