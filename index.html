@@ -601,14 +601,14 @@ body {
   border-radius: 0 6px 0 0;
 }
 .americana-tap { font-size: 10px; color: var(--dusty); margin-top: 4px; font-style: italic; }
-.americana-item.expanded .americana-tap { display: none; }
+.americana-item.expanded .americana-tap, .park-item.expanded .americana-tap { display: none; }
 .americana-detail {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease, margin 0.3s ease;
   margin-top: 0;
 }
-.americana-item.expanded .americana-detail {
+.americana-item.expanded .americana-detail, .park-item.expanded .americana-detail {
   max-height: 300px;
   margin-top: 8px;
 }
@@ -630,7 +630,7 @@ body {
   color: var(--dusty);
   transition: transform 0.3s;
 }
-.americana-item.expanded .americana-chevron { transform: rotate(180deg); color: var(--sienna); }
+.americana-item.expanded .americana-chevron, .park-item.expanded .americana-chevron { transform: rotate(180deg); color: var(--sienna); }
 .americana-tag {
   display: inline-block;
   font-size: 9px;
