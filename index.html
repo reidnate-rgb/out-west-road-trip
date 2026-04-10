@@ -96,76 +96,114 @@ body {
 /* ===== RV ANIMATION STRIP ===== */
 .rv-strip {
   position: relative;
-  background: linear-gradient(to bottom, #CC5500 0%, #D4A017 40%, #E8C97A 70%, #C4A060 70%, #A08040 100%);
-  height: 90px;
+  height: 130px;
   overflow: hidden;
   border-bottom: 3px solid var(--leather);
+  /* Desert sky gradient */
+  background: linear-gradient(to bottom,
+    #F4A460 0%, #EDCB96 30%, #E8D5A8 50%,
+    #D2B48C 65%, #C4A060 70%, #A08040 80%, #8B7332 100%);
 }
+/* Sun */
+.rv-sun {
+  position: absolute;
+  top: 8px;
+  right: 15%;
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle, #FFE066 0%, #F4A460 60%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0.7;
+}
+/* Distant mesa silhouettes */
+.rv-mesa {
+  position: absolute;
+  bottom: 38px;
+  left: 0;
+  right: 0;
+  height: 30px;
+}
+/* Desert ground */
 .rv-ground {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 22px;
-  background: #6B5B3A;
+  height: 38px;
+  background: linear-gradient(to bottom, #C4A060 0%, #A08040 40%, #8B7332 100%);
 }
+/* Road */
 .rv-road {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 14px;
-  background: #444;
+  height: 20px;
+  background: linear-gradient(to bottom, #555 0%, #3a3a3a 50%, #444 100%);
+  border-top: 2px solid #666;
 }
 .rv-road::after {
   content: '';
   position: absolute;
-  top: 6px;
+  top: 9px;
   left: 0;
   right: 0;
   height: 2px;
-  background: repeating-linear-gradient(90deg, #D4A017 0, #D4A017 20px, transparent 20px, transparent 40px);
+  background: repeating-linear-gradient(90deg, #FFD700 0, #FFD700 24px, transparent 24px, transparent 48px);
 }
-/* Cactus decorations */
-.cactus {
-  position: absolute;
-  bottom: 20px;
-  font-size: 24px;
-  opacity: 0.4;
-  animation: cactus-scroll 18s linear infinite;
-}
-.cactus:nth-child(1) { left: 10%; animation-delay: 0s; }
-.cactus:nth-child(2) { left: 35%; animation-delay: -4s; font-size: 18px; }
-.cactus:nth-child(3) { left: 60%; animation-delay: -8s; font-size: 20px; }
-.cactus:nth-child(4) { left: 85%; animation-delay: -12s; font-size: 16px; }
-
-@keyframes cactus-scroll {
-  0% { transform: translateX(0); opacity: 0.4; }
-  50% { opacity: 0.3; }
-  100% { transform: translateX(0); opacity: 0.4; }
-}
-
-/* The rig */
-.rv-rig {
-  position: absolute;
-  bottom: 14px;
-  animation: drive 12s linear infinite;
-  z-index: 5;
-}
-@keyframes drive {
-  0% { left: -320px; }
-  100% { left: 110%; }
-}
-/* Dust trail */
-.rv-rig::after {
+/* Road edge lines */
+.rv-road::before {
   content: '';
   position: absolute;
-  right: -8px;
-  bottom: 2px;
-  width: 40px;
-  height: 12px;
-  background: radial-gradient(ellipse, rgba(180,160,120,0.5) 0%, transparent 70%);
-  border-radius: 50%;
+  top: 1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #999;
+}
+/* Cactus decorations */
+.cactus-wrap {
+  position: absolute;
+  bottom: 36px;
+  z-index: 2;
+}
+.cactus-wrap svg { display: block; }
+.cactus-wrap:nth-child(1) { left: 8%; }
+.cactus-wrap:nth-child(2) { left: 30%; }
+.cactus-wrap:nth-child(3) { left: 55%; }
+.cactus-wrap:nth-child(4) { left: 78%; }
+.cactus-wrap:nth-child(5) { left: 92%; }
+
+/* The rig — bounces slightly like Pixar */
+.rv-rig {
+  position: absolute;
+  bottom: 18px;
+  animation: drive 14s linear infinite;
+  z-index: 5;
+  filter: drop-shadow(2px 3px 4px rgba(0,0,0,0.35));
+}
+@keyframes drive {
+  0% { left: -420px; }
+  100% { left: 110%; }
+}
+/* Subtle bounce */
+.rv-rig svg {
+  animation: bounce 0.4s ease-in-out infinite alternate;
+}
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-1.5px); }
+}
+/* Dust cloud behind truck */
+.dust-cloud {
+  position: absolute;
+  left: -15px;
+  bottom: -2px;
+  animation: dust-puff 0.8s ease-out infinite alternate;
+}
+@keyframes dust-puff {
+  0% { opacity: 0.6; transform: scale(1) translateX(0); }
+  100% { opacity: 0.2; transform: scale(1.4) translateX(-8px); }
 }
 
 /* ===== FUEL BANNER ===== */
@@ -624,85 +662,266 @@ body {
 
 <!-- ===== RV ANIMATION ===== -->
 <div class="rv-strip">
-  <div class="cactus">&#127797;</div>
-  <div class="cactus">&#127797;</div>
-  <div class="cactus">&#127797;</div>
-  <div class="cactus">&#127797;</div>
+  <!-- Sun -->
+  <div class="rv-sun"></div>
+
+  <!-- Mesa silhouettes -->
+  <div class="rv-mesa">
+    <svg width="100%" height="30" preserveAspectRatio="none" viewBox="0 0 1200 30">
+      <path d="M0 30 L0 20 L80 20 L100 8 L160 8 L180 20 L350 20 L370 5 L400 5 L410 12 L450 12 L470 20 L600 20 L620 10 L680 10 L700 18 L750 18 L760 6 L820 6 L840 20 L950 20 L970 12 L1020 12 L1040 20 L1200 20 L1200 30Z" fill="#9B7B4A" opacity="0.4"/>
+      <path d="M0 30 L0 24 L120 24 L140 16 L180 16 L195 24 L400 24 L420 14 L460 14 L475 24 L700 24 L715 18 L750 18 L760 24 L900 24 L920 16 L960 16 L980 24 L1200 24 L1200 30Z" fill="#8B6B3A" opacity="0.35"/>
+    </svg>
+  </div>
+
+  <!-- Saguaro cacti (SVG) -->
+  <div class="cactus-wrap">
+    <svg width="20" height="32" viewBox="0 0 20 32"><path d="M10 32 L10 8 M10 14 Q4 14 4 10 L4 6 M10 18 Q16 18 16 14 L16 11" stroke="#5A7A44" stroke-width="3.5" stroke-linecap="round" fill="none"/></svg>
+  </div>
+  <div class="cactus-wrap">
+    <svg width="16" height="24" viewBox="0 0 16 24"><path d="M8 24 L8 6 M8 12 Q3 12 3 8 L3 5 M8 15 Q13 15 13 12 L13 9" stroke="#6B8A54" stroke-width="3" stroke-linecap="round" fill="none"/></svg>
+  </div>
+  <div class="cactus-wrap">
+    <svg width="18" height="28" viewBox="0 0 18 28"><path d="M9 28 L9 7 M9 13 Q4 13 4 9 L4 5 M9 17 Q15 17 15 13 L15 10" stroke="#5A7A44" stroke-width="3" stroke-linecap="round" fill="none"/></svg>
+  </div>
+  <div class="cactus-wrap">
+    <svg width="14" height="22" viewBox="0 0 14 22"><path d="M7 22 L7 5 M7 10 Q3 10 3 7 L3 4 M7 14 Q12 14 12 11 L12 8" stroke="#6B8A54" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>
+  </div>
+  <div class="cactus-wrap">
+    <svg width="16" height="26" viewBox="0 0 16 26"><path d="M8 26 L8 6 M8 12 Q3 12 3 8 L3 4 M8 16 Q14 16 14 12 L14 8" stroke="#5A7A44" stroke-width="3" stroke-linecap="round" fill="none"/></svg>
+  </div>
+
   <div class="rv-ground"></div>
   <div class="rv-road"></div>
+
+  <!-- The rig — Pixar Cars style -->
   <div class="rv-rig">
-    <svg width="310" height="62" viewBox="0 0 310 62" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- === GMC SIERRA (towed, back) === -->
-      <!-- Truck body -->
-      <rect x="0" y="24" width="95" height="24" rx="3" fill="#F0EDE8"/>
-      <!-- Truck cab -->
-      <rect x="55" y="14" width="40" height="34" rx="3" fill="#F0EDE8"/>
-      <!-- Cab windows -->
-      <rect x="60" y="17" width="14" height="12" rx="2" fill="#7BAFD4"/>
-      <rect x="77" y="17" width="14" height="12" rx="2" fill="#7BAFD4"/>
-      <!-- Truck bed -->
-      <rect x="2" y="22" width="52" height="4" rx="1" fill="#D8D4CC"/>
-      <!-- Canoe on top! -->
-      <ellipse cx="28" cy="18" rx="30" ry="5" fill="#2E86AB" opacity="0.85"/>
-      <ellipse cx="28" cy="18" rx="26" ry="3" fill="#3A9BC7" opacity="0.6"/>
-      <!-- Canoe straps -->
-      <line x1="10" y1="18" x2="10" y2="24" stroke="#D4A017" stroke-width="1.5"/>
-      <line x1="46" y1="18" x2="46" y2="24" stroke="#D4A017" stroke-width="1.5"/>
-      <!-- Truck wheels -->
-      <circle cx="20" cy="50" r="9" fill="#333"/>
-      <circle cx="20" cy="50" r="5" fill="#666"/>
-      <circle cx="20" cy="50" r="2" fill="#999"/>
-      <circle cx="78" cy="50" r="9" fill="#333"/>
-      <circle cx="78" cy="50" r="5" fill="#666"/>
-      <circle cx="78" cy="50" r="2" fill="#999"/>
-      <!-- Headlights -->
-      <rect x="93" y="30" width="3" height="6" rx="1" fill="#FFE066"/>
+    <!-- Dust cloud -->
+    <div class="dust-cloud">
+      <svg width="50" height="24" viewBox="0 0 50 24">
+        <ellipse cx="20" cy="16" rx="18" ry="8" fill="#C4A060" opacity="0.35"/>
+        <ellipse cx="10" cy="12" rx="10" ry="6" fill="#B09050" opacity="0.25"/>
+        <ellipse cx="35" cy="18" rx="12" ry="5" fill="#C4A060" opacity="0.2"/>
+      </svg>
+    </div>
+    <svg width="400" height="82" viewBox="0 0 400 82" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Body gradient for depth -->
+        <linearGradient id="rvBody" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#FAFAF5"/>
+          <stop offset="50%" stop-color="#F0EDE4"/>
+          <stop offset="100%" stop-color="#D8D2C4"/>
+        </linearGradient>
+        <linearGradient id="truckBody" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#FAFAF5"/>
+          <stop offset="50%" stop-color="#EDEBE4"/>
+          <stop offset="100%" stop-color="#D5D0C5"/>
+        </linearGradient>
+        <!-- Chrome -->
+        <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#EEE"/>
+          <stop offset="40%" stop-color="#CCC"/>
+          <stop offset="60%" stop-color="#AAA"/>
+          <stop offset="100%" stop-color="#888"/>
+        </linearGradient>
+        <!-- Window gradient -->
+        <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#A8D4E8"/>
+          <stop offset="100%" stop-color="#5A9AB8"/>
+        </linearGradient>
+        <!-- Tire gradient -->
+        <radialGradient id="tire" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0%" stop-color="#555"/>
+          <stop offset="60%" stop-color="#333"/>
+          <stop offset="100%" stop-color="#1a1a1a"/>
+        </radialGradient>
+        <!-- Hubcap -->
+        <radialGradient id="hub" cx="0.35" cy="0.35" r="0.5">
+          <stop offset="0%" stop-color="#DDD"/>
+          <stop offset="100%" stop-color="#999"/>
+        </radialGradient>
+        <!-- Headlight glow -->
+        <radialGradient id="headlight" cx="0.3" cy="0.3" r="0.7">
+          <stop offset="0%" stop-color="#FFFDE0"/>
+          <stop offset="100%" stop-color="#FFD700"/>
+        </radialGradient>
+      </defs>
+
+      <!-- ============================================ -->
+      <!-- === GMC SIERRA 1500 (towed, rear) === -->
+      <!-- ============================================ -->
+
+      <!-- Truck shadow -->
+      <ellipse cx="50" cy="72" rx="48" ry="4" fill="#000" opacity="0.15"/>
+
+      <!-- Truck bed body — rounded like Cars -->
+      <path d="M2 38 L2 34 Q2 28 8 28 L55 28 L55 52 Q55 56 51 56 L8 56 Q2 56 2 52 Z" fill="url(#truckBody)" stroke="#BBB" stroke-width="0.5"/>
+      <!-- Bed rail -->
+      <path d="M4 28 L55 28" stroke="#CCC" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Bed liner dark -->
+      <rect x="6" y="30" width="46" height="4" rx="1" fill="#B8B0A4"/>
+
+      <!-- Truck cab — chunky, rounded proportions -->
+      <path d="M55 56 L55 22 Q55 14 63 12 L88 10 Q96 10 98 18 L98 56 Q98 58 96 58 L57 58 Q55 58 55 56 Z" fill="url(#truckBody)" stroke="#BBB" stroke-width="0.5"/>
+      <!-- Cab roof highlight -->
+      <path d="M58 14 Q62 10 88 10 Q94 10 96 14" stroke="#FFF" stroke-width="1" opacity="0.4" fill="none"/>
+      <!-- Cab windows with reflection -->
+      <rect x="60" y="16" width="15" height="18" rx="3" fill="url(#glass)"/>
+      <rect x="60" y="16" width="15" height="6" rx="3" fill="#C8E8F8" opacity="0.4"/>
+      <rect x="79" y="16" width="15" height="18" rx="3" fill="url(#glass)"/>
+      <rect x="79" y="16" width="15" height="6" rx="3" fill="#C8E8F8" opacity="0.4"/>
+      <!-- Window divider (B-pillar) -->
+      <rect x="76" y="14" width="3" height="22" rx="1" fill="#D0C8BC"/>
+      <!-- Door handle chrome -->
+      <rect x="82" y="38" width="8" height="2" rx="1" fill="url(#chrome)"/>
+      <!-- Front bumper chrome -->
+      <path d="M98 42 L102 42 Q104 42 104 44 L104 54 Q104 56 102 56 L98 56" fill="url(#chrome)" stroke="#999" stroke-width="0.5"/>
+      <!-- Headlight -->
+      <rect x="99" y="44" width="4" height="5" rx="2" fill="url(#headlight)"/>
+      <!-- Grille -->
+      <rect x="99" y="36" width="4" height="6" rx="1" fill="#777"/>
+      <line x1="100" y1="37" x2="100" y2="42" stroke="#999" stroke-width="0.5"/>
+      <line x1="102" y1="37" x2="102" y2="42" stroke="#999" stroke-width="0.5"/>
       <!-- Taillights -->
-      <rect x="0" y="30" width="3" height="6" rx="1" fill="#CC3333"/>
+      <rect x="1" y="36" width="3" height="8" rx="1.5" fill="#CC2200"/>
+      <rect x="1" y="37" width="2" height="3" rx="1" fill="#FF4433" opacity="0.6"/>
 
-      <!-- === TOW BAR === -->
-      <line x1="96" y1="38" x2="115" y2="38" stroke="#888" stroke-width="3" stroke-linecap="round"/>
+      <!-- === Canoe on roof rack! === -->
+      <!-- Rack bars -->
+      <rect x="8" y="26" width="2" height="4" rx="0.5" fill="#888"/>
+      <rect x="42" y="26" width="2" height="4" rx="0.5" fill="#888"/>
+      <!-- Canoe hull -->
+      <path d="M-5 24 Q25 14 55 24" fill="#1E78A0" stroke="#16607E" stroke-width="1"/>
+      <!-- Canoe interior -->
+      <path d="M0 24 Q25 17 50 24" fill="#2890B8" opacity="0.5"/>
+      <!-- Canoe gunwales -->
+      <line x1="-4" y1="24" x2="54" y2="24" stroke="#16607E" stroke-width="1"/>
+      <!-- Tie-down straps -->
+      <line x1="9" y1="24" x2="9" y2="28" stroke="#E8A020" stroke-width="2" stroke-linecap="round"/>
+      <line x1="43" y1="24" x2="43" y2="28" stroke="#E8A020" stroke-width="2" stroke-linecap="round"/>
 
-      <!-- === MONACO CAYMAN 36PDQ (front) === -->
-      <!-- Main body -->
-      <rect x="115" y="10" width="190" height="38" rx="4" fill="#F5F0E8"/>
-      <!-- Swooping graphics (dark curves like the real one) -->
-      <path d="M125 30 Q160 15 200 28 Q240 42 280 25 Q295 20 305 22" stroke="#444" stroke-width="3" fill="none" opacity="0.6"/>
-      <path d="M130 35 Q170 22 210 34 Q250 46 290 30 Q300 27 305 28" stroke="#888" stroke-width="2" fill="none" opacity="0.4"/>
-      <!-- Windshield -->
-      <path d="M290 12 L305 12 Q308 12 308 15 L308 35 L290 35 Z" fill="#7BAFD4"/>
+      <!-- Truck wheels — thick, chunky like Cars -->
+      <circle cx="22" cy="62" r="11" fill="url(#tire)"/>
+      <circle cx="22" cy="62" r="7" fill="url(#hub)"/>
+      <circle cx="22" cy="62" r="2" fill="#BBB"/>
+      <!-- Lug nuts -->
+      <circle cx="22" cy="57" r="1" fill="#AAA"/><circle cx="26" cy="60" r="1" fill="#AAA"/>
+      <circle cx="26" cy="64" r="1" fill="#AAA"/><circle cx="18" cy="60" r="1" fill="#AAA"/>
+      <circle cx="18" cy="64" r="1" fill="#AAA"/>
+
+      <circle cx="82" cy="62" r="11" fill="url(#tire)"/>
+      <circle cx="82" cy="62" r="7" fill="url(#hub)"/>
+      <circle cx="82" cy="62" r="2" fill="#BBB"/>
+      <circle cx="82" cy="57" r="1" fill="#AAA"/><circle cx="86" cy="60" r="1" fill="#AAA"/>
+      <circle cx="86" cy="64" r="1" fill="#AAA"/><circle cx="78" cy="60" r="1" fill="#AAA"/>
+      <circle cx="78" cy="64" r="1" fill="#AAA"/>
+
+      <!-- Wheel well arches -->
+      <path d="M8 56 Q22 48 36 56" fill="none" stroke="#C0B8A8" stroke-width="1.5"/>
+      <path d="M68 56 Q82 48 96 56" fill="none" stroke="#C0B8A8" stroke-width="1.5"/>
+
+      <!-- ============================================ -->
+      <!-- === TOW BAR (A-frame style) === -->
+      <!-- ============================================ -->
+      <line x1="104" y1="48" x2="128" y2="50" stroke="#777" stroke-width="3" stroke-linecap="round"/>
+      <line x1="104" y1="54" x2="128" y2="52" stroke="#777" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="128" cy="51" r="3" fill="#888" stroke="#666" stroke-width="1"/>
+
+      <!-- ============================================ -->
+      <!-- === MONACO CAYMAN 36PDQ (front, pulling) === -->
+      <!-- ============================================ -->
+
+      <!-- RV shadow -->
+      <ellipse cx="270" cy="74" rx="100" ry="5" fill="#000" opacity="0.15"/>
+
+      <!-- Main body — rounded, friendly proportions -->
+      <path d="M130 58 L130 18 Q130 10 138 10 L375 10 Q385 8 388 14 L392 22 Q394 26 394 30 L394 58 Q394 62 390 62 L134 62 Q130 62 130 58 Z" fill="url(#rvBody)" stroke="#BBB" stroke-width="0.7"/>
+
+      <!-- Body highlight strip (top) -->
+      <path d="M138 12 L380 10" stroke="#FFF" stroke-width="1.5" opacity="0.35" stroke-linecap="round"/>
+
+      <!-- Swooping graphic stripes (like the real Cayman) -->
+      <path d="M135 38 Q180 20 230 36 Q280 52 340 30 Q370 22 390 26" stroke="#555" stroke-width="3.5" fill="none" opacity="0.5" stroke-linecap="round"/>
+      <path d="M138 42 Q185 28 240 42 Q290 54 350 36 Q375 30 390 32" stroke="#999" stroke-width="2" fill="none" opacity="0.35" stroke-linecap="round"/>
+      <path d="M140 46 Q190 34 245 46 Q295 56 355 40 Q378 34 392 36" stroke="#BBB" stroke-width="1.5" fill="none" opacity="0.25" stroke-linecap="round"/>
+
+      <!-- Windshield — big, curved, Cars-style -->
+      <path d="M375 12 L388 14 Q394 16 394 24 L394 42 L375 42 Q372 42 372 39 L372 15 Q372 12 375 12 Z" fill="url(#glass)"/>
+      <!-- Windshield reflection -->
+      <path d="M376 14 L386 15 Q390 16 390 20 L390 26 L376 26 Z" fill="#C8E8F8" opacity="0.35"/>
+      <!-- Wiper -->
+      <line x1="380" y1="40" x2="388" y2="20" stroke="#666" stroke-width="0.7"/>
+
       <!-- Side windows -->
-      <rect x="250" y="14" width="18" height="14" rx="2" fill="#7BAFD4"/>
-      <rect x="228" y="14" width="18" height="14" rx="2" fill="#7BAFD4"/>
-      <rect x="206" y="14" width="18" height="14" rx="2" fill="#7BAFD4"/>
+      <rect x="342" y="15" width="22" height="18" rx="3" fill="url(#glass)"/>
+      <rect x="342" y="15" width="22" height="6" rx="3" fill="#C8E8F8" opacity="0.3"/>
+      <rect x="314" y="15" width="22" height="18" rx="3" fill="url(#glass)"/>
+      <rect x="314" y="15" width="22" height="6" rx="3" fill="#C8E8F8" opacity="0.3"/>
+      <rect x="286" y="15" width="22" height="18" rx="3" fill="url(#glass)"/>
+      <rect x="286" y="15" width="22" height="6" rx="3" fill="#C8E8F8" opacity="0.3"/>
+
       <!-- Entry door -->
-      <rect x="175" y="16" width="14" height="28" rx="2" fill="#E0DBD2" stroke="#CCC" stroke-width="0.5"/>
-      <!-- Awning rail -->
-      <line x1="125" y1="10" x2="290" y2="10" stroke="#AAA" stroke-width="1.5"/>
-      <!-- Roof AC units -->
-      <rect x="145" y="4" width="22" height="7" rx="2" fill="#DDD" stroke="#BBB" stroke-width="0.5"/>
-      <rect x="195" y="4" width="22" height="7" rx="2" fill="#DDD" stroke="#BBB" stroke-width="0.5"/>
-      <rect x="245" y="4" width="22" height="7" rx="2" fill="#DDD" stroke="#BBB" stroke-width="0.5"/>
-      <!-- Storage bays (bottom) -->
-      <rect x="128" y="36" width="30" height="10" rx="1" fill="#C8C0B0" stroke="#B0A898" stroke-width="0.5"/>
-      <rect x="162" y="36" width="30" height="10" rx="1" fill="#C8C0B0" stroke="#B0A898" stroke-width="0.5"/>
-      <rect x="196" y="36" width="30" height="10" rx="1" fill="#C8C0B0" stroke="#B0A898" stroke-width="0.5"/>
-      <rect x="230" y="36" width="30" height="10" rx="1" fill="#C8C0B0" stroke="#B0A898" stroke-width="0.5"/>
-      <!-- "Cayman" text -->
-      <text x="265" y="33" font-family="serif" font-size="7" fill="#8B7355" font-style="italic">Cayman</text>
-      <!-- RV Wheels -->
-      <circle cx="145" cy="50" r="9" fill="#333"/>
-      <circle cx="145" cy="50" r="5" fill="#666"/>
-      <circle cx="145" cy="50" r="2" fill="#999"/>
-      <circle cx="280" cy="50" r="9" fill="#333"/>
-      <circle cx="280" cy="50" r="5" fill="#666"/>
-      <circle cx="280" cy="50" r="2" fill="#999"/>
-      <!-- Front bumper & headlights -->
-      <rect x="305" y="15" width="5" height="32" rx="2" fill="#E0DBD2"/>
-      <rect x="307" y="18" width="3" height="8" rx="1" fill="#FFE066"/>
-      <rect x="307" y="34" width="3" height="8" rx="1" fill="#FFE066"/>
-      <!-- Rear -->
-      <rect x="115" y="28" width="3" height="10" rx="1" fill="#CC3333"/>
+      <rect x="255" y="16" width="16" height="36" rx="3" fill="#E8E2D8" stroke="#CCC" stroke-width="0.7"/>
+      <circle cx="258" cy="34" r="1.5" fill="url(#chrome)"/>
+      <!-- Step -->
+      <rect x="257" y="54" width="12" height="3" rx="1" fill="#888"/>
+
+      <!-- Awning rail — chrome -->
+      <rect x="140" y="9" width="235" height="2" rx="1" fill="url(#chrome)"/>
+
+      <!-- Roof AC units — rounded -->
+      <rect x="160" y="2" width="28" height="9" rx="4" fill="#E8E4E0" stroke="#CCC" stroke-width="0.5"/>
+      <rect x="162" y="4" width="24" height="2" rx="1" fill="#DDD"/>
+      <rect x="220" y="2" width="28" height="9" rx="4" fill="#E8E4E0" stroke="#CCC" stroke-width="0.5"/>
+      <rect x="222" y="4" width="24" height="2" rx="1" fill="#DDD"/>
+      <rect x="280" y="2" width="28" height="9" rx="4" fill="#E8E4E0" stroke="#CCC" stroke-width="0.5"/>
+      <rect x="282" y="4" width="24" height="2" rx="1" fill="#DDD"/>
+
+      <!-- Storage bays with chrome handles -->
+      <rect x="142" y="44" width="36" height="14" rx="2" fill="#D8D0C4" stroke="#C0B8A8" stroke-width="0.7"/>
+      <rect x="150" y="50" width="20" height="2" rx="1" fill="url(#chrome)"/>
+      <rect x="184" y="44" width="36" height="14" rx="2" fill="#D8D0C4" stroke="#C0B8A8" stroke-width="0.7"/>
+      <rect x="192" y="50" width="20" height="2" rx="1" fill="url(#chrome)"/>
+      <rect x="226" y="44" width="36" height="14" rx="2" fill="#D8D0C4" stroke="#C0B8A8" stroke-width="0.7"/>
+      <rect x="234" y="50" width="20" height="2" rx="1" fill="url(#chrome)"/>
+
+      <!-- "Cayman" script -->
+      <text x="348" y="40" font-family="Georgia, serif" font-size="8" fill="#8B7355" font-style="italic" font-weight="bold">Cayman</text>
+
+      <!-- Front bumper — chrome, chunky -->
+      <path d="M394 24 L398 24 Q400 24 400 26 L400 56 Q400 58 398 58 L394 58" fill="url(#chrome)" stroke="#999" stroke-width="0.5"/>
+      <!-- Headlights — big, glowing -->
+      <rect x="395" y="26" width="5" height="10" rx="3" fill="url(#headlight)"/>
+      <rect x="395" y="26" width="5" height="4" rx="2" fill="#FFFEF0" opacity="0.6"/>
+      <rect x="395" y="44" width="5" height="10" rx="3" fill="url(#headlight)"/>
+      <rect x="395" y="44" width="5" height="4" rx="2" fill="#FFFEF0" opacity="0.6"/>
+      <!-- Turn signals -->
+      <rect x="395" y="38" width="4" height="4" rx="2" fill="#FFB347"/>
+
+      <!-- Rear taillights -->
+      <rect x="130" y="34" width="4" height="10" rx="2" fill="#CC2200"/>
+      <rect x="131" y="35" width="2" height="4" rx="1" fill="#FF4433" opacity="0.6"/>
+
+      <!-- RV Wheels — big, detailed -->
+      <circle cx="175" cy="64" r="13" fill="url(#tire)"/>
+      <circle cx="175" cy="64" r="8.5" fill="url(#hub)"/>
+      <circle cx="175" cy="64" r="3" fill="#CCC"/>
+      <circle cx="175" cy="58" r="1.2" fill="#AAA"/><circle cx="180" cy="62" r="1.2" fill="#AAA"/>
+      <circle cx="180" cy="67" r="1.2" fill="#AAA"/><circle cx="170" cy="62" r="1.2" fill="#AAA"/>
+      <circle cx="170" cy="67" r="1.2" fill="#AAA"/>
+
+      <circle cx="355" cy="64" r="13" fill="url(#tire)"/>
+      <circle cx="355" cy="64" r="8.5" fill="url(#hub)"/>
+      <circle cx="355" cy="64" r="3" fill="#CCC"/>
+      <circle cx="355" cy="58" r="1.2" fill="#AAA"/><circle cx="360" cy="62" r="1.2" fill="#AAA"/>
+      <circle cx="360" cy="67" r="1.2" fill="#AAA"/><circle cx="350" cy="62" r="1.2" fill="#AAA"/>
+      <circle cx="350" cy="67" r="1.2" fill="#AAA"/>
+
+      <!-- Wheel well arches — rounded -->
+      <path d="M155 58 Q175 46 195 58" fill="none" stroke="#C0B8A8" stroke-width="2"/>
+      <path d="M335 58 Q355 46 375 58" fill="none" stroke="#C0B8A8" stroke-width="2"/>
+
+      <!-- Rear hitch -->
+      <rect x="128" y="48" width="4" height="8" rx="1" fill="#777"/>
     </svg>
   </div>
 </div>
