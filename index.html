@@ -1651,15 +1651,20 @@ days.forEach((d, i) => {
     const dcExtra = d.disconnect ? parseFloat(d.disconnect.timeAdded.replace(/[^0-9.]/g,''))/60 : 0;
     html += `
         <div class="depart-calc" onclick="event.stopPropagation()">
-          <div class="depart-calc-title">&#9200; Departure Calculator</div>
+          <div class="depart-calc-title">&#9200; Trip Calculator</div>
           <div class="depart-calc-row">
-            <span class="depart-calc-label">Arrive by:</span>
-            <input type="time" class="depart-calc-input" id="arrive-${d.day}" value="" onchange="calcDepart(${d.day},${d.driveHrs},${dcExtra})">
+            <span class="depart-calc-label">Depart at:</span>
+            <input type="time" class="depart-calc-input" id="depart-input-${d.day}" value="" onchange="calcFromDepart(${d.day},${d.driveHrs},${dcExtra})">
+          </div>
+          <div class="depart-calc-row">
+            <span class="depart-calc-label">— or Arrive by:</span>
+            <input type="time" class="depart-calc-input" id="arrive-${d.day}" value="" onchange="calcFromArrive(${d.day},${d.driveHrs},${dcExtra})">
           </div>
           <div class="depart-calc-result" id="depart-result-${d.day}">
-            <div class="depart-pill"><span class="val leave" id="leave-time-${d.day}">--:--</span><span class="lbl">Leave By</span></div>
+            <div class="depart-pill"><span class="val leave" id="leave-time-${d.day}">--:--</span><span class="lbl">Depart</span></div>
             <div class="depart-pill"><span class="val total" id="total-time-${d.day}">${d.drive}</span><span class="lbl">Drive Time</span></div>
             <div class="depart-pill"><span class="val stops" id="stops-time-${d.day}">0 min</span><span class="lbl">Added Stops</span></div>
+            <div class="depart-pill"><span class="val leave" id="arrive-time-${d.day}">--:--</span><span class="lbl">Arrive</span></div>
           </div>
         </div>`;
   }
@@ -1841,52 +1846,85 @@ function updateCountdown() {
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-// ===== DEPARTURE CALCULATOR =====
-function calcDepart(dayNum, baseDriveHrs, disconnectHrs) {
-  const arriveInput = document.getElementById('arrive-' + dayNum);
+// ===== TRIP CALCULATOR =====
+function fmt12(totalMins) {
+  if (totalMins < 0) totalMins += 1440;
+  if (totalMins >= 1440) totalMins -= 1440;
+  const h = Math.floor(totalMins / 60);
+  const m = totalMins % 60;
+  const ampm = h >= 12 ? 'pm' : 'am';
+  const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+  return h12 + ':' + String(m).padStart(2, '0') + ' ' + ampm;
+}
+
+function getTotalMins(dayNum, baseDriveHrs, disconnectHrs) {
+  const checkedStops = document.querySelectorAll('.americana-add-stop input[data-day="' + dayNum + '"]:checked').length;
+  const stopsMins = checkedStops * 15;
+  return Math.round(baseDriveHrs * 60) + Math.round(disconnectHrs * 60) + stopsMins;
+}
+
+function updateDisplay(dayNum, totalMins, stopsMins, leaveMins, arriveMins) {
   const leaveEl = document.getElementById('leave-time-' + dayNum);
+  const arriveEl = document.getElementById('arrive-time-' + dayNum);
   const totalEl = document.getElementById('total-time-' + dayNum);
   const stopsEl = document.getElementById('stops-time-' + dayNum);
 
-  if (!arriveInput.value) {
-    leaveEl.textContent = '--:--';
-    return;
-  }
+  leaveEl.textContent = leaveMins !== null ? fmt12(leaveMins) : '--:--';
+  arriveEl.textContent = arriveMins !== null ? fmt12(arriveMins) : '--:--';
 
-  // Count checked stops (americana + fuel) for this day — each adds 15 min
-  const checkedStops = document.querySelectorAll('.americana-add-stop input[data-day="' + dayNum + '"]:checked').length;
-  const stopsMins = checkedStops * 15;
-
-  // Total drive = base + disconnect + stops
-  const totalMins = Math.round(baseDriveHrs * 60) + Math.round(disconnectHrs * 60) + stopsMins;
-
-  // Parse arrival time
-  const [arrH, arrM] = arriveInput.value.split(':').map(Number);
-  const arriveTotal = arrH * 60 + arrM;
-
-  // Subtract to get departure
-  let leaveTotal = arriveTotal - totalMins;
-  if (leaveTotal < 0) leaveTotal += 1440; // wrap past midnight
-
-  const leaveH = Math.floor(leaveTotal / 60);
-  const leaveM = leaveTotal % 60;
-
-  // Format as 12-hour
-  const ampm = leaveH >= 12 ? 'pm' : 'am';
-  const h12 = leaveH === 0 ? 12 : leaveH > 12 ? leaveH - 12 : leaveH;
-  leaveEl.textContent = h12 + ':' + String(leaveM).padStart(2, '0') + ' ' + ampm;
-
-  // Update totals display
   const totalH = Math.floor(totalMins / 60);
   const totalM = totalMins % 60;
-  totalEl.textContent = totalH + 'h ' + (totalM > 0 ? totalM + 'm' : '');
+  totalEl.textContent = totalH + 'h' + (totalM > 0 ? ' ' + totalM + 'm' : '');
   stopsEl.textContent = stopsMins > 0 ? stopsMins + ' min' : '0 min';
 }
 
-// Recalculate departure when any stop is toggled
-function recalcDepartForDay(dayNum) {
+// Calculate from arrival time (work backwards to get departure)
+function calcFromArrive(dayNum, baseDriveHrs, disconnectHrs) {
   const arriveInput = document.getElementById('arrive-' + dayNum);
-  if (arriveInput && arriveInput.value) {
+  const departInput = document.getElementById('depart-input-' + dayNum);
+  if (!arriveInput.value) return;
+
+  // Clear the other input so it's clear which mode is active
+  departInput.value = '';
+
+  const checkedStops = document.querySelectorAll('.americana-add-stop input[data-day="' + dayNum + '"]:checked').length;
+  const stopsMins = checkedStops * 15;
+  const totalMins = getTotalMins(dayNum, baseDriveHrs, disconnectHrs);
+
+  const [h, m] = arriveInput.value.split(':').map(Number);
+  const arriveTotalMins = h * 60 + m;
+  const leaveTotalMins = arriveTotalMins - totalMins;
+
+  updateDisplay(dayNum, totalMins, stopsMins, leaveTotalMins, arriveTotalMins);
+}
+
+// Calculate from departure time (work forwards to get arrival)
+function calcFromDepart(dayNum, baseDriveHrs, disconnectHrs) {
+  const departInput = document.getElementById('depart-input-' + dayNum);
+  const arriveInput = document.getElementById('arrive-' + dayNum);
+  if (!departInput.value) return;
+
+  // Clear the other input
+  arriveInput.value = '';
+
+  const checkedStops = document.querySelectorAll('.americana-add-stop input[data-day="' + dayNum + '"]:checked').length;
+  const stopsMins = checkedStops * 15;
+  const totalMins = getTotalMins(dayNum, baseDriveHrs, disconnectHrs);
+
+  const [h, m] = departInput.value.split(':').map(Number);
+  const departTotalMins = h * 60 + m;
+  const arriveTotalMins = departTotalMins + totalMins;
+
+  updateDisplay(dayNum, totalMins, stopsMins, departTotalMins, arriveTotalMins);
+}
+
+// Recalculate when stops are toggled — use whichever input has a value
+function recalcDepartForDay(dayNum) {
+  const departInput = document.getElementById('depart-input-' + dayNum);
+  const arriveInput = document.getElementById('arrive-' + dayNum);
+  if (departInput && departInput.value) {
+    departInput.dispatchEvent(new Event('change'));
+  } else if (arriveInput && arriveInput.value) {
     arriveInput.dispatchEvent(new Event('change'));
   }
 }
