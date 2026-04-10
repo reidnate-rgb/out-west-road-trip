@@ -96,7 +96,7 @@ body {
 /* ===== RV ANIMATION STRIP ===== */
 .rv-strip {
   position: relative;
-  height: 180px;
+  height: 220px;
   overflow: hidden;
   border-bottom: 3px solid var(--leather);
   /* Desert sky gradient */
@@ -174,25 +174,25 @@ body {
 .cactus-wrap:nth-child(4) { left: 78%; }
 .cactus-wrap:nth-child(5) { left: 92%; }
 
-/* The rig — bounces slightly like Pixar */
+/* The rig */
 .rv-rig {
   position: absolute;
-  bottom: 18px;
+  bottom: 16px;
   animation: drive 22s linear infinite;
   z-index: 5;
-  filter: drop-shadow(2px 3px 4px rgba(0,0,0,0.35));
+  filter: drop-shadow(3px 4px 6px rgba(0,0,0,0.4));
 }
 @keyframes drive {
-  0% { left: -380px; }
+  0% { left: -500px; }
   100% { left: 110%; }
 }
-/* Subtle bounce */
-.rv-rig svg {
-  animation: bounce 0.4s ease-in-out infinite alternate;
+/* Bounce on the image */
+.rv-rig img {
+  animation: bounce 0.35s ease-in-out infinite alternate;
 }
 @keyframes bounce {
   0% { transform: translateY(0); }
-  100% { transform: translateY(-1.5px); }
+  100% { transform: translateY(-2.5px); }
 }
 /* Dust cloud behind truck */
 .dust-cloud {
@@ -703,7 +703,7 @@ body {
         <ellipse cx="38" cy="20" rx="14" ry="6" fill="#C4A060" opacity="0.15"/>
       </svg>
     </div>
-    <img src="rig-clean.png" alt="Monaco Cayman towing GMC Sierra - Pixar Cars style" style="height:140px;width:auto;display:block;">
+    <img src="rig-clean.png" alt="Monaco Cayman towing GMC Sierra - Pixar Cars style" style="height:185px;width:auto;display:block;">
   </div>
 </div>
 
