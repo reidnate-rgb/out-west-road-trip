@@ -735,6 +735,82 @@ body {
   letter-spacing: 1px;
 }
 
+/* ===== DEPARTURE CALCULATOR ===== */
+.depart-calc {
+  background: linear-gradient(135deg, #F0F4FF, #E6EDFF);
+  border: 1px solid rgba(91,143,168,0.3);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.depart-calc-title {
+  font-family: 'Rye', cursive;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--sky);
+  margin-bottom: 10px;
+}
+.depart-calc-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.depart-calc-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark);
+  min-width: 110px;
+}
+.depart-calc-input {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark);
+  background: #fff;
+  border: 2px solid rgba(91,143,168,0.3);
+  border-radius: 6px;
+  padding: 6px 10px;
+  width: 130px;
+  text-align: center;
+}
+.depart-calc-input:focus { outline: none; border-color: var(--sky); }
+.depart-calc-result {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.depart-pill {
+  flex: 1;
+  min-width: 80px;
+  background: #fff;
+  border: 1px solid rgba(91,143,168,0.25);
+  border-radius: 6px;
+  padding: 8px 10px;
+  text-align: center;
+}
+.depart-pill .val {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 900;
+  display: block;
+  line-height: 1;
+}
+.depart-pill .val.leave { color: var(--sky); }
+.depart-pill .val.total { color: var(--mesa); }
+.depart-pill .val.stops { color: var(--sage); }
+.depart-pill .lbl {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #888;
+  display: block;
+  margin-top: 3px;
+}
+
 /* ===== DISCONNECT TOAD CARD ===== */
 .disconnect-card {
   background: linear-gradient(135deg, #FFF5F0, #FFE8DD);
@@ -1006,7 +1082,7 @@ const days = [
 {
   day:1, dow:"SAT", date:"Jul 11", title:"Knoxville to St. Louis", meta:"490 mi &bull; ~7.5 hrs &bull; ~$165 fuel",
   img:"https://images.unsplash.com/photo-1617581629397-a72507c3de9e?w=800&q=80",
-  miles:"~490", drive:"~7.5 hrs", fuel:"~$165",
+  miles:"~490", drive:"~7.5 hrs",driveHrs:7.5, fuel:"~$165",
   mapUrl:"https://www.google.com/maps/dir/Knoxville,+TN/Cahokia+RV+Parque,+Prairie+Du+Pont+Road,+Cahokia+Heights,+IL",
   mapText:"Knoxville TN → Cahokia RV Parque",
   mapSub:"I-40 W through Nashville then I-64 W into St. Louis",
@@ -1036,7 +1112,7 @@ const days = [
 {
   day:2, dow:"SUN", date:"Jul 12", title:"St. Louis to Ellis, KS", meta:"530 mi &bull; ~8.5 hrs &bull; ~$155 fuel",
   img:"https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=800&q=80",
-  miles:"~530", drive:"~8.5 hrs", fuel:"~$155",
+  miles:"~530", drive:"~8.5 hrs",driveHrs:8.5, fuel:"~$155",
   mapUrl:"https://www.google.com/maps/dir/Cahokia+Heights,+IL/Ellis,+KS+67637",
   mapText:"Cahokia Heights IL → Ellis KS",
   mapSub:"I-70 West the entire route through Kansas City",
@@ -1065,7 +1141,7 @@ const days = [
 {
   day:3, dow:"MON", date:"Jul 13", title:"Ellis, KS to Rocky Mtn NP", meta:"480 mi &bull; ~7.5 hrs &bull; ~$175 fuel",
   img:"https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80",
-  miles:"~480", drive:"~7.5 hrs", fuel:"~$175",
+  miles:"~480", drive:"~7.5 hrs",driveHrs:7.5, fuel:"~$175",
   mapUrl:"https://www.google.com/maps/dir/Ellis,+KS/Loveland,+CO/Glacier+Basin+Campground,+Rocky+Mountain+National+Park,+CO",
   mapText:"Ellis KS → Glacier Basin, RMNP",
   mapSub:"I-70 W, I-25 N, US-34 W (Big Thompson Canyon)",
@@ -1096,7 +1172,7 @@ const days = [
 {
   day:4, dow:"TUE", date:"Jul 14", title:"Rocky Mountain NP — Full Day", meta:"No driving &bull; Explore the park!",
   img:"https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&q=80",
-  miles:"0", drive:"All Day", fuel:"$0",
+  miles:"0", drive:"All Day",driveHrs:0, fuel:"$0",
   mapUrl:null, mapText:null, mapSub:null,
   briefing:[
     {icon:"&#127780;&#65039;",text:"Afternoon thunderstorms nearly every July day — hike early, be below treeline by noon."},
@@ -1123,7 +1199,7 @@ const days = [
 {
   day:5, dow:"WED", date:"Jul 15", title:"RMNP → Arches → Monument Valley", meta:"560 mi &bull; ~9 hrs (incl. disconnect) &bull; ~$200 fuel",
   img:"https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&q=80",
-  miles:"~560", drive:"~9 hrs", fuel:"~$200",
+  miles:"~560", drive:"~9 hrs",driveHrs:9.0, fuel:"~$200",
   mapUrl:"https://www.google.com/maps/dir/Glacier+Basin+Campground,+Estes+Park,+CO/Georgetown,+CO/Silverthorne,+CO/Arches+National+Park+Visitor+Center,+Moab,+UT/The+View+Campground,+Oljato-Monument+Valley,+UT",
   disconnect:{
     label:"Eisenhower Tunnel + Vail Pass — 7% grades",
@@ -1168,7 +1244,7 @@ const days = [
 {
   day:6, dow:"THU", date:"Jul 16", title:"Monument Valley to Bryce Canyon", meta:"220 mi &bull; ~5 hrs &bull; ~$85 fuel",
   img:"https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?w=800&q=80",
-  miles:"~220", drive:"~5 hrs", fuel:"~$85",
+  miles:"~220", drive:"~5 hrs",driveHrs:5.0, fuel:"~$85",
   mapUrl:"https://www.google.com/maps/dir/Monument+Valley+Navajo+Tribal+Park,+UT/Page,+AZ/Kanab,+UT/North+Campground+Bryce+Canyon+National+Park",
   mapText:"Monument Valley → Bryce Canyon North Campground",
   mapSub:"US-163 N, US-160 W, US-89 N, UT-63 N — stays on safe roads",
@@ -1198,7 +1274,7 @@ const days = [
 {
   day:7, dow:"FRI", date:"Jul 17", title:"Bryce Canyon + Zion Day Trip", meta:"~80 mi round trip &bull; Tow car only",
   img:"https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?w=800&q=80",
-  miles:"~80", drive:"~4 hrs", fuel:"Tow Car",
+  miles:"~80", drive:"~4 hrs",driveHrs:4.0, fuel:"Tow Car",
   mapUrl:"https://www.google.com/maps/dir/North+Campground+Bryce+Canyon,+UT/Zion+National+Park+Visitor+Center,+Springdale,+UT",
   mapText:"Bryce → Zion Visitor Center (TOW VEHICLE)",
   mapSub:"US-89 S then UT-9 W — leave the RV at camp!",
@@ -1226,7 +1302,7 @@ const days = [
 {
   day:8, dow:"SAT", date:"Jul 18", title:"Bryce Canyon to Sequoia NP", meta:"520 mi &bull; ~9 hrs &bull; ~$250 fuel",
   img:"https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&q=80",
-  miles:"~520", drive:"~9 hrs", fuel:"~$250",
+  miles:"~520", drive:"~9 hrs",driveHrs:9.0, fuel:"~$250",
   mapUrl:"https://www.google.com/maps/dir/North+Campground,+Bryce+Canyon+NP,+UT/Las+Vegas,+NV/Visalia,+CA/Sequoia+RV+Ranch,+Three+Rivers,+CA",
   disconnect:{
     label:"Sequoia CA-198 — MANDATORY (22ft limit, towed units prohibited)",
@@ -1270,7 +1346,7 @@ const days = [
 {
   day:9, dow:"SUN", date:"Jul 19", title:"Sequoia to Yosemite NP", meta:"195 mi &bull; ~4.25 hrs (incl. reconnect) &bull; ~$115 fuel",
   img:"https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800&q=80",
-  miles:"~195", drive:"~4.25 hrs", fuel:"~$115",
+  miles:"~195", drive:"~4.25 hrs",driveHrs:4.25, fuel:"~$115",
   mapUrl:"https://www.google.com/maps/dir/Sequoia+RV+Ranch,+Three+Rivers,+CA/Thousand+Trails+Yosemite+Lakes+RV+Resort,+Groveland,+CA",
   disconnect:{
     label:"Reconnect from yesterday — truck was separated at Sequoia",
@@ -1311,7 +1387,7 @@ const days = [
 {
   day:10, dow:"MON", date:"Jul 20", title:"Yosemite — Full Day", meta:"~30 mi to Upper Pines &bull; Explore!",
   img:"https://images.unsplash.com/photo-1472396961693-142e6e269027?w=800&q=80",
-  miles:"~30", drive:"Short Drive", fuel:"~$18",
+  miles:"~30", drive:"Short Drive",driveHrs:0.5, fuel:"~$18",
   mapUrl:"https://www.google.com/maps/dir/Thousand+Trails+Yosemite+Lakes,+Groveland,+CA/Upper+Pines+Campground,+Yosemite+Valley,+CA",
   mapText:"Thousand Trails → Upper Pines (Yosemite Valley)",
   mapSub:"CA-120 East via Big Oak Flat entrance — must have timed-entry permit",
@@ -1339,7 +1415,7 @@ const days = [
 {
   day:11, dow:"TUE", date:"Jul 21", title:"Yosemite to Barstow, CA", meta:"320 mi &bull; ~5.75 hrs (incl. disconnect) &bull; ~$185 fuel",
   img:"https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800&q=80",
-  miles:"~320", drive:"~5.75 hrs", fuel:"~$185",
+  miles:"~320", drive:"~5.75 hrs",driveHrs:5.75, fuel:"~$185",
   mapUrl:"https://www.google.com/maps/dir/Upper+Pines+Campground,+Yosemite+Valley,+CA/Fish+Camp,+CA/Barstow,+CA",
   disconnect:{
     label:"CA-41 Wawona Road — 7% grade for 3 miles",
@@ -1381,7 +1457,7 @@ const days = [
 {
   day:12, dow:"WED", date:"Jul 22", title:"Barstow to Grand Canyon", meta:"340 mi &bull; ~5.5 hrs &bull; ~$115 fuel",
   img:"https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?w=800&q=80",
-  miles:"~340", drive:"~5.5 hrs", fuel:"~$115",
+  miles:"~340", drive:"~5.5 hrs",driveHrs:5.5, fuel:"~$115",
   mapUrl:"https://www.google.com/maps/dir/Barstow,+CA/Trailer+Village+RV+Park,+Grand+Canyon+Village,+AZ",
   mapText:"Barstow CA → Trailer Village, Grand Canyon",
   mapSub:"I-40 E through Kingman, then AZ-64 N to South Rim",
@@ -1410,7 +1486,7 @@ const days = [
 {
   day:13, dow:"THU", date:"Jul 23", title:"Grand Canyon — Full Day", meta:"No driving &bull; South Rim all day",
   img:"https://images.unsplash.com/photo-1615551043360-33de8b5f410c?w=800&q=80",
-  miles:"0", drive:"All Day", fuel:"$0",
+  miles:"0", drive:"All Day",driveHrs:0, fuel:"$0",
   mapUrl:null, mapText:null, mapSub:null,
   briefing:[
     {icon:"&#127777;&#65039;",text:"Rim 85°F+ in July, inner canyon over 110°F — hike at dawn only, off trail by 10am."},
@@ -1438,7 +1514,7 @@ const days = [
 {
   day:14, dow:"FRI", date:"Jul 24", title:"Grand Canyon to Petrified Forest", meta:"185 mi &bull; ~3.5 hrs &bull; ~$65 fuel",
   img:"https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800&q=80",
-  miles:"~185", drive:"~3.5 hrs", fuel:"~$65",
+  miles:"~185", drive:"~3.5 hrs",driveHrs:3.5, fuel:"~$65",
   mapUrl:"https://www.google.com/maps/dir/Trailer+Village+RV+Park,+Grand+Canyon+Village,+AZ/Petrified+Forest+National+Park,+AZ",
   mapText:"Grand Canyon → Petrified Forest NP",
   mapSub:"AZ-64 S, I-40 E to exit 311 (north entrance)",
@@ -1469,7 +1545,7 @@ const days = [
 {
   day:15, dow:"SAT", date:"Jul 25", title:"Heading Home — Day 1", meta:"620 mi &bull; ~9 hrs &bull; ~$185 fuel",
   img:"https://images.unsplash.com/photo-1568515045052-f9a854d70bfd?w=800&q=80",
-  miles:"~620", drive:"~9 hrs", fuel:"~$185",
+  miles:"~620", drive:"~9 hrs",driveHrs:9.0, fuel:"~$185",
   mapUrl:"https://www.google.com/maps/dir/Holbrook,+AZ/Amarillo,+TX",
   mapText:"Holbrook AZ → Amarillo TX",
   mapSub:"I-40 East all the way — historic Route 66 corridor",
@@ -1500,7 +1576,7 @@ const days = [
 {
   day:16, dow:"SUN", date:"Jul 26", title:"Amarillo to Knoxville — Home!", meta:"~1,100 mi &bull; ~16 hrs &bull; ~$320 fuel",
   img:"https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=800&q=80",
-  miles:"~1,100", drive:"~16 hrs", fuel:"~$320",
+  miles:"~1,100", drive:"~16 hrs",driveHrs:16.0, fuel:"~$320",
   mapUrl:"https://www.google.com/maps/dir/Amarillo,+TX/Knoxville,+TN",
   mapText:"Amarillo TX → Knoxville TN",
   mapSub:"I-40 East all the way — one highway home through OKC, Memphis, Nashville",
@@ -1568,6 +1644,24 @@ days.forEach((d, i) => {
           <span class="text">${d.mapText}<small id="map-sub-${d.day}">${d.mapSub}</small></span>
           <span class="arrow">&rsaquo;</span>
         </a>`;
+  }
+
+  // Departure Calculator (only for driving days)
+  if (d.driveHrs > 0) {
+    const dcExtra = d.disconnect ? parseFloat(d.disconnect.timeAdded.replace(/[^0-9.]/g,''))/60 : 0;
+    html += `
+        <div class="depart-calc" onclick="event.stopPropagation()">
+          <div class="depart-calc-title">&#9200; Departure Calculator</div>
+          <div class="depart-calc-row">
+            <span class="depart-calc-label">Arrive by:</span>
+            <input type="time" class="depart-calc-input" id="arrive-${d.day}" value="" onchange="calcDepart(${d.day},${d.driveHrs},${dcExtra})">
+          </div>
+          <div class="depart-calc-result" id="depart-result-${d.day}">
+            <div class="depart-pill"><span class="val leave" id="leave-time-${d.day}">--:--</span><span class="lbl">Leave By</span></div>
+            <div class="depart-pill"><span class="val total" id="total-time-${d.day}">${d.drive}</span><span class="lbl">Drive Time</span></div>
+            <div class="depart-pill"><span class="val stops" id="stops-time-${d.day}">0 min</span><span class="lbl">Added Stops</span></div>
+          </div>
+        </div>`;
   }
 
   // Daily Briefing
@@ -1747,6 +1841,56 @@ function updateCountdown() {
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
+// ===== DEPARTURE CALCULATOR =====
+function calcDepart(dayNum, baseDriveHrs, disconnectHrs) {
+  const arriveInput = document.getElementById('arrive-' + dayNum);
+  const leaveEl = document.getElementById('leave-time-' + dayNum);
+  const totalEl = document.getElementById('total-time-' + dayNum);
+  const stopsEl = document.getElementById('stops-time-' + dayNum);
+
+  if (!arriveInput.value) {
+    leaveEl.textContent = '--:--';
+    return;
+  }
+
+  // Count checked stops (americana + fuel) for this day — each adds 15 min
+  const checkedStops = document.querySelectorAll('.americana-add-stop input[data-day="' + dayNum + '"]:checked').length;
+  const stopsMins = checkedStops * 15;
+
+  // Total drive = base + disconnect + stops
+  const totalMins = Math.round(baseDriveHrs * 60) + Math.round(disconnectHrs * 60) + stopsMins;
+
+  // Parse arrival time
+  const [arrH, arrM] = arriveInput.value.split(':').map(Number);
+  const arriveTotal = arrH * 60 + arrM;
+
+  // Subtract to get departure
+  let leaveTotal = arriveTotal - totalMins;
+  if (leaveTotal < 0) leaveTotal += 1440; // wrap past midnight
+
+  const leaveH = Math.floor(leaveTotal / 60);
+  const leaveM = leaveTotal % 60;
+
+  // Format as 12-hour
+  const ampm = leaveH >= 12 ? 'pm' : 'am';
+  const h12 = leaveH === 0 ? 12 : leaveH > 12 ? leaveH - 12 : leaveH;
+  leaveEl.textContent = h12 + ':' + String(leaveM).padStart(2, '0') + ' ' + ampm;
+
+  // Update totals display
+  const totalH = Math.floor(totalMins / 60);
+  const totalM = totalMins % 60;
+  totalEl.textContent = totalH + 'h ' + (totalM > 0 ? totalM + 'm' : '');
+  stopsEl.textContent = stopsMins > 0 ? stopsMins + ' min' : '0 min';
+}
+
+// Recalculate departure when any stop is toggled
+function recalcDepartForDay(dayNum) {
+  const arriveInput = document.getElementById('arrive-' + dayNum);
+  if (arriveInput && arriveInput.value) {
+    arriveInput.dispatchEvent(new Event('change'));
+  }
+}
+
 // ===== DISCONNECT CONFIRM =====
 function toggleDcConfirm(dayNum) {
   const label = document.getElementById('dc-confirm-' + dayNum);
@@ -1774,6 +1918,7 @@ function toggleStop(id, dayNum) {
     span.textContent = 'Add Stop';
   }
   updateMapUrl(dayNum);
+  recalcDepartForDay(dayNum);
 }
 
 // ===== MAP URL WAYPOINT UPDATER =====
