@@ -1490,24 +1490,17 @@ days.forEach((d, i) => {
 });
 
 // ===== COUNTDOWN CLOCK =====
-const DEPARTURE = new Date('2026-07-11T06:00:00-04:00'); // 6am ET
-const RETURN = new Date('2026-07-26T23:59:59-04:00');
+const DEPARTURE = new Date('2026-07-11T05:00:00-05:00'); // 5am EST
+const RETURN = new Date('2026-07-26T23:59:59-05:00');
 
 function updateCountdown() {
   const now = new Date();
   const el = document.getElementById('countdown-units');
   const label = document.querySelector('.countdown-label');
 
-  if (now >= DEPARTURE && now <= RETURN) {
-    // On the road!
-    const dayNum = Math.floor((now - DEPARTURE) / 86400000) + 1;
-    label.textContent = '';
-    el.innerHTML = '<span class="cd-onroad">ON THE ROAD! Day ' + Math.min(dayNum, 16) + ' of 16</span>';
-    return;
-  }
-  if (now > RETURN) {
-    label.textContent = '';
-    el.innerHTML = '<span class="cd-onroad">Trip Complete!</span>';
+  if (now >= DEPARTURE) {
+    // Hide the countdown bar entirely once departure hits
+    document.getElementById('countdown-bar').style.display = 'none';
     return;
   }
 
