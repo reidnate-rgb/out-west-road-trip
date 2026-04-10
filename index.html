@@ -351,6 +351,32 @@ body {
   font-weight: 600;
 }
 
+.day-depart-badge {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(91,143,168,0.1);
+  border: 1px solid rgba(91,143,168,0.3);
+  border-radius: 6px;
+  padding: 4px 8px;
+  flex-shrink: 0;
+}
+.day-depart-badge.visible { display: flex; }
+.day-depart-badge .time {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--sky);
+  line-height: 1;
+}
+.day-depart-badge .lbl {
+  font-size: 7px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #888;
+  margin-top: 1px;
+}
+
 .day-chevron {
   font-size: 18px;
   color: var(--dusty);
@@ -1623,6 +1649,10 @@ days.forEach((d, i) => {
         <h3>${d.title}</h3>
         <div class="meta">${d.meta}</div>
       </div>
+      <div class="day-depart-badge" id="depart-badge-${d.day}">
+        <span class="time" id="depart-badge-time-${d.day}"></span>
+        <span class="lbl">Depart</span>
+      </div>
       <div class="day-chevron">&#9660;</div>
     </div>
     <div class="day-body">
@@ -1870,6 +1900,8 @@ function updateDisplay(dayNum, totalMins, stopsMins, leaveMins, arriveMins) {
   const arriveEl = document.getElementById('arrive-time-' + dayNum);
   const totalEl = document.getElementById('total-time-' + dayNum);
   const stopsEl = document.getElementById('stops-time-' + dayNum);
+  const badge = document.getElementById('depart-badge-' + dayNum);
+  const badgeTime = document.getElementById('depart-badge-time-' + dayNum);
 
   leaveEl.textContent = leaveMins !== null ? fmt12(leaveMins) : '--:--';
   arriveEl.textContent = arriveMins !== null ? fmt12(arriveMins) : '--:--';
@@ -1878,6 +1910,14 @@ function updateDisplay(dayNum, totalMins, stopsMins, leaveMins, arriveMins) {
   const totalM = totalMins % 60;
   totalEl.textContent = totalH + 'h' + (totalM > 0 ? ' ' + totalM + 'm' : '');
   stopsEl.textContent = stopsMins > 0 ? stopsMins + ' min' : '0 min';
+
+  // Show departure time on collapsed card
+  if (badge && badgeTime && leaveMins !== null) {
+    badgeTime.textContent = fmt12(leaveMins);
+    badge.classList.add('visible');
+  } else if (badge) {
+    badge.classList.remove('visible');
+  }
 }
 
 // Calculate from arrival time (work backwards to get departure)
