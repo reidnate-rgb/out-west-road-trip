@@ -785,7 +785,6 @@ body {
   margin-bottom: 8px;
 }
 .time-bar {
-  height: 28px;
   border-radius: 6px;
   overflow: hidden;
   display: flex;
@@ -794,16 +793,29 @@ body {
 }
 .time-seg {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 8px;
-  font-weight: 700;
-  color: #fff;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  padding: 6px 2px;
+  min-height: 44px;
   overflow: hidden;
   white-space: nowrap;
   transition: width 0.5s ease;
+}
+.time-seg .seg-pct {
+  font-size: 11px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+}
+.time-seg .seg-label {
+  font-size: 7px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-top: 2px;
+  line-height: 1;
 }
 .time-seg.sleep { background: #2C3E6B; }
 .time-seg.drive { background: var(--mesa); }
@@ -2226,8 +2238,9 @@ function buildTimeBar() {
   const bar = document.getElementById('time-bar');
   bar.innerHTML = segments.map(s => {
     const pct = (s.hrs / totalHrs * 100).toFixed(1);
-    const label = pct > 6 ? Math.round(pct) + '%' : '';
-    return '<div class="time-seg ' + s.cls + '" style="width:' + pct + '%">' + label + '</div>';
+    const pctLabel = pct > 5 ? '<span class="seg-pct">' + Math.round(pct) + '%</span>' : '';
+    const nameLabel = pct > 8 ? '<span class="seg-label">' + s.label + '</span>' : '';
+    return '<div class="time-seg ' + s.cls + '" style="width:' + pct + '%">' + pctLabel + nameLabel + '</div>';
   }).join('');
 
   // Build legend
