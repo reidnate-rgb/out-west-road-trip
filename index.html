@@ -1951,6 +1951,7 @@ function calcFromArrive(dayNum, baseDriveHrs, disconnectHrs, fuelStops) {
   const leaveTotalMins = arriveTotalMins - totalMins;
 
   updateDisplay(dayNum, totalMins, stopsMins, leaveTotalMins, arriveTotalMins);
+  saveCalcState(dayNum, 'arrive', arriveInput.value);
 }
 
 // Calculate from departure time (work forwards to get arrival)
@@ -1970,6 +1971,29 @@ function calcFromDepart(dayNum, baseDriveHrs, disconnectHrs, fuelStops) {
   const arriveTotalMins = departTotalMins + totalMins;
 
   updateDisplay(dayNum, totalMins, stopsMins, departTotalMins, arriveTotalMins);
+  saveCalcState(dayNum, 'depart', departInput.value);
+}
+
+// Save/restore calculator state
+function saveCalcState(dayNum, mode, timeVal) {
+  const data = JSON.parse(localStorage.getItem('tripCalc') || '{}');
+  data[dayNum] = { mode: mode, time: timeVal };
+  localStorage.setItem('tripCalc', JSON.stringify(data));
+}
+
+function restoreAllCalcStates() {
+  const data = JSON.parse(localStorage.getItem('tripCalc') || '{}');
+  Object.keys(data).forEach(dayNum => {
+    const { mode, time } = data[dayNum];
+    if (!time) return;
+    if (mode === 'depart') {
+      const input = document.getElementById('depart-input-' + dayNum);
+      if (input) { input.value = time; input.dispatchEvent(new Event('change')); }
+    } else {
+      const input = document.getElementById('arrive-' + dayNum);
+      if (input) { input.value = time; input.dispatchEvent(new Event('change')); }
+    }
+  });
 }
 
 // Recalculate when stops are toggled — use whichever input has a value
@@ -2071,6 +2095,9 @@ function toggle(dayNum) {
     }, 50);
   }
 }
+
+// Restore saved times on page load
+restoreAllCalcStates();
 </script>
 </body>
 </html>
