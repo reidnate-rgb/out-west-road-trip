@@ -735,18 +735,39 @@ body {
   letter-spacing: 1px;
 }
 
-/* ===== AMERICANA CHECKBOX ===== */
-.americana-check {
+/* ===== AMERICANA ADD STOP ===== */
+.americana-add-stop {
   position: absolute;
-  top: 12px;
-  right: 36px;
-  width: 20px;
-  height: 20px;
-  accent-color: var(--gold);
+  bottom: 10px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(160,82,45,0.08);
+  border: 1px solid var(--dusty);
+  border-radius: 4px;
+  padding: 4px 8px;
   cursor: pointer;
   z-index: 3;
+  font-family: 'Source Serif 4', serif;
+  font-size: 11px;
+  color: var(--sienna);
+  transition: background 0.2s, border-color 0.2s;
 }
-.americana-check:checked + .americana-chevron { color: var(--gold); }
+.americana-add-stop:hover { background: rgba(160,82,45,0.15); border-color: var(--sienna); }
+.americana-add-stop input {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--gold);
+  cursor: pointer;
+  margin: 0;
+}
+.americana-add-stop.checked {
+  background: rgba(212,160,23,0.15);
+  border-color: var(--gold);
+  color: var(--dark);
+  font-weight: 700;
+}
 
 /* ===== SEARCH MORE BUTTON ===== */
 .search-more-btn {
@@ -1458,8 +1479,11 @@ days.forEach((d, i) => {
       const loc = a.location || '';
       html += `
           <div class="americana-item" id="${id}" onclick="event.stopPropagation();toggleAm('${id}')">
-            <input type="checkbox" class="americana-check" data-day="${d.day}" data-location="${loc}" onclick="event.stopPropagation();updateMapUrl(${d.day})" title="Add as waypoint">
             <div class="americana-chevron">&#9660;</div>
+            <label class="americana-add-stop" id="stop-${id}" onclick="event.stopPropagation()">
+              <input type="checkbox" data-day="${d.day}" data-location="${loc}" onclick="toggleStop('${id}',${d.day})">
+              <span class="stop-label">Add Stop</span>
+            </label>
             <div class="americana-tag ${a.tag}">${a.label}</div>
             <div class="americana-name">${a.name}</div>
             <div class="americana-desc">${a.desc}</div>
@@ -1523,13 +1547,28 @@ function updateCountdown() {
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
+// ===== TOGGLE ADD STOP =====
+function toggleStop(id, dayNum) {
+  const label = document.getElementById('stop-' + id);
+  const cb = label.querySelector('input');
+  const span = label.querySelector('.stop-label');
+  if (cb.checked) {
+    label.classList.add('checked');
+    span.textContent = 'Added';
+  } else {
+    label.classList.remove('checked');
+    span.textContent = 'Add Stop';
+  }
+  updateMapUrl(dayNum);
+}
+
 // ===== MAP URL WAYPOINT UPDATER =====
 function updateMapUrl(dayNum) {
   const btn = document.getElementById('map-btn-' + dayNum);
   if (!btn) return;
 
   const baseUrl = btn.getAttribute('data-base-url');
-  const checks = document.querySelectorAll('.americana-check[data-day="' + dayNum + '"]:checked');
+  const checks = document.querySelectorAll('.americana-add-stop input[data-day="' + dayNum + '"]:checked');
 
   if (checks.length === 0) {
     btn.href = baseUrl;
