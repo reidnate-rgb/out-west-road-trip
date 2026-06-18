@@ -578,6 +578,44 @@ body {
 .camp-badge.pick { background: var(--sage); color: #fff; }
 .camp-badge.backup { background: #aaa; color: #fff; }
 
+.camp-res-wrap {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(107,127,94,0.3);
+}
+.camp-res-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--sage);
+  margin-bottom: 6px;
+}
+.camp-res-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.camp-res-input {
+  font-family: 'Source Serif 4', serif;
+  font-size: 12px;
+  padding: 6px 10px;
+  border: 1px solid rgba(107,127,94,0.3);
+  border-radius: 5px;
+  background: #fff;
+  flex: 1;
+  min-width: 0;
+}
+.camp-res-input:focus {
+  outline: none;
+  border-color: var(--sage);
+  box-shadow: 0 0 0 2px rgba(107,127,94,0.1);
+}
+.camp-res-input.filled {
+  border-color: var(--sage);
+  background: rgba(107,127,94,0.04);
+}
+
 /* Americana items — vintage postcard style */
 .americana-item {
   background: linear-gradient(135deg, #FFFDF7, #F5E6C8);
@@ -896,8 +934,7 @@ body {
 .day-activity-icons { display:flex; gap:2px; }
 .day-activity-icons span { font-size:14px; display:none; }
 .day-activity-icons span.vis { display:inline; }
-.itinerary-fab { display:none; position:fixed; bottom:20px; right:20px; z-index:200; background:linear-gradient(135deg,var(--sage),#4a6b3e); color:#fff; border:none; border-radius:50px; padding:14px 20px; font-family:'Rye',cursive; font-size:11px; letter-spacing:1px; text-transform:uppercase; cursor:pointer; box-shadow:0 4px 16px rgba(0,0,0,0.3); }
-.itinerary-fab.vis { display:block; }
+.itinerary-fab { position:fixed; bottom:20px; right:20px; z-index:200; background:linear-gradient(135deg,var(--sage),#4a6b3e); color:#fff; border:none; border-radius:50px; padding:14px 20px; font-family:'Rye',cursive; font-size:11px; letter-spacing:1px; text-transform:uppercase; cursor:pointer; box-shadow:0 4px 16px rgba(0,0,0,0.3); }
 @media print {
   body { background:#fff !important; font-size:12px; }
   .hero,.rv-strip,.fuel-banner,.rv-warning,.countdown-bar,.footer,.content,.itinerary-fab { display:none !important; }
@@ -1823,12 +1860,13 @@ days.forEach((d, i) => {
     <div class="day-header" style="background-image:url('${d.img}')">
       <div class="day-num-box">
         <span class="dow">${d.dow}</span>
-        <span class="num">${d.day}</span>
+        <span class="num">${d.date.split(' ')[1]}</span>
+        <span class="dow">${d.date.split(' ')[0].toUpperCase()}</span>
       </div>
       <img class="day-thumb" src="${d.img}" alt="${d.title}" loading="lazy">
       <div class="day-summary">
         <h3>${d.title}</h3>
-        <div class="meta">${d.meta}</div>
+        <div class="meta">${d.date} &bull; ${d.meta}</div>
         <div class="day-activity-icons" id="activity-icons-${d.day}">
           <span id="hike-icon-${d.day}" title="Hikes planned">&#129406;</span>
           <span id="attr-icon-${d.day}" title="Attractions planned">&#128301;</span>
@@ -2000,6 +2038,15 @@ days.forEach((d, i) => {
   if (d.camp.alt) {
     html += `<div class="camp-item alt"><strong>Alt:</strong> <span class="camp-badge backup">Backup</span> ${d.camp.alt}</div>`;
   }
+  html += `
+          <div class="camp-res-wrap" onclick="event.stopPropagation()">
+            <div class="camp-res-label">&#128203; Reservation Details</div>
+            <div class="camp-res-row">
+              <input type="text" class="camp-res-input" id="camp-conf-${d.day}" placeholder="Confirmation #" oninput="saveCampRes(${d.day})" onfocus="event.stopPropagation()">
+              <input type="text" class="camp-res-input" id="camp-site-${d.day}" placeholder="Site #" style="max-width:90px" oninput="saveCampRes(${d.day})" onfocus="event.stopPropagation()">
+            </div>
+            <input type="text" class="camp-res-input" id="camp-notes-${d.day}" placeholder="Notes (check-in time, phone #, etc.)" style="width:100%;margin-top:6px" oninput="saveCampRes(${d.day})" onfocus="event.stopPropagation()">
+          </div>`;
   html += `</div>`;
 
   // Americana
@@ -2649,6 +2696,40 @@ function renderCustomItems(dayNum) {
   });
 }
 
+// ===== CAMPSITE RESERVATIONS =====
+function saveCampRes(dayNum) {
+  const conf = document.getElementById('camp-conf-' + dayNum);
+  const site = document.getElementById('camp-site-' + dayNum);
+  const notes = document.getElementById('camp-notes-' + dayNum);
+  const data = JSON.parse(localStorage.getItem('campRes') || '{}');
+  data[dayNum] = {
+    conf: conf ? conf.value : '',
+    site: site ? site.value : '',
+    notes: notes ? notes.value : ''
+  };
+  localStorage.setItem('campRes', JSON.stringify(data));
+  // Update filled styling
+  [conf, site, notes].forEach(el => {
+    if (el) el.classList.toggle('filled', el.value.length > 0);
+  });
+  clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(() => syncToCloud(), 1000);
+}
+
+function restoreCampRes(data) {
+  if (!data) data = JSON.parse(localStorage.getItem('campRes') || '{}');
+  Object.keys(data).forEach(dayNum => {
+    const { conf, site, notes } = data[dayNum];
+    const confEl = document.getElementById('camp-conf-' + dayNum);
+    const siteEl = document.getElementById('camp-site-' + dayNum);
+    const notesEl = document.getElementById('camp-notes-' + dayNum);
+    if (confEl && conf) { confEl.value = conf; confEl.classList.toggle('filled', conf.length > 0); }
+    if (siteEl && site) { siteEl.value = site; siteEl.classList.toggle('filled', site.length > 0); }
+    if (notesEl && notes) { notesEl.value = notes; notesEl.classList.toggle('filled', notes.length > 0); }
+  });
+}
+restoreCampRes();
+
 // Build Itinerary PDF
 function buildItinerary() {
   const printDiv = document.getElementById('print-itinerary');
@@ -2727,7 +2808,8 @@ syncToCloud = function() {
       tripCalc: calcData,
       checkedStops: checkedStops,
       checkedParkItems: checkedParkItems,
-      customItems: customItemsData
+      customItems: customItemsData,
+      campRes: JSON.parse(localStorage.getItem('campRes') || '{}')
     })
   }).catch(() => {});
 };
@@ -2761,6 +2843,12 @@ applyCloudData = function(cloud) {
       renderCustomItems(parseInt(dayNum));
     });
     updateItineraryFab();
+  }
+
+  // Restore campsite reservations
+  if (cloud.campRes) {
+    localStorage.setItem('campRes', JSON.stringify(cloud.campRes));
+    restoreCampRes(cloud.campRes);
   }
 };
 </script>
