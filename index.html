@@ -618,6 +618,92 @@ body {
   border-color: var(--sage);
   background: rgba(107,127,94,0.04);
 }
+.camp-attachments {
+  margin-top: 8px;
+}
+.camp-attach-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(107,127,94,0.08);
+  border: 1px dashed rgba(107,127,94,0.4);
+  border-radius: 5px;
+  padding: 6px 12px;
+  font-family: 'Source Serif 4', serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sage);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.camp-attach-btn:hover {
+  background: rgba(107,127,94,0.15);
+  border-color: var(--sage);
+}
+.camp-attach-btn.uploading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.camp-file-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.camp-file-item {
+  position: relative;
+  border: 1px solid rgba(107,127,94,0.3);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.camp-file-item a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 28px 6px 8px;
+  text-decoration: none;
+  color: var(--dark);
+  font-size: 11px;
+  font-weight: 600;
+}
+.camp-file-thumb {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.camp-file-pdf-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(139,37,0,0.08);
+  border-radius: 3px;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.camp-file-remove {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 11px;
+  line-height: 18px;
+  text-align: center;
+  cursor: pointer;
+  padding: 0;
+}
+.camp-file-remove:hover {
+  background: var(--red);
+}
 
 /* Americana items — vintage postcard style */
 .americana-item {
@@ -2049,6 +2135,11 @@ days.forEach((d, i) => {
               <input type="text" class="camp-res-input" id="camp-site-${d.day}" placeholder="Site #" style="max-width:90px" oninput="saveCampRes(${d.day})" onfocus="event.stopPropagation()">
             </div>
             <input type="text" class="camp-res-input" id="camp-notes-${d.day}" placeholder="Notes (check-in time, phone #, etc.)" style="width:100%;margin-top:6px" oninput="saveCampRes(${d.day})" onfocus="event.stopPropagation()">
+            <div class="camp-attachments">
+              <input type="file" id="camp-file-input-${d.day}" accept="image/*,.pdf" style="display:none" onchange="handleCampFileUpload(${d.day}, this)">
+              <label class="camp-attach-btn" id="camp-attach-btn-${d.day}" for="camp-file-input-${d.day}">&#128206; Attach Screenshot or PDF</label>
+              <div class="camp-file-list" id="camp-file-list-${d.day}"></div>
+            </div>
           </div>`;
   html += `</div>`;
 
@@ -2733,6 +2824,105 @@ function restoreCampRes(data) {
 }
 restoreCampRes();
 
+// ===== CAMP FILE ATTACHMENTS =====
+const campFiles = JSON.parse(localStorage.getItem('campFiles') || '{}');
+
+function handleCampFileUpload(dayNum, input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const maxSize = 10 * 1024 * 1024;
+  if (file.size > maxSize) {
+    alert('File too large — max 10 MB.');
+    input.value = '';
+    return;
+  }
+
+  const allowed = ['image/png','image/jpeg','image/gif','image/webp','application/pdf'];
+  if (!allowed.includes(file.type)) {
+    alert('Only images and PDFs are supported.');
+    input.value = '';
+    return;
+  }
+
+  const btn = document.getElementById('camp-attach-btn-' + dayNum);
+  btn.textContent = '⏳ Uploading...';
+  btn.classList.add('uploading');
+
+  const reader = new FileReader();
+  reader.onload = function() {
+    const base64 = reader.result.split(',')[1];
+    fetch('/api/upload-file', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ filename: file.name, data: base64, dayNum: dayNum })
+    })
+    .then(r => r.json())
+    .then(result => {
+      if (result.error) throw new Error(result.error);
+      if (!campFiles[dayNum]) campFiles[dayNum] = [];
+      campFiles[dayNum].push({ url: result.url, name: file.name, type: file.type });
+      localStorage.setItem('campFiles', JSON.stringify(campFiles));
+      renderCampFiles(dayNum);
+      clearTimeout(_syncTimer);
+      _syncTimer = setTimeout(() => syncToCloud(), 1000);
+    })
+    .catch(e => {
+      alert('Upload failed: ' + e.message);
+    })
+    .finally(() => {
+      btn.innerHTML = '&#128206; Attach Screenshot or PDF';
+      btn.classList.remove('uploading');
+      input.value = '';
+    });
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeCampFile(dayNum, idx) {
+  const file = campFiles[dayNum][idx];
+  if (!file) return;
+
+  fetch('/api/upload-file', {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url: file.url })
+  }).catch(() => {});
+
+  campFiles[dayNum].splice(idx, 1);
+  if (campFiles[dayNum].length === 0) delete campFiles[dayNum];
+  localStorage.setItem('campFiles', JSON.stringify(campFiles));
+  renderCampFiles(dayNum);
+  clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(() => syncToCloud(), 1000);
+}
+
+function renderCampFiles(dayNum) {
+  const list = document.getElementById('camp-file-list-' + dayNum);
+  if (!list) return;
+  const files = campFiles[dayNum] || [];
+  list.innerHTML = files.map((f, i) => {
+    const isPdf = f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf');
+    const thumb = isPdf
+      ? '<div class="camp-file-pdf-icon">&#128196;</div>'
+      : '<img class="camp-file-thumb" src="' + f.url + '" alt="' + f.name + '">';
+    const shortName = f.name.length > 20 ? f.name.substring(0, 17) + '...' : f.name;
+    return '<div class="camp-file-item">' +
+      '<a href="' + f.url + '" target="_blank" onclick="event.stopPropagation()">' + thumb + '<span>' + shortName + '</span></a>' +
+      '<button class="camp-file-remove" onclick="event.stopPropagation();removeCampFile(' + dayNum + ',' + i + ')" title="Remove">&#10005;</button>' +
+      '</div>';
+  }).join('');
+}
+
+function restoreCampFiles(data) {
+  if (!data) data = JSON.parse(localStorage.getItem('campFiles') || '{}');
+  Object.keys(data).forEach(dayNum => {
+    campFiles[dayNum] = data[dayNum];
+    renderCampFiles(parseInt(dayNum));
+  });
+}
+restoreCampFiles();
+
 // Build Itinerary PDF
 function buildItinerary() {
   const printDiv = document.getElementById('print-itinerary');
@@ -2812,7 +3002,8 @@ syncToCloud = function() {
       checkedStops: checkedStops,
       checkedParkItems: checkedParkItems,
       customItems: customItemsData,
-      campRes: JSON.parse(localStorage.getItem('campRes') || '{}')
+      campRes: JSON.parse(localStorage.getItem('campRes') || '{}'),
+      campFiles: JSON.parse(localStorage.getItem('campFiles') || '{}')
     })
   }).catch(() => {});
 };
@@ -2852,6 +3043,12 @@ applyCloudData = function(cloud) {
   if (cloud.campRes) {
     localStorage.setItem('campRes', JSON.stringify(cloud.campRes));
     restoreCampRes(cloud.campRes);
+  }
+
+  // Restore campsite file attachments
+  if (cloud.campFiles) {
+    localStorage.setItem('campFiles', JSON.stringify(cloud.campFiles));
+    restoreCampFiles(cloud.campFiles);
   }
 };
 </script>
