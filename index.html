@@ -8,7 +8,7 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<title>Out West Family Road Trip — July 2025</title>
+<title>Out West Family Road Trip — July 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rye&family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -436,6 +436,69 @@ body {
 }
 .stat-pill.green { background: linear-gradient(135deg, #3d5a34, var(--sage)); }
 .stat-pill.mesa { background: linear-gradient(135deg, #6b3a1f, var(--mesa)); }
+.stat-pill.weather { background: linear-gradient(135deg, #1a4a6e, var(--sky)); }
+
+/* Weather forecast bar */
+.weather-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, rgba(91,143,168,0.08), rgba(91,143,168,0.15));
+  border: 1px solid rgba(91,143,168,0.25);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  color: var(--dark);
+}
+.weather-bar .weather-icon { font-size: 28px; flex-shrink: 0; }
+.weather-bar .weather-temps {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+.weather-bar .weather-hi {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--mesa);
+  line-height: 1;
+}
+.weather-bar .weather-lo {
+  font-size: 11px;
+  color: #888;
+  font-weight: 600;
+}
+.weather-bar .weather-desc { flex: 1; font-size: 12px; color: #666; line-height: 1.4; }
+.weather-bar .weather-precip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  font-size: 11px;
+  color: var(--sky);
+  font-weight: 700;
+}
+.weather-bar .weather-precip .pct {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1;
+}
+.weather-header-badge {
+  display: none;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(4px);
+  border-radius: 4px;
+  padding: 2px 6px;
+  white-space: nowrap;
+}
+.weather-header-badge.visible { display: flex; }
 .stat-val {
   font-family: 'Playfair Display', serif;
   font-size: 18px;
@@ -1300,7 +1363,7 @@ body {
 <div class="hero">
   <div class="hero-content">
     <div class="hero-stars">&#9733; &#9733; &#9733;</div>
-    <div class="hero-badge">July 11 - 26, 2025</div>
+    <div class="hero-badge">July 11 - 26, 2026</div>
     <h1>Out <span class="accent">West</span></h1>
     <p class="hero-sub">Knoxville, TN &bull; 7 National Parks &bull; 16 Days</p>
     <div class="hero-stars">&#9733; &#9733; &#9733;</div>
@@ -1360,7 +1423,7 @@ body {
   <div class="fuel-stats">
     <div class="fuel-stat"><span class="fuel-num">5,500</span><span class="fuel-lbl">Est. Miles</span></div>
     <div class="fuel-stat"><span class="fuel-num">~611</span><span class="fuel-lbl">Gallons</span></div>
-    <div class="fuel-stat"><span class="fuel-num">~$2,005</span><span class="fuel-lbl">Fuel Cost</span></div>
+    <div class="fuel-stat"><span class="fuel-num">~$2,950</span><span class="fuel-lbl">Fuel Cost</span></div>
     <div class="fuel-stat"><span class="fuel-num">675 mi</span><span class="fuel-lbl">Tank Range</span></div>
   </div>
 
@@ -1395,16 +1458,16 @@ body {
 <!-- ===== FOOTER ===== -->
 <div class="footer">
   Save to iPhone: Safari &rarr; Share &rarr; Add to Home Screen<br>
-  Monaco Cayman 36PDQ &bull; Out West Family Road Trip &bull; July 2025
+  Monaco Cayman 36PDQ &bull; Out West Family Road Trip &bull; July 2026
 </div>
 
 <script>
 // All 16 days of data
 const days = [
 {
-  day:1,tzShift:1,tzFrom:"EDT",tzTo:"CDT", dow:"SAT", date:"Jul 11", title:"Knoxville to St. Louis", meta:"490 mi &bull; ~7.5 hrs &bull; ~$165 fuel",
+  day:1,tzShift:1,tzFrom:"EDT",tzTo:"CDT", dow:"SAT", date:"Jul 11", title:"Knoxville to St. Louis", meta:"490 mi &bull; ~7.5 hrs &bull; ~$245 fuel",
   img:"https://images.unsplash.com/photo-1617581629397-a72507c3de9e?w=800&q=80",
-  miles:"~490", drive:"~7.5 hrs",driveHrs:7.5, fuel:"~$165",
+  miles:"~490", drive:"~7.5 hrs",driveHrs:7.5, fuel:"~$245",
   mapUrl:"https://www.google.com/maps/dir/Knoxville,+TN/Cahokia+RV+Parque,+Prairie+Du+Pont+Road,+Cahokia+Heights,+IL",
   mapText:"Knoxville TN → Cahokia RV Parque",
   mapSub:"I-40 W through Nashville then I-64 W into St. Louis",
@@ -1414,8 +1477,8 @@ const days = [
     {icon:"&#9981;",text:"Fill up in Nashville at Flying J (I-40 exit 212) — best TN prices."}
   ],
   fuels:[
-    {name:"Nashville TN — Flying J (I-40 exit 212)",desc:"Fill up here — best TN prices.",pct:95,price:"$3.05/gal",cls:"mid",location:"Flying J, I-40 exit 212, Nashville, TN",pullthru:true,gasbuddy:"flying-j-nashville-tn"},
-    {name:"Marion IL — Pilot (I-57/I-64 jct)",desc:"Optional top-off before final push to St. Louis.",pct:75,price:"$2.95/gal",cls:"cheap",location:"Pilot Travel Center, I-57 I-64, Marion, IL",pullthru:true,gasbuddy:"pilot-marion-il"}
+    {name:"Nashville TN — Flying J (I-40 exit 212)",desc:"Fill up here — best TN prices.",pct:95,price:"$4.45/gal",cls:"mid",location:"Flying J, I-40 exit 212, Nashville, TN",pullthru:true,gasbuddy:"flying-j-nashville-tn"},
+    {name:"Marion IL — Pilot (I-57/I-64 jct)",desc:"Optional top-off before final push to St. Louis.",pct:75,price:"$4.89/gal",cls:"mid",location:"Pilot Travel Center, I-57 I-64, Marion, IL",pullthru:true,gasbuddy:"pilot-marion-il"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>I-40 West</strong> from Knoxville through Nashville — wide, flat, RV-friendly"},
@@ -1432,9 +1495,9 @@ const days = [
   ]
 },
 {
-  day:2,tzShift:0,tzFrom:"CDT",tzTo:"CDT", dow:"SUN", date:"Jul 12", title:"St. Louis to Ellis, KS", meta:"530 mi &bull; ~8.5 hrs &bull; ~$155 fuel",
+  day:2,tzShift:0,tzFrom:"CDT",tzTo:"CDT", dow:"SUN", date:"Jul 12", title:"St. Louis to Ellis, KS", meta:"530 mi &bull; ~8.5 hrs &bull; ~$250 fuel",
   img:"https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=800&q=80",
-  miles:"~530", drive:"~8.5 hrs",driveHrs:8.5, fuel:"~$155",
+  miles:"~530", drive:"~8.5 hrs",driveHrs:8.5, fuel:"~$250",
   mapUrl:"https://www.google.com/maps/dir/Cahokia+Heights,+IL/Ellis,+KS+67637",
   mapText:"Cahokia Heights IL → Ellis KS",
   mapSub:"I-70 West the entire route through Kansas City",
@@ -1444,8 +1507,8 @@ const days = [
     {icon:"&#9981;",text:"IMPORTANT: Fill in Salina KS — western Kansas fuel is sparse."}
   ],
   fuels:[
-    {name:"Kansas City MO — Pilot (I-70 exit 12)",desc:"Top off before entering Kansas.",pct:90,price:"$2.90/gal",cls:"cheap",location:"Pilot Travel Center, I-70 exit 12, Kansas City, MO",pullthru:true,gasbuddy:"pilot-kansas-city-mo"},
-    {name:"Salina KS — Love's (I-70 exit 252)",desc:"FILL HERE — last reliable stop before Ellis.",pct:85,price:"$2.90/gal",cls:"cheap",location:"Loves Travel Stop, I-70 exit 252, Salina, KS",pullthru:true,gasbuddy:"loves-salina-ks"}
+    {name:"Kansas City MO — Pilot (I-70 exit 12)",desc:"Top off before entering Kansas.",pct:90,price:"$4.28/gal",cls:"cheap",location:"Pilot Travel Center, I-70 exit 12, Kansas City, MO",pullthru:true,gasbuddy:"pilot-kansas-city-mo"},
+    {name:"Salina KS — Love's (I-70 exit 252)",desc:"FILL HERE — last reliable stop before Ellis.",pct:85,price:"$4.24/gal",cls:"cheap",location:"Loves Travel Stop, I-70 exit 252, Salina, KS",pullthru:true,gasbuddy:"loves-salina-ks"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>I-70 West</strong> all the way — straight, flat, 4 lanes, ideal for RVs"}
@@ -1461,9 +1524,9 @@ const days = [
   ]
 },
 {
-  day:3,tzShift:1,tzFrom:"CDT",tzTo:"MDT", dow:"MON", date:"Jul 13", title:"Ellis, KS to Rocky Mtn NP", meta:"480 mi &bull; ~7.5 hrs &bull; ~$175 fuel",
+  day:3,tzShift:1,tzFrom:"CDT",tzTo:"MDT", dow:"MON", date:"Jul 13", title:"Ellis, KS to Rocky Mtn NP", meta:"480 mi &bull; ~7.5 hrs &bull; ~$225 fuel",
   img:"https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80",
-  miles:"~480", drive:"~7.5 hrs",driveHrs:7.5, fuel:"~$175",
+  miles:"~480", drive:"~7.5 hrs",driveHrs:7.5, fuel:"~$225",
   mapUrl:"https://www.google.com/maps/dir/Ellis,+KS/Loveland,+CO/Glacier+Basin+Campground,+Rocky+Mountain+National+Park,+CO",
   mapText:"Ellis KS → Glacier Basin, RMNP",
   mapSub:"I-70 W, I-25 N, US-34 W (Big Thompson Canyon)",
@@ -1474,8 +1537,8 @@ const days = [
     {icon:"&#9981;",text:"CRITICAL: Fill completely in Loveland CO. No fuel inside RMNP."}
   ],
   fuels:[
-    {name:"Hays KS — Pilot (I-70 exit 159)",desc:"Top off before CO prices jump.",pct:95,price:"$2.90/gal",cls:"cheap",location:"Pilot Travel Center, I-70 exit 159, Hays, KS",pullthru:true,gasbuddy:"pilot-hays-ks"},
-    {name:"Loveland CO — Flying J (US-34/I-25)",desc:"CRITICAL: Fill completely here. No fuel inside RMNP.",pct:90,price:"$3.25/gal",cls:"mid",location:"Flying J, US-34 I-25, Loveland, CO",pullthru:true,gasbuddy:"flying-j-loveland-co"}
+    {name:"Hays KS — Pilot (I-70 exit 159)",desc:"Top off before CO prices jump.",pct:95,price:"$4.24/gal",cls:"cheap",location:"Pilot Travel Center, I-70 exit 159, Hays, KS",pullthru:true,gasbuddy:"pilot-hays-ks"},
+    {name:"Loveland CO — Flying J (US-34/I-25)",desc:"CRITICAL: Fill completely here. No fuel inside RMNP.",pct:90,price:"$4.21/gal",cls:"cheap",location:"Flying J, US-34 I-25, Loveland, CO",pullthru:true,gasbuddy:"flying-j-loveland-co"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>I-70 West</strong> into Colorado → <strong>I-25 North</strong> to Loveland"},
@@ -1521,9 +1584,9 @@ const days = [
   ]
 },
 {
-  day:5,tzShift:0,tzFrom:"MDT",tzTo:"MDT", dow:"WED", date:"Jul 15", title:"RMNP → Arches → Monument Valley", meta:"560 mi &bull; ~9 hrs (incl. disconnect) &bull; ~$200 fuel",
+  day:5,tzShift:0,tzFrom:"MDT",tzTo:"MDT", dow:"WED", date:"Jul 15", title:"RMNP → Arches → Monument Valley", meta:"560 mi &bull; ~9 hrs (incl. disconnect) &bull; ~$275 fuel",
   img:"https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&q=80",
-  miles:"~560", drive:"~9 hrs",driveHrs:9.0, fuel:"~$200",
+  miles:"~560", drive:"~9 hrs",driveHrs:9.0, fuel:"~$275",
   mapUrl:"https://www.google.com/maps/dir/Glacier+Basin+Campground,+Estes+Park,+CO/Georgetown,+CO/Silverthorne,+CO/Arches+National+Park+Visitor+Center,+Moab,+UT/The+View+Campground,+Oljato-Monument+Valley,+UT",
   disconnect:{
     label:"Eisenhower Tunnel + Vail Pass — 7% grades",
@@ -1546,8 +1609,8 @@ const days = [
     {icon:"&#9981;",text:"Fill in Grand Junction CO after descending Rockies. Long stretch ahead."}
   ],
   fuels:[
-    {name:"Grand Junction CO — Pilot (I-70 exit 26)",desc:"Fill here after descending the Rockies.",pct:90,price:"$3.25/gal",cls:"mid",location:"Pilot Travel Center, I-70 exit 26, Grand Junction, CO",pullthru:true,gasbuddy:"pilot-grand-junction-co"},
-    {name:"Moab UT — Loves or US-191 gas",desc:"Top off after Arches. Last good fuel before Monument Valley.",pct:85,price:"$3.40/gal",cls:"mid",location:"Loves Travel Stop, US-191, Moab, UT",pullthru:true,gasbuddy:"loves-moab-ut"}
+    {name:"Grand Junction CO — Pilot (I-70 exit 26)",desc:"Fill here after descending the Rockies.",pct:90,price:"$4.21/gal",cls:"cheap",location:"Pilot Travel Center, I-70 exit 26, Grand Junction, CO",pullthru:true,gasbuddy:"pilot-grand-junction-co"},
+    {name:"Moab UT — Loves or US-191 gas",desc:"Top off after Arches. Last good fuel before Monument Valley.",pct:85,price:"$4.57/gal",cls:"mid",location:"Loves Travel Stop, US-191, Moab, UT",pullthru:true,gasbuddy:"loves-moab-ut"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>US-34 E → I-25 S → I-70 W</strong> — avoid Denver 7-9am rush"},
@@ -1567,9 +1630,9 @@ const days = [
   ]
 },
 {
-  day:6,tzShift:0,tzFrom:"MDT",tzTo:"MDT", dow:"THU", date:"Jul 16", title:"Monument Valley to Bryce Canyon", meta:"220 mi &bull; ~5 hrs &bull; ~$85 fuel",
+  day:6,tzShift:0,tzFrom:"MDT",tzTo:"MDT", dow:"THU", date:"Jul 16", title:"Monument Valley to Bryce Canyon", meta:"220 mi &bull; ~5 hrs &bull; ~$120 fuel",
   img:"https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?w=800&q=80",
-  miles:"~220", drive:"~5 hrs",driveHrs:5.0, fuel:"~$85",
+  miles:"~220", drive:"~5 hrs",driveHrs:5.0, fuel:"~$120",
   mapUrl:"https://www.google.com/maps/dir/Monument+Valley+Navajo+Tribal+Park,+UT/Page,+AZ/Kanab,+UT/North+Campground+Bryce+Canyon+National+Park",
   mapText:"Monument Valley → Bryce Canyon North Campground",
   mapSub:"US-163 N, US-160 W, US-89 N, UT-63 N — stays on safe roads",
@@ -1580,7 +1643,7 @@ const days = [
     {icon:"&#127756;",text:"Stop at Horseshoe Bend (Page, AZ) — go before 9am to beat heat and crowds."}
   ],
   fuels:[
-    {name:"Page AZ — Chevron or Maverick on US-89",desc:"CRITICAL: Fill here. Last reliable affordable fuel before Bryce.",pct:90,price:"$3.10/gal",cls:"mid",location:"Chevron, US-89, Page, AZ",pullthru:false,gasbuddy:"chevron-page-az"}
+    {name:"Page AZ — Chevron or Maverick on US-89",desc:"CRITICAL: Fill here. Last reliable affordable fuel before Bryce.",pct:90,price:"$4.86/gal",cls:"mid",location:"Chevron, US-89, Page, AZ",pullthru:false,gasbuddy:"chevron-page-az"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>US-163 N → US-160 W → US-89 N</strong> through Page, AZ and Kanab, UT"},
@@ -1627,9 +1690,9 @@ const days = [
   ]
 },
 {
-  day:8,tzShift:1,tzFrom:"MDT",tzTo:"PDT", dow:"SAT", date:"Jul 18", title:"Bryce Canyon to Sequoia NP", meta:"520 mi &bull; ~9 hrs &bull; ~$250 fuel",
+  day:8,tzShift:1,tzFrom:"MDT",tzTo:"PDT", dow:"SAT", date:"Jul 18", title:"Bryce Canyon to Sequoia NP", meta:"520 mi &bull; ~9 hrs &bull; ~$320 fuel",
   img:"https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&q=80",
-  miles:"~520", drive:"~9 hrs",driveHrs:9.0, fuel:"~$250",
+  miles:"~520", drive:"~9 hrs",driveHrs:9.0, fuel:"~$320",
   mapUrl:"https://www.google.com/maps/dir/North+Campground,+Bryce+Canyon+NP,+UT/Las+Vegas,+NV/Visalia,+CA/Sequoia+RV+Ranch,+Three+Rivers,+CA",
   disconnect:{
     label:"Sequoia CA-198 — MANDATORY (22ft limit, towed units prohibited)",
@@ -1653,8 +1716,8 @@ const days = [
     {icon:"&#9888;&#65039;",text:"CA-198 is steep and winding for ~25 miles — low gear on both ascent and descent."}
   ],
   fuels:[
-    {name:"Las Vegas NV — Flying J (I-15 exit 37)",desc:"Good mid-day fill. Large RV lanes.",pct:85,price:"$3.55/gal",cls:"mid",location:"Flying J, I-15 exit 37, Las Vegas, NV",pullthru:true,gasbuddy:"flying-j-las-vegas-nv"},
-    {name:"Visalia CA — Loves or Pilot (CA-99/CA-198)",desc:"FILL COMPLETELY — no gas inside Sequoia.",pct:95,price:"$4.65",cls:"exp",location:"Loves Travel Stop, CA-99 CA-198, Visalia, CA",pullthru:true,gasbuddy:"loves-visalia-ca"}
+    {name:"Las Vegas NV — Flying J (I-15 exit 37)",desc:"Good mid-day fill. Large RV lanes.",pct:85,price:"$5.30/gal",cls:"exp",location:"Flying J, I-15 exit 37, Las Vegas, NV",pullthru:true,gasbuddy:"flying-j-las-vegas-nv"},
+    {name:"Visalia CA — Loves or Pilot (CA-99/CA-198)",desc:"FILL COMPLETELY — no gas inside Sequoia.",pct:95,price:"$6.47/gal",cls:"exp",location:"Loves Travel Stop, CA-99 CA-198, Visalia, CA",pullthru:true,gasbuddy:"loves-visalia-ca"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>US-89 S → I-15 S</strong> through Las Vegas toward California"},
@@ -1672,9 +1735,9 @@ const days = [
   ]
 },
 {
-  day:9,tzShift:0,tzFrom:"PDT",tzTo:"PDT", dow:"SUN", date:"Jul 19", title:"Sequoia to Yosemite NP", meta:"195 mi &bull; ~4.25 hrs (incl. reconnect) &bull; ~$115 fuel",
+  day:9,tzShift:0,tzFrom:"PDT",tzTo:"PDT", dow:"SUN", date:"Jul 19", title:"Sequoia to Yosemite NP", meta:"195 mi &bull; ~4.25 hrs (incl. reconnect) &bull; ~$140 fuel",
   img:"https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800&q=80",
-  miles:"~195", drive:"~4.25 hrs",driveHrs:4.25, fuel:"~$115",
+  miles:"~195", drive:"~4.25 hrs",driveHrs:4.25, fuel:"~$140",
   mapUrl:"https://www.google.com/maps/dir/Sequoia+RV+Ranch,+Three+Rivers,+CA/Thousand+Trails+Yosemite+Lakes+RV+Resort,+Groveland,+CA",
   disconnect:{
     label:"Reconnect from yesterday — truck was separated at Sequoia",
@@ -1696,7 +1759,7 @@ const days = [
     {icon:"&#128680;",text:"CA-198 DESCENT: Same steep 20-mile road you couldn't drive yesterday. Leave the RV at Sequoia RV Ranch — reconnect the Sierra once you're back down in Three Rivers before heading to Yosemite. Adds ~15 min."}
   ],
   fuels:[
-    {name:"Fresno CA — Pilot (CA-99/CA-41)",desc:"Top off before heading to Yosemite.",pct:80,price:"$4.65",cls:"exp",location:"Pilot Travel Center, CA-99 CA-41, Fresno, CA",pullthru:true,gasbuddy:"pilot-fresno-ca"}
+    {name:"Fresno CA — Pilot (CA-99/CA-41)",desc:"Top off before heading to Yosemite.",pct:80,price:"$6.47/gal",cls:"exp",location:"Pilot Travel Center, CA-99 CA-41, Fresno, CA",pullthru:true,gasbuddy:"pilot-fresno-ca"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>CA-198 West</strong> back down to the Central Valley"},
@@ -1716,7 +1779,7 @@ const days = [
 {
   day:10,tzShift:0,tzFrom:"PDT",tzTo:"PDT", dow:"MON", date:"Jul 20", title:"Yosemite — Full Day", meta:"~30 mi to Upper Pines &bull; Explore!",
   img:"https://images.unsplash.com/photo-1472396961693-142e6e269027?w=800&q=80",
-  miles:"~30", drive:"Short Drive",driveHrs:0.5, fuel:"~$18",
+  miles:"~30", drive:"Short Drive",driveHrs:0.5, fuel:"~$22",
   mapUrl:"https://www.google.com/maps/dir/Thousand+Trails+Yosemite+Lakes,+Groveland,+CA/Upper+Pines+Campground,+Yosemite+Valley,+CA",
   mapText:"Thousand Trails → Upper Pines (Yosemite Valley)",
   mapSub:"CA-120 East via Big Oak Flat entrance — must have timed-entry permit",
@@ -1743,9 +1806,9 @@ const days = [
   ]
 },
 {
-  day:11,tzShift:0,tzFrom:"PDT",tzTo:"PDT", dow:"TUE", date:"Jul 21", title:"Yosemite to Barstow, CA", meta:"320 mi &bull; ~5.75 hrs (incl. disconnect) &bull; ~$185 fuel",
+  day:11,tzShift:0,tzFrom:"PDT",tzTo:"PDT", dow:"TUE", date:"Jul 21", title:"Yosemite to Barstow, CA", meta:"320 mi &bull; ~5.75 hrs (incl. disconnect) &bull; ~$230 fuel",
   img:"https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800&q=80",
-  miles:"~320", drive:"~5.75 hrs",driveHrs:5.75, fuel:"~$185",
+  miles:"~320", drive:"~5.75 hrs",driveHrs:5.75, fuel:"~$230",
   mapUrl:"https://www.google.com/maps/dir/Upper+Pines+Campground,+Yosemite+Valley,+CA/Fish+Camp,+CA/Barstow,+CA",
   disconnect:{
     label:"CA-41 Wawona Road — 7% grade for 3 miles",
@@ -1768,8 +1831,8 @@ const days = [
     {icon:"&#128161;",text:"Flexible — could push to Needles CA or Kingman AZ to reduce Day 12 drive."}
   ],
   fuels:[
-    {name:"Fresno CA — Pilot (CA-99/CA-41)",desc:"Last California fill before desert.",pct:85,price:"$4.65",cls:"exp"},
-    {name:"Barstow CA — TA Travel Center (I-15/I-40)",desc:"Optional overnight top-off.",pct:70,price:"$4.50",cls:"exp",location:"TA Travel Center, I-15 I-40, Barstow, CA",pullthru:true,gasbuddy:"ta-barstow-ca"}
+    {name:"Fresno CA — Pilot (CA-99/CA-41)",desc:"Last California fill before desert.",pct:85,price:"$6.47/gal",cls:"exp"},
+    {name:"Barstow CA — TA Travel Center (I-15/I-40)",desc:"Optional overnight top-off.",pct:70,price:"$6.47/gal",cls:"exp",location:"TA Travel Center, I-15 I-40, Barstow, CA",pullthru:true,gasbuddy:"ta-barstow-ca"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>CA-41 S → CA-99 S → CA-58 E</strong> into Barstow — flat the whole way"}
@@ -1785,9 +1848,9 @@ const days = [
   ]
 },
 {
-  day:12,tzShift:0,tzFrom:"PDT",tzTo:"MST", dow:"WED", date:"Jul 22", title:"Barstow to Grand Canyon", meta:"340 mi &bull; ~5.5 hrs &bull; ~$115 fuel",
+  day:12,tzShift:0,tzFrom:"PDT",tzTo:"MST", dow:"WED", date:"Jul 22", title:"Barstow to Grand Canyon", meta:"340 mi &bull; ~5.5 hrs &bull; ~$195 fuel",
   img:"https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?w=800&q=80",
-  miles:"~340", drive:"~5.5 hrs",driveHrs:5.5, fuel:"~$115",
+  miles:"~340", drive:"~5.5 hrs",driveHrs:5.5, fuel:"~$195",
   mapUrl:"https://www.google.com/maps/dir/Barstow,+CA/Trailer+Village+RV+Park,+Grand+Canyon+Village,+AZ",
   mapText:"Barstow CA → Trailer Village, Grand Canyon",
   mapSub:"I-40 E through Kingman, then AZ-64 N to South Rim",
@@ -1797,7 +1860,7 @@ const days = [
     {icon:"&#127860;",text:"Rod's Steak House in Williams, AZ — since 1946. Last great meal before the canyon."}
   ],
   fuels:[
-    {name:"Kingman AZ — Pilot or Flying J (I-40 exit 51)",desc:"Best prices since Kansas! Fill completely here.",pct:95,price:"$3.10/gal",cls:"mid",location:"Pilot Travel Center, I-40 exit 51, Kingman, AZ",pullthru:true,gasbuddy:"pilot-kingman-az"}
+    {name:"Kingman AZ — Pilot or Flying J (I-40 exit 51)",desc:"Relief from CA prices! Fill completely here.",pct:95,price:"$4.86/gal",cls:"mid",location:"Pilot Travel Center, I-40 exit 51, Kingman, AZ",pullthru:true,gasbuddy:"pilot-kingman-az"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>I-40 East</strong> through Needles CA and Kingman AZ — flat, fast, wide desert highway"},
@@ -1844,9 +1907,9 @@ const days = [
   ]
 },
 {
-  day:14,tzShift:0,tzFrom:"MST",tzTo:"MST", dow:"FRI", date:"Jul 24", title:"Grand Canyon to Petrified Forest", meta:"185 mi &bull; ~3.5 hrs &bull; ~$65 fuel",
+  day:14,tzShift:0,tzFrom:"MST",tzTo:"MST", dow:"FRI", date:"Jul 24", title:"Grand Canyon to Petrified Forest", meta:"185 mi &bull; ~3.5 hrs &bull; ~$100 fuel",
   img:"https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800&q=80",
-  miles:"~185", drive:"~3.5 hrs",driveHrs:3.5, fuel:"~$65",
+  miles:"~185", drive:"~3.5 hrs",driveHrs:3.5, fuel:"~$100",
   mapUrl:"https://www.google.com/maps/dir/Trailer+Village+RV+Park,+Grand+Canyon+Village,+AZ/Petrified+Forest+National+Park,+AZ",
   mapText:"Grand Canyon → Petrified Forest NP",
   mapSub:"AZ-64 S, I-40 E to exit 311 (north entrance)",
@@ -1856,8 +1919,8 @@ const days = [
     {icon:"&#128663;",text:"Enter from I-40 north end, drive south through park, exit via US-180 toward Holbrook."}
   ],
   fuels:[
-    {name:"Williams AZ — on the way out",desc:"Top off before heading east.",pct:85,price:"$3.35/gal",cls:"mid",location:"Williams, AZ fuel",pullthru:false,gasbuddy:"gas-stations-williams-az"},
-    {name:"Holbrook AZ — Loves or Flying J (I-40 exit 286)",desc:"Easy fill near Petrified Forest.",pct:80,price:"$3.10/gal",cls:"mid",location:"Loves Travel Stop, I-40 exit 286, Holbrook, AZ",pullthru:true,gasbuddy:"loves-holbrook-az"}
+    {name:"Williams AZ — on the way out",desc:"Top off before heading east.",pct:85,price:"$4.86/gal",cls:"mid",location:"Williams, AZ fuel",pullthru:false,gasbuddy:"gas-stations-williams-az"},
+    {name:"Holbrook AZ — Loves or Flying J (I-40 exit 286)",desc:"Easy fill near Petrified Forest.",pct:80,price:"$4.86/gal",cls:"mid",location:"Loves Travel Stop, I-40 exit 286, Holbrook, AZ",pullthru:true,gasbuddy:"loves-holbrook-az"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>AZ-64 S → I-40 E</strong> to exit 311 — Petrified Forest North Entrance"},
@@ -1876,9 +1939,9 @@ const days = [
   ]
 },
 {
-  day:15,tzShift:-2,tzFrom:"MST",tzTo:"CDT", dow:"SAT", date:"Jul 25", title:"Heading Home — Day 1", meta:"620 mi &bull; ~9 hrs &bull; ~$185 fuel",
+  day:15,tzShift:-2,tzFrom:"MST",tzTo:"CDT", dow:"SAT", date:"Jul 25", title:"Heading Home — Day 1", meta:"620 mi &bull; ~9 hrs &bull; ~$305 fuel",
   img:"https://images.unsplash.com/photo-1568515045052-f9a854d70bfd?w=800&q=80",
-  miles:"~620", drive:"~9 hrs",driveHrs:9.0, fuel:"~$185",
+  miles:"~620", drive:"~9 hrs",driveHrs:9.0, fuel:"~$305",
   mapUrl:"https://www.google.com/maps/dir/Holbrook,+AZ/Amarillo,+TX",
   mapText:"Holbrook AZ → Amarillo TX",
   mapSub:"I-40 East all the way — historic Route 66 corridor",
@@ -1888,9 +1951,9 @@ const days = [
     {icon:"&#128176;",text:"Fuel prices improving as you head east — fill up in Amarillo for best TX prices."}
   ],
   fuels:[
-    {name:"Albuquerque NM — Pilot or TA (I-40 exit 153)",desc:"Good mid-day fill.",pct:85,price:"$2.95/gal",cls:"cheap",location:"Pilot Travel Center, I-40 exit 153, Albuquerque, NM",pullthru:true,gasbuddy:"pilot-albuquerque-nm"},
-    {name:"Tucumcari NM — Loves (I-40 exit 335)",desc:"Optional top-off near NM/TX border.",pct:75,price:"$2.90/gal",cls:"cheap",location:"Loves Travel Stop, I-40 exit 335, Tucumcari, NM",pullthru:true,gasbuddy:"loves-tucumcari-nm"},
-    {name:"Amarillo TX — Flying J (I-40 exit 76)",desc:"Best fuel prices in weeks!",pct:95,price:"$2.85/gal",cls:"cheap",location:"Flying J, I-40 exit 76, Amarillo, TX",pullthru:true,gasbuddy:"flying-j-amarillo-tx"}
+    {name:"Albuquerque NM — Pilot or TA (I-40 exit 153)",desc:"Good mid-day fill.",pct:85,price:"$4.65/gal",cls:"mid",location:"Pilot Travel Center, I-40 exit 153, Albuquerque, NM",pullthru:true,gasbuddy:"pilot-albuquerque-nm"},
+    {name:"Tucumcari NM — Loves (I-40 exit 335)",desc:"Optional top-off near NM/TX border.",pct:75,price:"$4.65/gal",cls:"mid",location:"Loves Travel Stop, I-40 exit 335, Tucumcari, NM",pullthru:true,gasbuddy:"loves-tucumcari-nm"},
+    {name:"Amarillo TX — Flying J (I-40 exit 76)",desc:"Best fuel prices in weeks!",pct:95,price:"$4.25/gal",cls:"cheap",location:"Flying J, I-40 exit 76, Amarillo, TX",pullthru:true,gasbuddy:"flying-j-amarillo-tx"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>I-40 East</strong> — Route 66 corridor through Gallup, Albuquerque, Santa Rosa, Amarillo"}
@@ -1907,9 +1970,9 @@ const days = [
   ]
 },
 {
-  day:16,tzShift:-1,tzFrom:"CDT",tzTo:"EDT", dow:"SUN", date:"Jul 26", title:"Amarillo to Knoxville — Home!", meta:"~1,100 mi &bull; ~16 hrs &bull; ~$320 fuel",
+  day:16,tzShift:-1,tzFrom:"CDT",tzTo:"EDT", dow:"SUN", date:"Jul 26", title:"Amarillo to Knoxville — Home!", meta:"~1,100 mi &bull; ~16 hrs &bull; ~$520 fuel",
   img:"https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=800&q=80",
-  miles:"~1,100", drive:"~16 hrs",driveHrs:16.0, fuel:"~$320",
+  miles:"~1,100", drive:"~16 hrs",driveHrs:16.0, fuel:"~$520",
   mapUrl:"https://www.google.com/maps/dir/Amarillo,+TX/Knoxville,+TN",
   mapText:"Amarillo TX → Knoxville TN",
   mapSub:"I-40 East all the way — one highway home through OKC, Memphis, Nashville",
@@ -1919,9 +1982,9 @@ const days = [
     {icon:"&#128176;",text:"Oklahoma City has the cheapest fuel of the whole trip — fill completely."}
   ],
   fuels:[
-    {name:"Oklahoma City OK — Flying J (I-40/I-44)",desc:"Cheapest fuel of the whole trip!",pct:95,price:"$2.80/gal",cls:"cheap",location:"Flying J, I-40 I-44, Oklahoma City, OK",pullthru:true,gasbuddy:"flying-j-oklahoma-city-ok"},
-    {name:"Memphis TN — Pilot (I-40 exit 12)",desc:"If splitting overnight, fill here.",pct:80,price:"$3.05/gal",cls:"mid",location:"Pilot Travel Center, I-40 exit 12, Memphis, TN",pullthru:true,gasbuddy:"pilot-memphis-tn"},
-    {name:"Nashville TN — Pilot (I-40/I-24)",desc:"Final fuel stop. 3 hours from Knoxville!",pct:85,price:"$3.05/gal",cls:"mid",location:"Pilot Travel Center, I-40 I-24, Nashville, TN",pullthru:true,gasbuddy:"pilot-nashville-tn"}
+    {name:"Oklahoma City OK — Flying J (I-40/I-44)",desc:"Cheapest fuel of the whole trip!",pct:95,price:"$4.02/gal",cls:"cheap",location:"Flying J, I-40 I-44, Oklahoma City, OK",pullthru:true,gasbuddy:"flying-j-oklahoma-city-ok"},
+    {name:"Memphis TN — Pilot (I-40 exit 12)",desc:"If splitting overnight, fill here.",pct:80,price:"$4.45/gal",cls:"mid",location:"Pilot Travel Center, I-40 exit 12, Memphis, TN",pullthru:true,gasbuddy:"pilot-memphis-tn"},
+    {name:"Nashville TN — Pilot (I-40/I-24)",desc:"Final fuel stop. 3 hours from Knoxville!",pct:85,price:"$4.45/gal",cls:"mid",location:"Pilot Travel Center, I-40 I-24, Nashville, TN",pullthru:true,gasbuddy:"pilot-nashville-tn"}
   ],
   route:[
     {icon:"&#9654;",text:"<strong>I-40 East</strong> through OKC → Little Rock → Memphis → Nashville → Knoxville"},
@@ -1956,6 +2019,7 @@ days.forEach((d, i) => {
       <div class="day-summary">
         <h3>${d.title}</h3>
         <div class="meta">${d.date} &bull; ${d.meta}</div>
+        <div class="weather-header-badge" id="weather-badge-${d.day}"></div>
         <div class="day-activity-icons" id="activity-icons-${d.day}">
           <span id="hike-icon-${d.day}" title="Hikes planned">&#129406;</span>
           <span id="attr-icon-${d.day}" title="Attractions planned">&#128301;</span>
@@ -1986,7 +2050,8 @@ days.forEach((d, i) => {
           <div class="stat-pill"><span class="stat-val">${d.miles}</span><span class="stat-label">Miles</span></div>
           <div class="stat-pill mesa"><span class="stat-val">${d.drive}</span><span class="stat-label">Drive Time</span></div>
           <div class="stat-pill green"><span class="stat-val">${d.fuel}</span><span class="stat-label">Est. Fuel</span></div>
-        </div>`;
+        </div>
+        <div class="weather-bar" id="weather-bar-${d.day}" style="display:none"></div>`;
 
   // Map button (dynamic ID for waypoint updates)
   if (d.mapUrl) {
@@ -2219,7 +2284,7 @@ days.forEach((d, i) => {
     html += `
         <div class="home-card">
           <div class="big">Welcome Home!</div>
-          <div class="details">~5,500 miles &bull; ~611 gallons of diesel<br>7 National Parks &bull; 16 Days<br>One Epic American Road Trip</div>
+          <div class="details">~5,500 miles &bull; ~611 gallons of diesel &bull; ~$2,950 fuel<br>7 National Parks &bull; 16 Days<br>One Epic American Road Trip</div>
         </div>`;
   }
 
@@ -3051,6 +3116,68 @@ applyCloudData = function(cloud) {
     restoreCampFiles(cloud.campFiles);
   }
 };
+
+// ===== WEATHER FORECAST =====
+function weatherIcon(code) {
+  if (code <= 1) return '☀️';
+  if (code <= 3) return '⛅';
+  if (code <= 48) return '☁️';
+  if (code <= 57) return '🌦️';
+  if (code <= 65) return '🌧️';
+  if (code <= 67) return '🌧️';
+  if (code <= 77) return '🌨️';
+  if (code <= 82) return '🌧️';
+  if (code >= 95) return '⛈️';
+  return '☁️';
+}
+function weatherDesc(code) {
+  if (code === 0) return 'Clear skies';
+  if (code === 1) return 'Mostly clear';
+  if (code === 2) return 'Partly cloudy';
+  if (code === 3) return 'Overcast';
+  if (code <= 48) return 'Foggy';
+  if (code <= 57) return 'Drizzle';
+  if (code <= 65) return 'Rain';
+  if (code <= 67) return 'Freezing rain';
+  if (code <= 77) return 'Snow';
+  if (code <= 82) return 'Rain showers';
+  if (code >= 95) return 'Thunderstorms';
+  return 'Cloudy';
+}
+function loadWeather() {
+  fetch('/api/weather')
+    .then(r => r.json())
+    .then(data => {
+      data.forEach(w => {
+        if (w.error) return;
+        const bar = document.getElementById('weather-bar-' + w.day);
+        if (bar) {
+          const icon = weatherIcon(w.code);
+          const desc = weatherDesc(w.code);
+          const precipWarn = w.precip >= 50 ? ' — pack rain gear!' : w.precip >= 30 ? ' — chance of rain' : '';
+          bar.style.display = 'flex';
+          bar.innerHTML = `
+            <div class="weather-icon">${icon}</div>
+            <div class="weather-temps">
+              <span class="weather-hi">${w.high}°</span>
+              <span class="weather-lo">Lo ${w.low}°</span>
+            </div>
+            <div class="weather-desc"><strong>${desc}</strong> at ${w.name}${precipWarn}</div>
+            <div class="weather-precip">
+              <span class="pct">${w.precip}%</span>
+              <span>rain</span>
+            </div>`;
+        }
+        const badge = document.getElementById('weather-badge-' + w.day);
+        if (badge) {
+          badge.classList.add('visible');
+          badge.innerHTML = weatherIcon(w.code) + ' ' + w.high + '°/' + w.low + '°';
+        }
+      });
+    })
+    .catch(() => {});
+}
+loadWeather();
 </script>
 </body>
 </html>
