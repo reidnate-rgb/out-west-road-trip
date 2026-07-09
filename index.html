@@ -768,6 +768,153 @@ body {
   background: var(--red);
 }
 
+/* Trip Media Gallery */
+.media-section { margin-top: 4px; }
+.media-section .section-title.media { color: var(--sky); }
+.media-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(91,143,168,0.08);
+  border: 1px dashed rgba(91,143,168,0.4);
+  border-radius: 5px;
+  padding: 8px 14px;
+  font-family: 'Source Serif 4', serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sky);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.media-upload-btn:hover {
+  background: rgba(91,143,168,0.15);
+  border-color: var(--sky);
+}
+.media-upload-btn.uploading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+.media-item {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #000;
+  aspect-ratio: 1;
+  cursor: pointer;
+}
+.media-item img, .media-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.media-item .media-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  pointer-events: none;
+}
+.media-item .media-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 12px;
+  line-height: 22px;
+  text-align: center;
+  cursor: pointer;
+  padding: 0;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.media-item:hover .media-remove { opacity: 1; }
+.media-item .media-name {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  color: #fff;
+  font-size: 9px;
+  padding: 12px 6px 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.media-count {
+  font-size: 11px;
+  color: #999;
+  margin-top: 6px;
+}
+.media-progress {
+  height: 3px;
+  background: rgba(91,143,168,0.15);
+  border-radius: 2px;
+  margin-top: 6px;
+  overflow: hidden;
+  display: none;
+}
+.media-progress .bar {
+  height: 100%;
+  background: var(--sky);
+  border-radius: 2px;
+  transition: width 0.3s;
+}
+
+/* Media lightbox */
+.media-lightbox {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.media-lightbox img, .media-lightbox video {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 6px;
+}
+.media-lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Americana items — vintage postcard style */
 .americana-item {
   background: linear-gradient(135deg, #FFFDF7, #F5E6C8);
@@ -2208,6 +2355,17 @@ days.forEach((d, i) => {
           </div>`;
   html += `</div>`;
 
+  // Trip Media (Photos & Videos)
+  html += `
+        <div class="section media-section" onclick="event.stopPropagation()">
+          <div class="section-title media">&#128247; Photos &amp; Videos</div>
+          <input type="file" id="media-input-${d.day}" accept="image/*,video/*" multiple style="display:none" onchange="handleMediaUpload(${d.day}, this)">
+          <label class="media-upload-btn" id="media-btn-${d.day}" for="media-input-${d.day}">&#128247; Add Photos or Videos</label>
+          <div class="media-progress" id="media-progress-${d.day}"><div class="bar" style="width:0%"></div></div>
+          <div class="media-count" id="media-count-${d.day}"></div>
+          <div class="media-grid" id="media-grid-${d.day}"></div>
+        </div>`;
+
   // Americana
   if (d.americana.length) {
     html += `
@@ -2988,6 +3146,132 @@ function restoreCampFiles(data) {
 }
 restoreCampFiles();
 
+// ===== TRIP MEDIA (Photos & Videos) =====
+const tripMedia = JSON.parse(localStorage.getItem('tripMedia') || '{}');
+
+function handleMediaUpload(dayNum, input) {
+  const files = Array.from(input.files);
+  if (!files.length) return;
+
+  const maxSize = 100 * 1024 * 1024;
+  const allowed = ['image/png','image/jpeg','image/gif','image/webp','image/heic','video/mp4','video/quicktime','video/webm','video/mov'];
+
+  const valid = files.filter(f => {
+    if (f.size > maxSize) { alert(f.name + ' is too large (max 100 MB).'); return false; }
+    if (!f.type.startsWith('image/') && !f.type.startsWith('video/')) { alert(f.name + ': unsupported file type.'); return false; }
+    return true;
+  });
+  if (!valid.length) { input.value = ''; return; }
+
+  const btn = document.getElementById('media-btn-' + dayNum);
+  const progress = document.getElementById('media-progress-' + dayNum);
+  const bar = progress.querySelector('.bar');
+  btn.textContent = '⏳ Uploading 0/' + valid.length + '...';
+  btn.classList.add('uploading');
+  progress.style.display = 'block';
+  bar.style.width = '0%';
+
+  let done = 0;
+  const uploadNext = (idx) => {
+    if (idx >= valid.length) {
+      btn.innerHTML = '&#128247; Add Photos or Videos';
+      btn.classList.remove('uploading');
+      progress.style.display = 'none';
+      input.value = '';
+      clearTimeout(_syncTimer);
+      _syncTimer = setTimeout(() => syncToCloud(), 1000);
+      return;
+    }
+    const file = valid[idx];
+    const reader = new FileReader();
+    reader.onload = function() {
+      const base64 = reader.result.split(',')[1];
+      fetch('/api/upload-media', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename: file.name, data: base64, dayNum: dayNum })
+      })
+      .then(r => r.json())
+      .then(result => {
+        if (result.error) throw new Error(result.error);
+        if (!tripMedia[dayNum]) tripMedia[dayNum] = [];
+        tripMedia[dayNum].push({ url: result.url, name: file.name, type: file.type });
+        localStorage.setItem('tripMedia', JSON.stringify(tripMedia));
+        done++;
+        btn.textContent = '⏳ Uploading ' + done + '/' + valid.length + '...';
+        bar.style.width = Math.round((done / valid.length) * 100) + '%';
+        renderMedia(dayNum);
+        uploadNext(idx + 1);
+      })
+      .catch(e => {
+        alert('Upload failed for ' + file.name + ': ' + e.message);
+        done++;
+        uploadNext(idx + 1);
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+  uploadNext(0);
+}
+
+function removeMedia(dayNum, idx) {
+  const file = tripMedia[dayNum][idx];
+  if (!file) return;
+  fetch('/api/upload-media', {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url: file.url })
+  }).catch(() => {});
+  tripMedia[dayNum].splice(idx, 1);
+  if (tripMedia[dayNum].length === 0) delete tripMedia[dayNum];
+  localStorage.setItem('tripMedia', JSON.stringify(tripMedia));
+  renderMedia(dayNum);
+  clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(() => syncToCloud(), 1000);
+}
+
+function renderMedia(dayNum) {
+  const grid = document.getElementById('media-grid-' + dayNum);
+  const countEl = document.getElementById('media-count-' + dayNum);
+  if (!grid) return;
+  const files = tripMedia[dayNum] || [];
+  countEl.textContent = files.length ? files.length + ' item' + (files.length > 1 ? 's' : '') : '';
+  grid.innerHTML = files.map((f, i) => {
+    const isVideo = f.type.startsWith('video/');
+    const thumb = isVideo
+      ? '<video src="' + f.url + '" muted preload="metadata"></video><div class="media-play">&#9654;</div>'
+      : '<img src="' + f.url + '" alt="' + f.name + '" loading="lazy">';
+    return '<div class="media-item" onclick="event.stopPropagation();openLightbox(' + dayNum + ',' + i + ')">' +
+      thumb +
+      '<button class="media-remove" onclick="event.stopPropagation();removeMedia(' + dayNum + ',' + i + ')" title="Remove">&#10005;</button>' +
+      '<div class="media-name">' + f.name + '</div>' +
+      '</div>';
+  }).join('');
+}
+
+function openLightbox(dayNum, idx) {
+  const file = (tripMedia[dayNum] || [])[idx];
+  if (!file) return;
+  const isVideo = file.type.startsWith('video/');
+  const content = isVideo
+    ? '<video src="' + file.url + '" controls autoplay style="max-width:100%;max-height:90vh;border-radius:6px"></video>'
+    : '<img src="' + file.url + '" alt="' + file.name + '" style="max-width:100%;max-height:90vh;border-radius:6px">';
+  const lb = document.createElement('div');
+  lb.className = 'media-lightbox';
+  lb.innerHTML = content + '<button class="media-lightbox-close" onclick="this.parentElement.remove()">&#10005;</button>';
+  lb.addEventListener('click', function(e) { if (e.target === lb) lb.remove(); });
+  document.body.appendChild(lb);
+}
+
+function restoreMedia(data) {
+  if (!data) data = JSON.parse(localStorage.getItem('tripMedia') || '{}');
+  Object.keys(data).forEach(dayNum => {
+    tripMedia[dayNum] = data[dayNum];
+    renderMedia(parseInt(dayNum));
+  });
+}
+restoreMedia();
+
 // Build Itinerary PDF
 function buildItinerary() {
   const printDiv = document.getElementById('print-itinerary');
@@ -3068,7 +3352,8 @@ syncToCloud = function() {
       checkedParkItems: checkedParkItems,
       customItems: customItemsData,
       campRes: JSON.parse(localStorage.getItem('campRes') || '{}'),
-      campFiles: JSON.parse(localStorage.getItem('campFiles') || '{}')
+      campFiles: JSON.parse(localStorage.getItem('campFiles') || '{}'),
+      tripMedia: JSON.parse(localStorage.getItem('tripMedia') || '{}')
     })
   }).catch(() => {});
 };
@@ -3114,6 +3399,12 @@ applyCloudData = function(cloud) {
   if (cloud.campFiles) {
     localStorage.setItem('campFiles', JSON.stringify(cloud.campFiles));
     restoreCampFiles(cloud.campFiles);
+  }
+
+  // Restore trip media
+  if (cloud.tripMedia) {
+    localStorage.setItem('tripMedia', JSON.stringify(cloud.tripMedia));
+    restoreMedia(cloud.tripMedia);
   }
 };
 
